@@ -1,5 +1,5 @@
 {
-  "name": "rest-dto",
+  "name": "@caloriosa/rest-dto",
   "version": "0.1.0",
   "description": "Caloriosa REST DTO for node.js",
   "main": "index.js",
