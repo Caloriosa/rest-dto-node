@@ -1,0 +1,27 @@
+{
+  "name": "rest-dto",
+  "version": "0.1.0",
+  "description": "Caloriosa REST DTO for node.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Caloriosa/rest-dto-node.git"
+  },
+  "keywords": [
+    "dto",
+    "rest",
+    "api",
+    "http",
+    "caloriosa",
+    "component"
+  ],
+  "author": "Caloriosa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Caloriosa/rest-dto-node/issues"
+  },
+  "homepage": "https://github.com/Caloriosa/rest-dto-node#readme"
+}
