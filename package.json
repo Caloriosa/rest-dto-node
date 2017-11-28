@@ -23,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/Caloriosa/rest-dto-node/issues"
   },
-  "homepage": "https://github.com/Caloriosa/rest-dto-node#readme"
+  "homepage": "https://github.com/Caloriosa/rest-dto-node#readme",
+  "dependencies": {
+    "node-rest-client-promise": "^3.0.0"
+  }
 }
