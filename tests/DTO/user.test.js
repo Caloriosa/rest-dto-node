@@ -1,5 +1,5 @@
 const test = require("ava").test;
-const User = require("index.js").DTO.User;
+const User = require("../../index.js").DTO.User;
 
 test('User DTO', t => {
 	var user = new User({
