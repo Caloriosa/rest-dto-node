@@ -1,49 +1,69 @@
 const AbstractDto = require("./abstractDto.js");
+const UserRole = require("../typedefs.js").UserRole;
 
+/**
+ * @class
+ */
 class User extends AbstractDto {
-  get login() {
-    return this._data.login || null;
+
+  constructor(data) {
+    super(data);
+    
+    /**
+    * @type {String}
+    */
+    this.login = data.login || null;
+
+    /**
+     * @type {String}
+     */
+    this.password = data.password || null;
+
+    /**
+     * @type {String}
+     */
+    this.email = data.email || "";
+
+    /**
+     * @type {String}
+     */
+    this.name = data.name || "";
+
+    /**
+     * @type {Boolean}
+     */
+    this.activated = data.activated || false;
+
+    /**
+     * @type {UserRole}
+     */
+    this.role = data.role || UserRole.MEMBER;
   }
 
-  set login(val) {
-    this._data.login = val;
-  }
-
-  get password() {
-    return this._data.password || null;
-  }
-
-  set password(val) {
-    return this._data.password = val;
-  }
-
-  get email() {
-    return this._data.email || null;
-  }
-
-  set email(val) {
-    this._data.email = val;
-  }
-
-  get name() {
-    return this._data.name || "";
-  }
-
-  set name(val) {
-    this._data.name = val;
-  }
-
+  /**
+   * @type {Date}
+   * @readonly
+   */
   get createdAt() {
-    return this._data.createdAt || null;
+    return new Date(this._data.createdAt || null);
   }
 
-  get activated() {
-    return this._data.activated || false;
+  /**
+   * @desc Check if user is in admin role
+   * @returns {Boolean}
+   */
+  isAdmin() {
+    return this.role === UserRole.ADMIN;
   }
 
-  set activated(val) {
-    this._data.activated = val;
+  /**
+   * @desc Check if user is in member role
+   * @returns {Boolean}
+   */
+  isMember() {
+    return this.role === UserRole.MEMBER;
   }
+
 }
 
 module.exports = User;
