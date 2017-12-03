@@ -24,8 +24,14 @@ class Client {
     this._options = options;
   }
 
+  /**
+   * Login to Caloriosa REST service
+   * @param {string} login 
+   * @param {string} password 
+   * @returns {Promise}
+   */
   authenticate(login, password) {
-    this.rest.post("/auth", {login: login, password: password})
+    return this.rest.post("/auth", {login: login, password: password})
       .then(authInfo => {
         this.rest.token = authInfo.token;
       });
