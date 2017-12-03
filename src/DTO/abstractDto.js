@@ -28,6 +28,28 @@ class AbstractDto {
   }
 
   /**
+   * @type {Date}
+   * @readonly
+   */
+  get createdAt() {
+    if (!this.data._created) {
+      return null;
+    }
+    return new Date(this.data._created);
+  }
+
+  /**
+   * @type {Date}
+   * @readonly
+   */
+  get modifiedAt() {
+    if (!this.data._modified) {
+      return null;
+    }
+    return new Date(this.data._modified);
+  }
+
+  /**
    * @desc Convert DTO to JSON
    * @param {*} replacer JSON replacer
    * @param {*} space JSON space (pretty output)

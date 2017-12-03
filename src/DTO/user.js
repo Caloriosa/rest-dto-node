@@ -42,17 +42,6 @@ class User extends AbstractDto {
   }
 
   /**
-   * @type {Date}
-   * @readonly
-   */
-  get createdAt() {
-    if (!this.data.createdAt) {
-      return null;
-    }
-    return new Date(this._data.createdAt);
-  }
-
-  /**
    * @desc Check if user is in admin role
    * @returns {Boolean}
    */

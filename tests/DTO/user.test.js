@@ -5,16 +5,16 @@ const UserRole = module.typedefs.UserRole;
 
 test('User DTO read', t => {
 	var user = new User({
-    uid: 10,
+    _id: "5a23d11025a09c281cd3ca13",
     login: "admin",
     password: "heslo123",
     email: "admin@localhost.dev",
     name: "Natasha Negovanlis",
-    createdAt: "2017-12-02 21:57 UTC",
+    _created: "2017-12-02 21:57 UTC",
     activated: true,
     role: "admin"
   });
-  t.is(10, user.uid);
+  t.is("5a23d11025a09c281cd3ca13", user.uid);
   t.is(user.login, "admin");
   t.is(user.password, "heslo123");
   t.is(user.email, "admin@localhost.dev");
