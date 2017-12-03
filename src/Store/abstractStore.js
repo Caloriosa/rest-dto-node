@@ -7,6 +7,13 @@ const Collection = require("../util/collection.js");
  * @desc Base of data store
  */
 class AbstractStore {
+
+  /**
+   * @callback AbstractStore~createDto
+   * @param {Object} data
+   * @returns {AbstractDto}
+   */
+
   /**
    * @constructor
    * @param {string} url 
@@ -19,7 +26,15 @@ class AbstractStore {
     this.rest = rest;
   }
 
-  createDtoCollection(dataArray, createDto) {
+  /**
+   * 
+   * @param {Object[]} dataArray 
+   * @param {AbstractStore~createDto} createDto 
+   */
+  createCollection(dataArray, createDto) {
+    if (!dataArray) {
+      return new Collection();
+    }
     return new Collection(dataArray.map(data => {
       var dto = createDto(data);
       return [dto.uid, dto];

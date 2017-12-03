@@ -10,7 +10,7 @@ class UserStore extends AbstractStore {
    * @returns {Collection<User>}
    */
   async fetch(query = null) {
-    return this.createDtoCollection(await this.rest.get("/users", query), data => new User(data));
+    return this.createCollection(await this.rest.get("/users", query), data => new User(data));
   }
 
   /**
