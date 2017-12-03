@@ -12,11 +12,19 @@ class AbstractDto {
   }
 
   /**
+   * @type {Object}
+   * @readonly
+   */
+  get data() {
+    return this._data;
+  }
+
+  /**
    * @type {String}
    * @readonly
    */
   get uid() {
-    return this._data.uid || null;
+    return this.data.uid || null;
   }
 }
 
