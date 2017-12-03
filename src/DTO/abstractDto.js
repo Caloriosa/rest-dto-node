@@ -4,7 +4,7 @@
  * 
  */
 class AbstractDto {
-  constructor(data) {
+  constructor(data = {}) {
     /**
      * @private
      */
@@ -24,7 +24,16 @@ class AbstractDto {
    * @readonly
    */
   get uid() {
-    return this.data.uid || null;
+    return this.data._id || null;
+  }
+
+  /**
+   * @desc Convert DTO to JSON
+   * @param {*} replacer JSON replacer
+   * @param {*} space JSON space (pretty output)
+   */
+  toJson(replacer = null, space = null) {
+    return JSON.stringify(this, replacer, space);
   }
 }
 

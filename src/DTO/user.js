@@ -3,10 +3,11 @@ const UserRole = require("../typedefs.js").UserRole;
 
 /**
  * @class
+ * @extends AbstractDto
  */
 class User extends AbstractDto {
 
-  constructor(data) {
+  constructor(data = {}) {
     super(data);
     
     /**
@@ -45,7 +46,10 @@ class User extends AbstractDto {
    * @readonly
    */
   get createdAt() {
-    return new Date(this._data.createdAt || null);
+    if (!this.data.createdAt) {
+      return null;
+    }
+    return new Date(this._data.createdAt);
   }
 
   /**

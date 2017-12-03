@@ -1,4 +1,4 @@
-const NodeRestClientPromise = require('node-rest-client-promise');
+const RestClient = require("./restClient.js");
 const ClientOptions = require("../typedefs.js").ClientOptions;
 
 /**
@@ -14,12 +14,7 @@ class Client {
     /**
      * @type {NodeRestClientPromise.Client}
      */
-    this.rest = NodeRestClientPromise.Client();
-
-    /**
-     * @type {String}
-     */
-    this.url = options.url;
+    this.rest = new RestClient(options.url);
 
     /**
      * @private
