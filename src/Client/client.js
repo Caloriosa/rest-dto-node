@@ -1,5 +1,6 @@
 const RestClient = require("./restClient.js");
 const ClientOptions = require("../typedefs.js").ClientOptions;
+const UserStore = require("../Store/userStore.js");
 
 /**
  * @class
@@ -28,6 +29,17 @@ class Client {
    */
   get options() {
     return this._options;
+  }
+
+  /**
+   * @type {UserStore}
+   * @readonly
+   */
+  get users() {
+    if (!this._users) {
+      this._users = new UserStore(this.rest);
+    }
+    return this._users
   }
 }
 

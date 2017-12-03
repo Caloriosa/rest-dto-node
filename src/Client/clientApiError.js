@@ -18,3 +18,5 @@ class ClientApiError extends Error {
     this.content = null;
   }
 }
+
+module.exports= ClientApiError;

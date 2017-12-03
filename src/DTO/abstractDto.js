@@ -54,8 +54,19 @@ class AbstractDto {
    * @param {*} replacer JSON replacer
    * @param {*} space JSON space (pretty output)
    */
-  toJson(replacer = null, space = null) {
+  toString(replacer = null, space = null) {
     return JSON.stringify(this, replacer, space);
+  }
+
+  raw() {
+    var data = {};
+    Object.keys(this).forEach(prop => {
+      if (prop == "_data") {
+        return;
+      }
+      data[prop] = this[prop];
+    });
+    return data;
   }
 }
 
