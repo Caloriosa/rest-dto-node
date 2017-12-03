@@ -1,5 +1,6 @@
 const RestClient = require("./restClient.js");
 const ClientOptions = require("../typedefs.js").ClientOptions;
+const ApiError = require("../typedefs.js").ApiError;
 const UserStore = require("../Store/userStore.js");
 
 /**
@@ -13,14 +14,21 @@ class Client {
    */
   constructor(options = ClientOptions) {
     /**
-     * @type {NodeRestClientPromise.Client}
+     * @type {RestClient}
      */
-    this.rest = new RestClient(options.url);
+    this.rest = new RestClient(options.url, options.token);
 
     /**
      * @private
      */
     this._options = options;
+  }
+
+  authenticate(login, password) {
+    this.rest.post("/auth", {login: login, password: password})
+      .then(authInfo => {
+        this.rest.token = authInfo.token;
+      });
   }
 
   /**
@@ -29,6 +37,14 @@ class Client {
    */
   get options() {
     return this._options;
+  }
+
+  /**
+   * @type {string}
+   * @readonly
+   */
+  get token() {
+    return this.rest.token;
   }
 
   /**

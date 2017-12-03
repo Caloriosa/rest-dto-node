@@ -41,12 +41,17 @@ class RestClient extends EventEmitter {
    * 
    * @param {string} url 
    */
-  constructor(url) {
+  constructor(url, token = null) {
     super();
     /**
-     * @type {string}
+     * @type {string} REST server url
      */
     this.url = url;
+
+    /**
+     * @type {string} Token
+     */
+    this.token = token;
 
     /**
      * @type {NodeRestClientPromise.Client}
@@ -55,35 +60,37 @@ class RestClient extends EventEmitter {
   }
 
   /**
-   * Handle rest shortcut to method GET
-   * @param {string} path 
-   * @param {Object} args 
+   * Handle rest call via method GET
+   * @param {string} path REST path (ex: /auth, /users/32, /devices/6/sensors, ...)
+   * @param {Object} query Query parameters (ex: ?count=20&sort=ASC)
+   * @param {Object} args HTTP request arguments
    * @returns {Promise}
    */
-  get(path, args) {
+  get(path, query = null, args = {}) {
+    args.headers = { "Content-Type": "application/json" };
+    args.parameters = query;
     return this.handle(() => {
       return this.inner.getPromise(this.url + path, args);
     });
   }
 
   /**
-   * Handle rest shortcut to method GET
-   * @param {string} path 
-   * @param {Object} postData
+   * Handle rest call via method GET
+   * @param {string} path
+   * @param {string} postData
+   * @param {Object} args
    * @returns {Promise}
    */
-  post(path, postData) {
-    let args = {
-      data: postData,
-      headers: { "Content-Type": "application/json" }
-    };
+  post(path, postData, args = {}) {
+    args.headers = { "Content-Type": "application/json" };
+    args.data = postData;
     return this.handle(() => {
       return this.inner.postPromise(this.url + path, args);
     });
   }
 
   /**
-   * Handle rest call
+   * Handle raw rest call
    * @param {RestClient~restCallback} restCallback 
    * @param {RestClient~handleCallback} [handleCallback]
    * @fires RestClient#restHandle
@@ -95,13 +102,13 @@ class RestClient extends EventEmitter {
       var { data, response } = await restCallback();
       if (!data.status) {
       this.emit("restError", data, response);
-       return new Error("HTTP " + response.statusCode + " - " + response.statusMessage);
+        throw new Error("HTTP " + response.statusCode + " - " + response.statusMessage);
       }
       if (response.statusCode !== 200) {
         var apiError = new ClientApiError(data.status.message, data.status.code, response.statusCode);
         apiError.content = data.content || null;
         this.emit("restError", data, response);
-        return apiError;
+        throw apiError;
       }
       this.emit("restHandle", data, response);
       if (typeof(handleCallback) == "function") {
@@ -109,7 +116,7 @@ class RestClient extends EventEmitter {
       }
       return data.content || null;
     } catch (e) {
-      return e;
+      throw e;
     }
   }
 }

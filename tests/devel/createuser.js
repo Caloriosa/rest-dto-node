@@ -11,3 +11,5 @@ user.name = "Elise Bauman"
 user.password = "ibittenbyvampire"
 
 client.users.create(user).then(console.dir);
+
+process.on('unhandledRejection', console.error);
