@@ -1,15 +1,22 @@
+const Util = require("./util/util.js");
+
 module.exports = {
-	Client: require("./Client/client.js"),
-	ClientApiError: require("./Client/clientApiError.js"),
-	RestClient: require("./Client/restClient.js"),
-	DTO: {
-		AbstractDto: require("./DTO/abstractDto.js"),
-		User: require("./DTO/user.js")
-	},
-	Store: {
-		AbstractStore: require("./Store/abstractStore.js"),
-		UserStore: require("./Store/userStore.js")
-	},
+	// Main classes
+	Client: require("./Client/Client.js"),
+	ClientApiError: require("./Client/rest/ClientApiError.js"),
+	RestClient: require("./Client/rest/RestClient.js"),
+
+	// DTOs
+	Dto: require("./DTO/abstractDto.js"),
+	User: require("./DTO/user.js"),
+
+	// Managers
+	Manager: require("./Store/Manager.js"),
+	UserManager: require("./Store/UserManager.js"),
+	
+	// Utilities
+	Collection: require("./util/collection.js"),
 	typedefs: require("./typedefs.js"),
-	util: require("./util/util.js")
+	Util: Util,
+	util: Util
 }

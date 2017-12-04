@@ -3,9 +3,8 @@ const Util = require("../util/util.js");
 /**
  * @class
  * @abstract
- * 
  */
-class AbstractDto {
+class Dto {
   constructor(data = {}) {
     /**
      * @private

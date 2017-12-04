@@ -1,31 +1,38 @@
-const Dto = require("./abstractDto.js");
+const Dto = require("./Dto.js");
 
 /**
  * @class
- * @extends AbstractDto
+ * @abstract
+ * @extends Dto
  */
 class CleverDto extends Dto {
-
     /**
      * 
-     * @param {Client} client 
+     * @param {Manager} manager 
      * @param {Object} data 
      */
-    constructor(client, data = {}) {
+    constructor(manager, data = {}) {
         super(data);
         /**
-         * @type {Client}
+         * @type {Manager}
          * @private
          */
-        this._client = client;
+        this._manager = manager;
+    }
+
+    /**
+     * @type {Manager}
+     */
+    get manager() {
+        return this._manager;
     }
 
     /**
      * Get Client instance
      * @returns {Client}
+     * @readonly
      */
     get client() {
-        return this._client;
+        return this._manager.client;
     }
-
 }

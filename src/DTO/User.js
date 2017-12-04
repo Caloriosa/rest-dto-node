@@ -1,11 +1,11 @@
-const AbstractDto = require("./abstractDto.js");
-const UserRole = require("../typedefs.js").UserRole;
+const CleverDto = require("./CleverDto.js");
+const UserRoles = require("../typedefs.js").UserRoles;
 
 /**
  * @class
- * @extends AbstractDto
+ * @extends {CleverDto}
  */
-class User extends AbstractDto {
+class User extends CleverDto {
 
   constructor(data = {}) {
     super(data);
@@ -38,7 +38,7 @@ class User extends AbstractDto {
     /**
      * @type {UserRole}
      */
-    this.role = data.role || UserRole.MEMBER;
+    this.role = data.role || UserRoles.MEMBER;
   }
 
   /**
@@ -46,7 +46,7 @@ class User extends AbstractDto {
    * @returns {Boolean}
    */
   isAdmin() {
-    return this.role === UserRole.ADMIN;
+    return this.role === UserRoles.ADMIN;
   }
 
   /**
@@ -54,7 +54,7 @@ class User extends AbstractDto {
    * @returns {Boolean}
    */
   isMember() {
-    return this.role === UserRole.MEMBER;
+    return this.role === UserRoles.MEMBER;
   }
 
 }

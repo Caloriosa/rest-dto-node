@@ -4,12 +4,12 @@ const config = require("./config.json");
 
 var client = new Client(config.client);
 
-var user = new User();
+var user = client.users.createUserEntity();
 user.login = "baumanelise"
 user.email = "tiny@gay.laura"
 user.name = "Elise Bauman"
 user.password = "ibittenbyvampire"
 
-client.users.create(user).then(console.dir);
+client.users.save(user).then(console.dir);
 
 process.on('unhandledRejection', console.error);
