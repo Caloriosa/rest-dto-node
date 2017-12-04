@@ -3,6 +3,6 @@ const config = require("./config.json");
 
 var client = new Client(config.client);
 
-client.users.fetchAll().then(console.dir);
+client.users.list().then(console.dir);
 
-process.on('unhandledRejection', console.error);
+process.on('unhandledRejection', e => { console.error(e); });

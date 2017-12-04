@@ -64,11 +64,11 @@ class RestClient extends EventEmitter {
    * @param {string} path
    * @param {string} postData
    * @param {Object} args
-   * @returns {Promise}
+   * @returns {Promise<DtoData>}
    */
   post(path, postData, args = {}) {
     args.headers = { "Content-Type": "application/json" };
-    args.data = postData;
+    args.data = RestClient.trimData(postData);
     return this.handle(() => {
       return this.inner.postPromise(this.url + path, args);
     });
@@ -80,27 +80,23 @@ class RestClient extends EventEmitter {
    * @param {RestClient~handleCallback} [handleCallback]
    * @fires RestClient#restHandle
    * @fires RestClient#restError
-   * @return {Promise}
+   * @return {Promise<DtoData>}
    * @private
    */
   async handle(restCallback, handleCallback = null) {
-    try {
-      var { data, response } = await restCallback();
-      if (!data.status) {
-        throw new Error("HTTP " + response.statusCode + " - " + response.statusMessage);
-      }
-      if (response.statusCode !== 200) {
-        var apiError = new ClientApiError(data.status.message, data.status.code, response.statusCode);
-        apiError.content = data.content || null;
-        throw apiError;
-      }
-      if (typeof(handleCallback) == "function") {
-        data = handleCallback(data, response);
-      }
-      return data.content || null;
-    } catch (e) {
-      throw e;
+    var { data, response } = await restCallback();
+    if (!data.status) {
+      throw new ClientApiError(response.statusCode, response.statusMessage);
     }
+    if (response.statusCode !== 200) {
+      var apiError = new ClientApiError(response.statusCode, data.status.message, data.status.code);
+      apiError.content = data.content || null;
+      throw apiError;
+    }
+    if (typeof(handleCallback) == "function") {
+      data = handleCallback(data, response);
+    }
+    return data.content || null;
   }
 
   /**
@@ -109,6 +105,20 @@ class RestClient extends EventEmitter {
    */
   get token() {
     return this._token;
+  }
+
+  /**
+   * 
+   * @param {Dto|DtoData} data 
+   * @returns {DtoData}
+   * @private
+   */
+  static trimData(data) {
+    if (typeof data.raw == "function") {
+      // It's Dto object or simillar -> trim it by raw()
+      return data.raw();
+    }
+    return data;
   }
 }
 

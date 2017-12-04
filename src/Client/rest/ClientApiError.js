@@ -10,10 +10,10 @@ class ClientApiError extends Error {
    * @param {string} errCode 
    * @param {number} httpCode 
    */
-  constructor(message, errCode, httpCode) {
-    super(errCode + ": " + message);
-    this.errCode = errCode;
-    this.httpCode = httpCode;
+  constructor(httpStatusCode, message, apiStatusCode = null) {
+    super((apiStatusCode ? apiStatusCode : "HTTP_" + httpStatusCode) + ": " + message);
+    this.apiStatusCode = apiStatusCode;
+    this.httpStatusCode = httpStatusCode;
     this.rawMessage = message;
     this.content = null;
   }
