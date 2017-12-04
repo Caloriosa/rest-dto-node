@@ -16,11 +16,11 @@ class Manager {
      * @type {Client}
      * @private
      */
-    this._client;
+    this._client = client;
   }
 
   get client() {
-    return this.client;
+    return this._client;
   }
 
   get rest() {
