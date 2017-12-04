@@ -5,7 +5,7 @@
  * @property {String} [MEMBER=member]
  * @property {String} [UNKNOWN=unknown]
  */
-exports.UserRole = {
+exports.UserRoles = {
   ADMIN: "admin",
   MEMBER: "member",
   UNKNOWN: "unknown"
