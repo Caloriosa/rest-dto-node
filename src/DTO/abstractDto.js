@@ -1,3 +1,5 @@
+const Util = require("../util/util.js");
+
 /**
  * @class
  * @abstract
@@ -55,18 +57,11 @@ class AbstractDto {
    * @param {*} space JSON space (pretty output)
    */
   toString(replacer = null, space = null) {
-    return JSON.stringify(this, replacer, space);
+    return JSON.stringify(this.raw(), replacer, space);
   }
 
   raw() {
-    var data = {};
-    Object.keys(this).forEach(prop => {
-      if (prop == "_data") {
-        return;
-      }
-      data[prop] = this[prop];
-    });
-    return data;
+    return Util.toRawObject(this);
   }
 }
 

@@ -1,5 +1,6 @@
 const AbstractDto = require("../DTO/abstractDto.js");
 const Collection = require("../util/collection.js");
+const Util = require("../util/util.js");
 
 /**
  * @class
@@ -20,10 +21,7 @@ class AbstractStore {
   }
 
   createDtoCollection(dataArray, createDto) {
-    return new Collection(dataArray.map(data => {
-      var dto = createDto(data);
-      return [dto.uid, dto];
-    }));
+    return Util.createDtoCollection(dataArray, createDto);
   }
 }
 

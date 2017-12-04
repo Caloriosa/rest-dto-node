@@ -10,5 +10,6 @@ module.exports = {
 		AbstractStore: require("./Store/abstractStore.js"),
 		UserStore: require("./Store/userStore.js")
 	},
-	typedefs: require("./typedefs.js")
+	typedefs: require("./typedefs.js"),
+	util: require("./util/util.js")
 }
