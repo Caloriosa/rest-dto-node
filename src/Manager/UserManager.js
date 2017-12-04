@@ -43,4 +43,4 @@ class UserManager extends Manager {
   
 }
 
-module.exports = UserStore;
+module.exports = UserManager;

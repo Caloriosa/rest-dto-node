@@ -7,8 +7,14 @@ const UserRoles = require("../typedefs.js").UserRoles;
  */
 class User extends CleverDto {
 
-  constructor(data = {}) {
-    super(data);
+  /**
+   * 
+   * @param {UserManager} manager 
+   * @param {DtoData} data 
+   * @constructor
+   */
+  constructor(manager, data = {}) {
+    super(manager, data);
     
     /**
     * @type {String}

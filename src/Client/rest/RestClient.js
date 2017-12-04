@@ -23,6 +23,7 @@ class RestClient extends EventEmitter {
   /**
    * 
    * @param {string} url 
+   * @constructor
    */
   constructor(url, token = null, proxy = null) {
     super();

@@ -5,6 +5,11 @@ const Util = require("../util/util.js");
  * @abstract
  */
 class Dto {
+  /**
+   * 
+   * @param {DtoData} data 
+   * @constructor
+   */
   constructor(data = {}) {
     /**
      * @private
@@ -64,4 +69,4 @@ class Dto {
   }
 }
 
-module.exports = AbstractDto;
+module.exports = Dto;

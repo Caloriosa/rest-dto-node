@@ -57,3 +57,5 @@ class BaseClient {
         return this.rest.token;
     }
 }
+
+module.exports = BaseClient;

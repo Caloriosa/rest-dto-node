@@ -3,13 +3,14 @@ const Dto = require("./Dto.js");
 /**
  * @class
  * @abstract
- * @extends Dto
+ * @extends {Dto}
  */
 class CleverDto extends Dto {
     /**
      * 
      * @param {Manager} manager 
      * @param {Object} data 
+     * @constructor
      */
     constructor(manager, data = {}) {
         super(data);
@@ -36,3 +37,5 @@ class CleverDto extends Dto {
         return this._manager.client;
     }
 }
+
+module.exports = CleverDto;
