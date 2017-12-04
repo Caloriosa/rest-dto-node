@@ -1,5 +1,4 @@
-const Client = require("../../src/index.js").Client;
-const User = require("../../src/index.js").DTO.User;
+const { Client, User } = require("../../src/index.js");
 const config = require("./config.json");
 
 var client = new Client(config.client);

@@ -34,7 +34,7 @@ class Manager {
    * @returns {Collection<DTO>}
    * @private
    */
-  createDtoCollection(dataArray, createDto) {
+  createDtoCollection(dataArray, createDtoCb) {
     return Util.createDtoCollection(dataArray, createDtoCb);
   }
 }

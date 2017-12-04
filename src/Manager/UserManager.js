@@ -38,7 +38,7 @@ class UserManager extends Manager {
       //TODO: Write method for UPDATE entity
       throw new Error("Update user not implemented yet!");
     }
-    return this.createUserEntity(await this.rest.post("/users", user));
+    return this.createUserEntity(await this.rest.post("/users", user.raw()));
   }
   
 }
