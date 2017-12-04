@@ -1,6 +1,6 @@
 const module = require("../../src/index.js");
 const test = require("ava").test;
-const User = module.DTO.User;
+const User = module.User;
 const UserRole = module.typedefs.UserRole;
 
 test('User DTO read', t => {
