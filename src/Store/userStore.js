@@ -48,6 +48,10 @@ class UserStore extends AbstractStore {
   async updateMe(user) {
     return this.createUserEntity(await this.rest.patch("/users/me", user.raw()));
   }
+  
+  async registerUser(login, email, password) {
+    return this.createUserEntity(await this.rest.post("/users/register", { login: login, email: email, password: password });
+  }
 }
 
 module.exports = UserStore;
