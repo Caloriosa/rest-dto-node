@@ -7,10 +7,17 @@ const User = require("../DTO/user.js");
 class UserStore extends AbstractStore {
 
   /**
+   * User entity factory
+   * @returns {User}
+   */
+  createUserEntity(data) {
+    return new User(data);
+  }
+  /**
    * @returns {Collection<User>}
    */
   async fetch(query = null) {
-    return this.createDtoCollection(await this.rest.get("/users", query), data => new User(data));
+    return this.createDtoCollection(await this.rest.get("/users", query), data => this.createUserEntity(data));
   }
 
   /**
@@ -18,16 +25,19 @@ class UserStore extends AbstractStore {
    * @param {User} user 
    * @returns {Promise<User>}
    */
-  async create(user) {
-    return new User(await this.rest.post("/users", user.raw()));
+  async createUser(user) {
+    return this.createUserEntity(await this.rest.post("/users", user.raw()));
   }
   
   /**
    * Get my user profile (Must by logged in)
-   * @returns {Promise<User>}
+   * @type {Promise<User>}
    */
-  async getMe() {
-    return new User(await this.rest.get("/users/me"));
+  get me() {
+    async function getMe() {
+      return this.createUserEntity(await this.rest.get("/users/me"));
+    }
+    return getMe();
   }
   
   /**
@@ -35,8 +45,8 @@ class UserStore extends AbstractStore {
    * @param {User} user
    * @returns {Promise<User>}
    */
-  async setMe(user) {
-    return new User(await this.rest.patch("/users/me", user.raw()));
+  async updateMe(user) {
+    return this.createUserEntity(await this.rest.patch("/users/me", user.raw()));
   }
 }
 
