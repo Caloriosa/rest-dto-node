@@ -29,7 +29,7 @@ class Manager {
   }
 
   /**
-   * @type {RestClient}¨
+   * @type {RestClient}
    * @readonly
    */
   get rest() {

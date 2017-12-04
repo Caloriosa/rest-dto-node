@@ -28,12 +28,12 @@ class RestClient extends EventEmitter {
   constructor(url, token = null, proxy = null) {
     super();
     /**
-     * @type {string} REST server url
+     * @type {string}
      */
     this.url = url;
 
     /**
-     * @type {string} Token
+     * @type {string}
      * @private
      */
     this._token = token;
