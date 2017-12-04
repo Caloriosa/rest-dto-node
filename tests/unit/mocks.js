@@ -1,4 +1,4 @@
-const { Client, UserManager } = require("../src/index.js");
+const { Client, UserManager } = require("../../src/index.js");
 
 exports.mockClient = function() {
     return new Client();
