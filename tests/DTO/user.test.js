@@ -1,10 +1,10 @@
-const module = require("../../src/index.js");
+const { User, typedefs } = require("../../src/index.js");
+const mocks = require("../mocks.js");
 const test = require("ava").test;
-const User = module.User;
-const UserRole = module.typedefs.UserRole;
+const UserRoles = typedefs.UserRoles;
 
 test('User DTO read', t => {
-	var user = new User({
+	var user = mocks.mockUser({
     _id: "5a23d11025a09c281cd3ca13",
     login: "admin",
     password: "heslo123",
@@ -21,13 +21,13 @@ test('User DTO read', t => {
   t.is(user.name, "Natasha Negovanlis");
   t.deepEqual(user.createdAt, new Date("2017-12-02 21:57 UTC"));
   t.true(user.activated);
-  t.is(user.role, UserRole.ADMIN);
+  t.is(user.role, UserRoles.ADMIN);
   t.true(user.isAdmin());
   t.false(user.isMember());
 });
 
 test('Create user DTO', t => {
-  var user = new User();
+  var user = mocks.mockUser();
   user.login = "baumaeli";
   user.email = "lovely@elise.io";
   user.password = "ilovenatasha"

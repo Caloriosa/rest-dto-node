@@ -1,5 +1,6 @@
 const RestClient = require("./rest/RestClient.js");
 const Util = require("../util/util.js");
+const { DefaultClientOptions } = require("../typedefs.js");
 
 /**
  * @class

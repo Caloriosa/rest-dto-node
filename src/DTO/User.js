@@ -15,7 +15,6 @@ class User extends CleverDto {
    */
   constructor(manager, data = {}) {
     super(manager, data);
-    
     /**
     * @type {String}
     */
