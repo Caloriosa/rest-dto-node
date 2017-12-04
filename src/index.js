@@ -7,8 +7,9 @@ module.exports = {
 	RestClient: require("./Client/rest/RestClient.js"),
 
 	// DTOs
-	Dto: require("./DTO/abstractDto.js"),
-	User: require("./DTO/user.js"),
+	Dto: require("./DTO/Dto.js"),
+	CleverDto: require("./DTO/CleverDto.js"),
+	User: require("./DTO/User.js"),
 
 	// Managers
 	Manager: require("./Store/Manager.js"),
