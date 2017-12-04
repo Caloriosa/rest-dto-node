@@ -16,12 +16,28 @@ class UserStore extends AbstractStore {
   /**
    * Create a user
    * @param {User} user 
-   * @returns {User}
+   * @returns {Promise<User>}
    */
-  create(user) {
-    return this.rest.post("/users", user.raw());
+  async create(user) {
+    return new User(await this.rest.post("/users", user.raw()));
   }
   
+  /**
+   * Get my user profile (Must by logged in)
+   * @returns {Promise<User>}
+   */
+  async getMe() {
+    return new User(await this.rest.get("/users/me"));
+  }
+  
+  /**
+   * Set my user profile (Must be logged in)
+   * @param {User} user
+   * @returns {Promise<User>}
+   */
+  async setMe(user) {
+    return new User(await this.rest.patch("/users/me", user.raw()));
+  }
 }
 
 module.exports = UserStore;
