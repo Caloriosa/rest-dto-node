@@ -12,8 +12,8 @@ module.exports = {
 	User: require("./DTO/User.js"),
 
 	// Managers
-	Manager: require("./Store/Manager.js"),
-	UserManager: require("./Store/UserManager.js"),
+	Manager: require("./Manager/Manager.js"),
+	UserManager: require("./Manager/UserManager.js"),
 	
 	// Utilities
 	Collection: require("./util/collection.js"),
