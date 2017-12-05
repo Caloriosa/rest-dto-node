@@ -10,6 +10,11 @@ const UserManager = require("../Manager/UserManager.js");
  */
 class Client extends BaseClient {
 
+  constructor(options = {}) {
+    super(options);
+    this.createManagers();
+  }
+
   /**
    * Login to Caloriosa REST service
    * @param {string} login 
@@ -23,13 +28,17 @@ class Client extends BaseClient {
   }
 
   /**
+   * @private
+   */
+  createManagers() {
+    this._users = new UserManager(this);
+  }
+
+  /**
    * @type {UserManager}
    * @readonly
    */
   get users() {
-    if (!this._users) {
-      this._users = new UserManager(this);
-    }
     return this._users
   }
 }

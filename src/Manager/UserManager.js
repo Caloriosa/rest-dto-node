@@ -22,6 +22,14 @@ class UserManager extends Manager {
   createDtoEntity(data = {}) {
     return new User(this, data)
   }
+
+  /**
+   * 
+   * @param {User|string} user 
+   */
+  async getUserDevices(user) {
+    let uid = user.uid || user;
+  }
 }
 
 module.exports = UserManager;

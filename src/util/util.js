@@ -10,17 +10,17 @@ class Util {
         throw new Error(`Can't instantiate abstract class ${this.constructor.name}`);
     }
     /**
-    * @callback Util~createDtoEntity
+    * @callback Util~mapDto
     * @param {Object} data
     */
 
     /**
      * Create a mapped collection of DTO entities (DTO.uid => DTO)
      * @param {Object[]} dataArray - Array of raw object to map
-     * @param {Util~createDtoEntity} createDtoCb - The callback for create entity to map
+     * @param {Util~mapDto} mapDtoCb - The callback for create entity to map
      * @returns {Collection}
      */
-    static createDtoCollection(dataArray, createDtoCb) {
+    static createDtoCollection(dataArray, mapDtoCb) {
         if (!dataArray) {
             return new Collection();
         }
