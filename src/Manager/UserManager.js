@@ -1,5 +1,6 @@
 const Manager = require("./Manager.js");
 const User = require("../DTO/User.js");
+const DataResolver = require("../util/DataResolver.js");
 
 /**
  * @class
@@ -28,7 +29,8 @@ class UserManager extends Manager {
    * @param {User|string} user 
    */
   async getUserDevices(user) {
-    let uid = user.uid || user;
+    let uid = DataResolver.resolveUid(user);
+   // TODO: Write user's devices fetcher
   }
 }
 
