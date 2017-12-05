@@ -17,20 +17,20 @@ class Mapper {
     /**
      * Map DtoData to Dto Entity. 
      * If input is DtoData[] (array) then selected first member to map
-     * @param {DtoData} dtoData
+     * @param {DtoData} dataToMap
      * @returns {Entity}
      */
-    mapEntity(dtoData) {
+    mapEntity(dataToMap) {
         if (Array.isArray(dataToMap)) {
             dataToMap = dataToMap.shift() || null;
         }
         if (!dataToMap) {
             throw new ReferenceError("Input data to map() can't be null!");
         }
-        if (dtoData.data) {
-            dtoData = dtoData.data; // Remap entity
+        if (dataToMap.data) {
+            dataToMap = dataToMap.data; // Remap entity
         }
-        return this.entityFactoryCb(dtoData);
+        return this.entityFactoryCb(dataToMap);
     }
 
     /**
@@ -46,7 +46,7 @@ class Mapper {
             throw new TypeError("DTO data is not array!");
         }
         return new Collection(dataArray.map(data => {
-            var entity = mapEntity(data);
+            var entity = this.mapEntity(data);
             return [entity.uid, entity];
         }));
     }

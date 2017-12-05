@@ -3,11 +3,11 @@ const config = require("./config.json");
 
 var client = new Client(config.client);
 
-var user = client.users.createDtoEntity();
-user.login = "baumanelise"
-user.email = "tiny@gay.laura"
-user.name = "Elise Bauman"
-user.password = "ibittenbyvampire"
+var user = new User();
+user.login = "carmilla"
+user.email = "I@suck.blood"
+user.name = "Carmilla Karnstein"
+user.password = "ibiteyoucupcake"
 
 client.users.save(user).then(console.dir);
 

@@ -50,6 +50,14 @@ class UserService {
     return this._manager.fetchCollection(new Endpoint("/users"), query);
   }
 
+  save(entity, uid = null) {
+    uid = DataResolver.resolveUid(uid || entity);
+    if (uid) {
+      return this._manager.patchEntity(new Endpoint("/users/${id}", {id: uid}), entity);
+    }
+    return this._manager.pushEntity(new Endpoint("/users"), entity);
+  }
+
   /**
    * 
    * @param {User|string} user 

@@ -63,12 +63,14 @@ class RestClient extends EventEmitter {
    * Handle rest call via method GET
    * @param {string} path
    * @param {string} postData
+   * @param {QueryObject}
    * @param {Object} args
    * @returns {Promise<DtoData>}
    */
-  post(path, postData, args = {}) {
+  post(path, postData, query = null, args = {}) {
     args.headers = { "Content-Type": "application/json" };
     args.data = RestClient.trimData(postData);
+    args.query = query;
     return this.handle(() => {
       return this.inner.postPromise(this.url + path, args);
     });
