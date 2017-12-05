@@ -6,13 +6,10 @@ const Collection = require("../util/collection.js");
 class Mapper {
     /**
      * 
-     * @param {*} entityFactoryCb 
+     * @param {constructor<Entity>} entityType
      */
-    constructor (entityFactoryCb) {
-        if (typeof entityFactoryCb != "function") {
-            throw new Error("Entity factory callback is not a function!");
-        }
-        this.entityFactoryCb = entityFactoryCb;
+    constructor (entityType) {
+        this.entityType = entityType;
     }
     /**
      * Map DtoData to Dto Entity. 
@@ -30,7 +27,7 @@ class Mapper {
         if (dataToMap.data) {
             dataToMap = dataToMap.data; // Remap entity
         }
-        return this.entityFactoryCb(dataToMap);
+        return new this.entityType(dataToMap);
     }
 
     /**

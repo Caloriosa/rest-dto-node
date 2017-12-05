@@ -22,15 +22,10 @@ class UserService {
      */
     this._rest = rest;
     /**
-     * @type {Mapper}
-     * @private
-     */
-    this._mapper = new Mapper(this._userFactory);
-    /**
      * @type {Manager}
      * @private
      */
-    this._manager = new Manager(this._mapper, this._rest);
+    this._manager = new Manager(new Mapper(User), this._rest);
   }
 
   /**
