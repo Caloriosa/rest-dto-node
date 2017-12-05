@@ -7,5 +7,5 @@ exports.mockClient = function() {
 exports.mockUser = function(data = {}) {
     let client = new Client();
     let userManager = new UserManager(client);
-    return userManager.createDtoEntity(data);
+    return userManager.createNewEntity(data);
 }
