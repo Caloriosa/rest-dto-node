@@ -19,6 +19,7 @@ test('Test with invalid placeholders', t => {
 });
 
 test('Test datetime place to escaped path', t => {
-    var endpoint = new Endpoint("/time/${time}", {time: new Date(1482565489654)});
-    t.is(endpoint.escapePath(), "/time/Sat Dec 24 2016 08:44:49 GMT+0100 (CET)");
+    var date = new Date("2017-12-05 18:00");
+    var endpoint = new Endpoint("/time/${time}", {time: date});
+    t.is(endpoint.escapePath(), "/time/" + date);
 });
