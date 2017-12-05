@@ -17,6 +17,7 @@ module.exports = {
 	
 	// Utilities
 	Collection: require("./util/collection.js"),
+	DataResolver: require("./util/DataResolver.js"),
 	typedefs: require("./typedefs.js"),
 	Util: Util,
 	util: Util

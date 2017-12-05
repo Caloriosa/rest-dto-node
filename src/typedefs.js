@@ -58,6 +58,10 @@ exports.DefaultClientOptions = {
  */
 
 /**
+ * @typedef {Dto|DtoData|String} UidResolvable
+ */
+
+/**
  * @typedef {string} ApiError
  * 
  * * OK
