@@ -1,5 +1,4 @@
 const { DataResolver, User } = require("../../../src/index.js");
-const mocks = require("../mocks.js");
 const test = require("ava").test;
 
 test('resolve UID', t => {
@@ -13,7 +12,7 @@ test('resolve UID', t => {
     activated: true,
     role: "admin"
   };
-	var user = mocks.mockUser(data);
+	var user = new User(data);
   var uid = data._id;
   var someObject = {foo: "bar"};
   var number = 15;

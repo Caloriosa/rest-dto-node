@@ -1,7 +1,8 @@
 const BaseClient = require("./BaseClient.js");
 const DefaultClientOptions = require("../typedefs.js").DefaultClientOptions;
 const ApiError = require("../typedefs.js").ApiError;
-const UserManager = require("../Manager/UserManager.js");
+const Collection = require("../util/collection.js");
+const UserService = require("../Services/UserService.js");
 
 /**
  * @class
@@ -12,7 +13,12 @@ class Client extends BaseClient {
 
   constructor(options = {}) {
     super(options);
-    this.createManagers();
+    /**
+     * @type {Collection<string,Object>}
+     * @private
+     */
+    this._services = new Collection();
+    this.createServices();
   }
 
   /**
@@ -27,19 +33,44 @@ class Client extends BaseClient {
     return authInfo;
   }
 
-  /**
-   * @private
-   */
-  createManagers() {
-    this._users = new UserManager(this);
+  addService(name, service) {
+    if (this._services.get(name)) {
+      throw new Error(`Service with name '${name}' already exists!`);
+    }
+    this._services.set(name, service);
+    return service;
   }
 
   /**
+   * 
+   * @param {string} name 
+   * @returns {?Object}
+   */
+  getService(name) {
+    return this._services.get(name);
+  }
+
+  removeService(name) {
+    if (!this._services.get(name)) {
+      throw new Error(`Service with name '${name}' not exists!`);
+    }
+    this._services.delete(name);
+  }
+
+   /**
+   * @private
+   */
+  createServices() {
+    this.addService("users", new UserService(this.rest));
+  }
+
+  /**
+   * Shortcut to user service
    * @type {UserManager}
    * @readonly
    */
   get users() {
-    return this._users
+    return this.getService("users");
   }
 }
 

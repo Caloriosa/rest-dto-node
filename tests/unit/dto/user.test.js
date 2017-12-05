@@ -4,7 +4,7 @@ const test = require("ava").test;
 const UserRoles = typedefs.UserRoles;
 
 test('User DTO read', t => {
-	var user = mocks.mockUser({
+	var user = new User({
     _id: "5a23d11025a09c281cd3ca13",
     login: "admin",
     password: "heslo123",
@@ -27,7 +27,7 @@ test('User DTO read', t => {
 });
 
 test('Create user DTO', t => {
-  var user = mocks.mockUser();
+  var user = new User();
   user.login = "baumaeli";
   user.email = "lovely@elise.io";
   user.password = "ilovenatasha"

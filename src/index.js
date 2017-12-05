@@ -6,18 +6,21 @@ module.exports = {
 	ClientApiError: require("./Client/rest/ClientApiError.js"),
 	RestClient: require("./Client/rest/RestClient.js"),
 
-	// DTOs
-	Dto: require("./DTO/Dto.js"),
-	CleverDto: require("./DTO/CleverDto.js"),
-	User: require("./DTO/User.js"),
+	// DTO
+	Entity: require("./DTO/Entity.js"),
+	Mapper: require("./DTO/Mapper.js"),
+	Manager: require("./DTO/Manager.js"),
 
-	// Managers
-	Manager: require("./Manager/Manager.js"),
-	UserManager: require("./Manager/UserManager.js"),
+	// Entites
+	User: require("./Entities/User.js"),
+
+	// Services
+	UserService: require("./Services/UserService.js"),
 	
 	// Utilities
 	Collection: require("./util/collection.js"),
 	DataResolver: require("./util/DataResolver.js"),
+	Endpoint: require("./util/Endpoint.js"),
 	typedefs: require("./typedefs.js"),
 	Util: Util,
 	util: Util

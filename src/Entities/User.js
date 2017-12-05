@@ -1,20 +1,19 @@
-const CleverDto = require("./CleverDto.js");
+const Entity = require("../DTO/Entity.js");
 const UserRoles = require("../typedefs.js").UserRoles;
 
 /**
  * @class
- * @extends {CleverDto}
+ * @extends {Entity}
  */
-class User extends CleverDto {
+class User extends Entity {
 
   /**
    * 
-   * @param {UserManager} manager 
    * @param {DtoData} data 
    * @constructor
    */
-  constructor(manager, data = {}) {
-    super(manager, data);
+  constructor(data = {}) {
+    super(data);
     /**
     * @type {String}
     */
@@ -60,6 +59,10 @@ class User extends CleverDto {
    */
   isMember() {
     return this.role === UserRoles.MEMBER;
+  }
+
+  static precreate(login, password, email) {
+    return new User({login: login, password: password, email: email});
   }
 
 }

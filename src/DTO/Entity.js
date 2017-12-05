@@ -4,7 +4,7 @@ const Util = require("../util/util.js");
  * @class
  * @abstract
  */
-class Dto {
+class Entity {
   /**
    * 
    * @param {DtoData} data 
@@ -64,9 +64,19 @@ class Dto {
     return JSON.stringify(this.raw(), replacer, space);
   }
 
+  /**
+   * @returns {DtoData}
+   */
   raw() {
     return Util.toRawObject(this);
   }
+
+  refer(entity, referTo = null, referBy = "uid") {
+    if (!referTo) {
+      referTo = entity.constructor.nametoLowerCase();
+    }
+    this[referTo] = entity[uid];
+  }
 }
 
-module.exports = Dto;
+module.exports = Entity;

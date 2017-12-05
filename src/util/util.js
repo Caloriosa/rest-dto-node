@@ -1,5 +1,3 @@
-const Collection = require("./collection.js");
-
 /**
  * @class Util
  * @static
@@ -13,22 +11,6 @@ class Util {
     * @callback Util~mapDto
     * @param {Object} data
     */
-
-    /**
-     * Create a mapped collection of DTO entities (DTO.uid => DTO)
-     * @param {Object[]} dataArray - Array of raw object to map
-     * @param {Util~mapDto} mapDtoCb - The callback for create entity to map
-     * @returns {Collection}
-     */
-    static createDtoCollection(dataArray, mapDtoCb) {
-        if (!dataArray) {
-            return new Collection();
-        }
-        return new Collection(dataArray.map(data => {
-            var dto = createDtoCb(data);
-            return [dto.uid, dto];
-        }));
-    }
 
     /**
      * Exports only public r/w properties and variables from entity
