@@ -20,7 +20,7 @@ class Util {
     static toRawObject(obj) {
         var data = {};
         Object.keys(obj).forEach(prop => {
-            if (prop.startsWith("_")) {
+            if (prop.startsWith("_") || obj[prop] === undefined) {
                 return;
             }
             data[prop] = obj[prop];
