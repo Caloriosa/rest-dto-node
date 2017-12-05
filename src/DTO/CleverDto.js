@@ -36,6 +36,13 @@ class CleverDto extends Dto {
     get client() {
         return this._manager.client;
     }
+
+    save(data = null) {
+        if (!data) {
+            data = this;
+        }
+        return this.manager.save(data, this.uid);
+    }
 }
 
 module.exports = CleverDto;

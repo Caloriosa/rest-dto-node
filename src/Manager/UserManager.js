@@ -20,8 +20,12 @@ class UserManager extends Manager {
    * @param {DtoData} data 
    * @returns {User}
    */
-  createDtoEntity(data = {}) {
+  createNewEntity(data = {}) {
     return new User(this, data)
+  }
+
+  createUser(login, password, email) {
+    return createNewEntity({login: login, password: password, email: email});
   }
 
   /**
