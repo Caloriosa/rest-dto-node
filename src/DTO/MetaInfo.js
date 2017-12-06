@@ -18,6 +18,7 @@ class MetaInfo {
     }
 
     /**
+     * Caloriosa rest service status code
      * @type {ApiStatus}
      * @readonly
      */
@@ -26,6 +27,7 @@ class MetaInfo {
     }
 
     /**
+     * Caloriosa rest service status message
      * @type {string}
      */
     get statusMessage() {
@@ -33,31 +35,19 @@ class MetaInfo {
     }
 
     /**
+     * Caloriosa rest service HTTP status code number
+     * Eg: (200, 201, 404, 500, etc)
      * @type {number}
      * @readonly
      */
-    get httpStatusCode() {
+    get statusCodeNumber() {
         return this._httpStatusCode;
     }
 
     /**
-     * @type {string}
-     * @readonly
-     */
-    get httpStatusMessage() {
-        return this._httpStatusMessage;
-    }
-
-    /**
-     * @type {Object<string,Object>}
-     * @readonly
-     */
-    get httpHeaders() {
-        return this._httpHeaders;
-    }
-
-    /**
-     * @type {number}
+     * Total count of pages.
+     * <warn>Returns null if paging unvailable!</warn>
+     * @type {?number}
      * @readonly
      */
     get totalPages() {
@@ -65,7 +55,9 @@ class MetaInfo {
     }
 
     /**
-     * @type {number}
+     * Items showed per page(listing). 
+     * <warn>Returns null if paging unvailable!</warn>
+     * @type {?number}
      * @readonly
      */
     get itemsPerPage() {
@@ -73,7 +65,9 @@ class MetaInfo {
     }
 
     /**
-     * @type {number}
+     * Current showed page. 
+     * <warn>Returns null if paging unvailable!</warn>
+     * @type {?number}
      * @readonly
      */
     get currentPage() {
@@ -81,7 +75,9 @@ class MetaInfo {
     }
 
     /**
-     * @type {number}
+     * Total count of items on service (listing)
+     * <warn>Returns null if paging unvailable!</warn>
+     * @type {?number}
      * @readonly
      */
     get totalItemsCount() {
@@ -89,11 +85,12 @@ class MetaInfo {
     }
 
     /**
-     * @type {number}
+     * Caloriosa server version
+     * @type {string}
      * @readonly
      */
     get serverVersion() {
-        return this._httpHeaders["caloriosa-version"] || null;
+        return this._httpHeaders["caloriosa-version"] || "unknown";
     }
 }
 
