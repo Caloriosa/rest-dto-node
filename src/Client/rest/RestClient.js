@@ -1,12 +1,10 @@
 const NodeRestClientPromise = require('node-rest-client-promise');
-const EventEmitter = require('events');
 const ClientApiError = require("./ClientApiError.js");
 
 /**
  * @class
- * @extends EventEmitter
  */
-class RestClient extends EventEmitter {
+class RestClient {
 
   /**
    * @callback RestClient~restCallback
@@ -23,10 +21,11 @@ class RestClient extends EventEmitter {
   /**
    * 
    * @param {string} url 
+   * @param {string} [token]
+   * @param {HttpProxy} [proxy]
    * @constructor
    */
   constructor(url, token = null, proxy = null) {
-    super();
     /**
      * @type {string}
      */
@@ -49,7 +48,7 @@ class RestClient extends EventEmitter {
    * @param {string} path REST path (ex: /auth, /users/32, /devices/6/sensors, ...)
    * @param {Object} query Query parameters (ex: ?count=20&sort=ASC)
    * @param {Object} args HTTP request arguments
-   * @returns {Promise<DtoData>}
+   * @returns {Promise<ResultSet<DtoData,RestMeta>>}
    */
   get(path, query = null, args = {}) {
     args.headers = { "Content-Type": "application/json" };
@@ -65,7 +64,7 @@ class RestClient extends EventEmitter {
    * @param {string} postData
    * @param {QueryObject}
    * @param {Object} args
-   * @returns {Promise<DtoData>}
+   * @returns {Promise<ResultSet<DtoData,RestMeta>>}
    */
   post(path, postData, query = null, args = {}) {
     args.headers = { "Content-Type": "application/json" };
@@ -80,25 +79,30 @@ class RestClient extends EventEmitter {
    * Handle raw rest call
    * @param {RestClient~restCallback} restCallback 
    * @param {RestClient~handleCallback} [handleCallback]
-   * @fires RestClient#restHandle
-   * @fires RestClient#restError
-   * @return {Promise<DtoData>}
+   * @return {Promise<ResultSet<DtoData,RestMeta>>}
    * @private
    */
   async handle(restCallback, handleCallback = null) {
-    var { data, response } = await restCallback();
-    if (!data.status) {
-      throw new ClientApiError(response.statusCode, response.statusMessage);
+    try {
+      var { data, response } = await restCallback();
+      // Fail if additional status is undefined
+      if (!data.status) {
+        throw new ClientApiError(`HTTP(${response.statusCode}): ${response.statusMessage}`);
+      }
+      // Fail on http status not success
+      if ([ 200, 201, 202 ].indexOf(response.statusCode) < 0) {
+        var apiError = new ClientApiError(`${data.status.code}(${response.statusCode}): ${data.status.message}`, data.status);
+        apiError.content = data.content || null;
+        throw apiError;
+      }
+      // Handle callback if callback function defined
+      if (typeof(handleCallback) == "function") {
+        handleCallback(data, response);
+      }
+      return [ data.content || null, { status: data.status, httpResponse: response } ];
+    } catch (e) {
+      throw new Error(e.message);
     }
-    if (response.statusCode !== 200) {
-      var apiError = new ClientApiError(response.statusCode, data.status.message, data.status.code);
-      apiError.content = data.content || null;
-      throw apiError;
-    }
-    if (typeof(handleCallback) == "function") {
-      data = handleCallback(data, response);
-    }
-    return data.content || null;
   }
 
   /**

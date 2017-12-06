@@ -52,10 +52,11 @@ class Manager {
    * @param {Entity|DtoData} entity Entity or DTO data
    * @param {QueryObject} query Parameters for querying REST call
    * @param {*} rcArgs Additional arguments for REST exec method
-   * @returns {Promise<Entity[]>}
+   * @returns {Promise<ResultSet<Entity[], MetaInfo>>}
    */
   async fetchArray(endpoint, query = null, rcArgs = null) {
-    return this.mapper.mapArray(await this.rest.get(endpoint.escapePath(), query, rcArgs || this.rcArgs));
+    let [ dtoData, restMeta ] = await this.rest.get(endpoint.escapePath(), query, rcArgs || this.rcArgs);
+    return [ this.mapper.mapArray(dtoData), this._mapper.mapMeta(restMeta) ];
   }
 
   /**
@@ -63,10 +64,11 @@ class Manager {
    * @param {Endpoint} endpoint REST Endpoint (path, path args)
    * @param {QueryObject} query Parameters for querying REST call
    * @param {*} rcArgs Additional arguments for REST exec method
-   * @returns {Promise<Collection<string, Entity>>}
+   * @returns {Promise<ResultSet<Collection<string, Entity>, MetaInfo>>}
    */
   async fetchCollection(endpoint, query = null, rcArgs = null) {
-    return this.mapper.mapCollection(await this.rest.get(endpoint.escapePath(), query, rcArgs || this.rcArgs));
+    let [ dtoData, restMeta ] = await this.rest.get(endpoint.escapePath(), query, rcArgs || this.rcArgs);
+    return [ this.mapper.mapCollection(dtoData), this._mapper.mapMeta(restMeta) ];
   }
 
   /**
@@ -74,10 +76,11 @@ class Manager {
    * @param {Endpoint} endpoint REST Endpoint (path, path args)
    * @param {QueryObject} query Parameters for querying REST call
    * @param {*} rcArgs Additional arguments for REST exec method
-   * @returns {Promise<Entity>}
+   * @returns {Promise<ResultSet<Entity,MetaInfo>>}
    */
   async fetchEntity(endpoint, query = null, rcArgs = null) {
-    return this.mapper.mapEntity(this, await this.rest.get(endpoint.escapePath(), query, rcArgs || this.rcArgs));
+    let [ dtoData, restMeta ] = await this.rest.get(endpoint.escapePath(), query, rcArgs || this.rcArgs);
+    return [ this.mapper.mapEntity(dtoData), this._mapper.mapMeta(restMeta) ];
   }
 
   /**
@@ -86,10 +89,11 @@ class Manager {
    * @param {Entity|DtoData} entity Entity or DTO data
    * @param {QueryObject} query Parameters for querying REST call
    * @param {*} rcArgs Additional arguments for REST exec method
-   * @returns {Promise<Entity>}
+   * @returns {Promise<ResultSet<Entity, MetaInfo>>}
    */
   async pushEntity(endpoint, entity, query = null, rcArgs = null) {
-    return this.mapper.mapEntity(await this.rest.post(endpoint.escapePath(), entity, query, rcArgs || this.rcArgs));
+    let [ dtoData, restMeta ] = await this.rest.post(endpoint.escapePath(), entity, query, rcArgs || this.rcArgs);
+    return [ this.mapper.mapEntity(dtoData), this._mapper.mapMeta(restMeta) ];
   }
 
   /**
@@ -98,10 +102,11 @@ class Manager {
    * @param {Entity|DtoData} entity Entity or DTO data
    * @param {QueryObject} query Parameters for querying REST call
    * @param {*} rcArgs Additional arguments for REST exec method
-   * @returns {Promise<Entity>}
+   * @returns {Promise<ResultSet<Entity,MetaInfo>>}
    */
   async patchEntity(endpoint, entity, query = null, rcArgs = null) {
-    return this.mapper.mapEntity(await this.rest.patch(endpoint.escapePath(), entity, query, rcArgs || this.rcArgs));
+    let [ dtoData, restMeta ] = await this.rest.patch(endpoint.escapePath(), entity, query, rcArgs || this.rcArgs);
+    return [ this.mapper.mapEntity(dtoData), this._mapper.mapMeta(restMeta) ];
   }
 
   /**
@@ -110,10 +115,11 @@ class Manager {
    * @param {Entity|DtoData} entity Entity or DTO data
    * @param {QueryObject} query Parameters for querying REST call
    * @param {*} rcArgs Additional arguments for REST exec method
-   * @returns {Promise<Entity>}
+   * @returns {Promise<ResultSet<Entity,MetaInfo>>}
    */
   async replaceEntity(endpoint, entity, query = null, rcArgs = null) {
-    return this.mapper.mapEntity(await this.rest.put(endpoint.escapePath(), entity, query, rcArgs || this.rcArgs));
+    let [ dtoData, restMeta ] = await this.rest.put(endpoint.escapePath(), entity, query, rcArgs || this.rcArgs);
+    return [ this.mapper.mapEntity(dtoData), this._mapper.mapMeta(restMeta) ];
   }
 }
 

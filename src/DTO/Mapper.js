@@ -1,4 +1,5 @@
 const Collection = require("../util/collection.js");
+const MetaInfo = require("./MetaInfo.js");
 
 /**
  * @class Mapper<T>
@@ -9,6 +10,9 @@ class Mapper {
      * @param {constructor<Entity>} entityType
      */
     constructor (entityType) {
+        if (!entityType) {
+            throw new Error("Entity type for mapping is undefined!");
+        }
         this.entityType = entityType;
     }
     /**
@@ -63,6 +67,15 @@ class Mapper {
         return dataArray.map(data => {
             return this.mapEntity(data);
         });
+    }
+
+    /**
+     * 
+     * @param {RestMeta} restMeta 
+     * @returns {MetaInfo}
+     */
+    mapMeta(restMeta) {
+        return new MetaInfo(restMeta.status, restMeta.response);
     }
 }
 

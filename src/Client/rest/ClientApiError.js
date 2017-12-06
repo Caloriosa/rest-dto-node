@@ -7,14 +7,11 @@ class ClientApiError extends Error {
   /**
    * @constructor
    * @param {string} message 
-   * @param {string} errCode 
-   * @param {number} httpCode 
+   * @param {Object} status
    */
-  constructor(httpStatusCode, message, apiStatusCode = null) {
-    super((apiStatusCode ? apiStatusCode : "HTTP_" + httpStatusCode) + ": " + message);
-    this.apiStatusCode = apiStatusCode;
-    this.httpStatusCode = httpStatusCode;
-    this.rawMessage = message;
+  constructor(message, status = null) {
+    super(message);
+    this.status = status;
     this.content = null;
   }
 }

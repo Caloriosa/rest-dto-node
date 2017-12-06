@@ -62,6 +62,19 @@ exports.DefaultClientOptions = {
  */
 
 /**
+ * @typedef {Array} ResultSet
+ * 
+ * Multiple results from a function mapped as array
+ * 
+ * @example  
+ * // Returns ResultSet<Entity, HttpStatus>
+ * function foo() {
+ *   // ... do something
+ *   return [x, y];
+ * }
+ */
+
+/**
  * @typedef {string} ApiError
  * 
  * * OK
