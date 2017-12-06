@@ -55,8 +55,8 @@ test('Collection mapping', t => {
 
 test('MetaInfo mapping', t =>{
     var mapper = new Mapper(User);
-    var meta = {status: {code: typedefs.ApiErrors.BUSY, message: "System is busy!"}, httpResponse: {}};
+    var meta = {status: {code: typedefs.ApiStatuses.BUSY, message: "System is busy!"}, httpResponse: mocks.mockResponse()};
     var metaInfo = mapper.mapMeta(meta);
-    t.is(metaInfo.statusCode, typedefs.ApiErrors.BUSY);
+    t.is(metaInfo.statusCode, typedefs.ApiStatuses.BUSY);
     t.is(metaInfo.statusMessage, "System is busy!");
 });

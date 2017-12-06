@@ -83,26 +83,22 @@ class RestClient {
    * @private
    */
   async handle(restCallback, handleCallback = null) {
-    try {
-      var { data, response } = await restCallback();
-      // Fail if additional status is undefined
-      if (!data.status) {
-        throw new ClientApiError(`HTTP(${response.statusCode}): ${response.statusMessage}`);
-      }
-      // Fail on http status not success
-      if ([ 200, 201, 202 ].indexOf(response.statusCode) < 0) {
-        var apiError = new ClientApiError(`${data.status.code}(${response.statusCode}): ${data.status.message}`, data.status);
-        apiError.content = data.content || null;
-        throw apiError;
-      }
-      // Handle callback if callback function defined
-      if (typeof(handleCallback) == "function") {
-        handleCallback(data, response);
-      }
-      return [ data.content || null, { status: data.status, httpResponse: response } ];
-    } catch (e) {
-      throw new Error(e.message);
+    var { data, response } = await restCallback();
+    // Fail if additional status is undefined
+    if (!data.status) {
+      throw new ClientApiError(`HTTP(${response.statusCode}): ${response.statusMessage}`);
     }
+    // Fail on http status not success
+    if ([ 200, 201, 202 ].indexOf(response.statusCode) < 0) {
+      var apiError = new ClientApiError(`${data.status.code}(${response.statusCode}): ${data.status.message}`, data.status);
+      apiError.content = data.content || null;
+      throw apiError;
+    }
+    // Handle callback if callback function defined
+    if (typeof(handleCallback) == "function") {
+      handleCallback(data, response);
+    }
+    return [ data.content || null, { status: data.status, httpResponse: response } ];
   }
 
   /**

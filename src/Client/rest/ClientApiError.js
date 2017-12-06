@@ -7,12 +7,18 @@ class ClientApiError extends Error {
   /**
    * @constructor
    * @param {string} message 
-   * @param {Object} status
+   * @param {StatusData} status
    */
-  constructor(message, status = null) {
+  constructor(message, status = null, content = null) {
     super(message);
+    /**
+     * @type {StatusData}
+     */
     this.status = status;
-    this.content = null;
+    /**
+     * @type {DtoData}
+     */
+    this.content = content;
   }
 }
 

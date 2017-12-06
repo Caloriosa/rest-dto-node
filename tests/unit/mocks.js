@@ -1,4 +1,5 @@
 const { Client, UserManager } = require("../../src/index.js");
+const httpMock = require("node-mocks-http");
 
 exports.mockClient = function() {
     return new Client();
@@ -49,4 +50,12 @@ exports.mockUserDtoDataArray = function() {
             role: "member"
         }
     ]
+}
+
+exports.mockResponse = function() {
+    var res =  httpMock.createResponse();
+    res.getHeaders = function() {
+        return res._headers;
+    }
+    return res;
 }

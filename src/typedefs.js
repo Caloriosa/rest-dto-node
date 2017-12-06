@@ -58,6 +58,12 @@ exports.DefaultClientOptions = {
  */
 
 /**
+ * @typedef {Object} StatusData
+ * @property {ApiStatus} code
+ * @property {string} message
+ */
+
+/**
  * @typedef {Dto|DtoData|String} UidResolvable
  */
 
@@ -75,9 +81,10 @@ exports.DefaultClientOptions = {
  */
 
 /**
- * @typedef {string} ApiError
+ * @typedef {string} ApiStatus
  * 
  * * OK
+ * * CREATED
  * * DUPLICATED
  * * NOT_FOUND
  * * DATASOURCE_ERROR
@@ -106,8 +113,10 @@ exports.DefaultClientOptions = {
  * * BUSY
  * * UNKNOWN
  */
-exports.ApiErrors = {
+exports.ApiStatuses = {
   OK: "OK",
+  CREATED: "CREATED",
+  ACCEPTED: "ACCEPTED",
   DUPLICATED: "DUPLICATED",
   NOT_FOUND: "NOT_FOUND",
   DATASOURCE_ERROR: "DATASOURCE_ERROR",

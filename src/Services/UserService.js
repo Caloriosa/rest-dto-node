@@ -40,11 +40,18 @@ class UserService {
   /**
    * Get users
    * @param {QueryObject} query 
+   * @returns {Promise<ResultSet<Collection<string, User>, MetaInfo>>}
    */
   fetchUsers(query = null) {
     return this._manager.fetchCollection(new Endpoint("/users"), query);
   }
 
+  /**
+   * 
+   * @param {User|DtoData} entity 
+   * @param {string} [uid]
+   * @returns {Promise<ResultSet<User,MetaInfo>>}
+   */
   save(entity, uid = null) {
     uid = DataResolver.resolveUid(uid || entity);
     if (uid) {
