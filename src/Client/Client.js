@@ -66,7 +66,7 @@ class Client extends BaseClient {
 
   /**
    * Shortcut to user service
-   * @type {UserManager}
+   * @type {UserService}
    * @readonly
    */
   get users() {
