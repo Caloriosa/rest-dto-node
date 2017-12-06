@@ -75,7 +75,7 @@ class Mapper {
      * @returns {MetaInfo}
      */
     mapMeta(restMeta) {
-        return new MetaInfo(restMeta.status, restMeta.response);
+        return new MetaInfo(restMeta.status, restMeta.httpResponse);
     }
 }
 

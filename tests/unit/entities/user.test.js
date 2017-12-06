@@ -1,5 +1,4 @@
 const { User, typedefs } = require("../../../src/index.js");
-const mocks = require("../mocks.js");
 const test = require("ava").test;
 const UserRoles = typedefs.UserRoles;
 
