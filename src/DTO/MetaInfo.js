@@ -49,6 +49,14 @@ class MetaInfo {
     }
 
     /**
+     * @type {Object<string,Object>}
+     * @readonly
+     */
+    get httpHeaders() {
+        return this._httpHeaders;
+    }
+
+    /**
      * @type {number}
      * @readonly
      */
