@@ -1,5 +1,7 @@
 const NodeRestClientPromise = require('node-rest-client-promise');
-const ClientApiError = require("./ClientApiError.js");
+const CaloriosaApiError = require("./CaloriosaApiError.js");
+const RestError = require("./RestError.js");
+const Util = require("../../util/util.js");
 
 /**
  * @class
@@ -48,7 +50,7 @@ class RestClient {
    * @param {string} path REST path (ex: /auth, /users/32, /devices/6/sensors, ...)
    * @param {Object} query Query parameters (ex: ?count=20&sort=ASC)
    * @param {Object} args HTTP request arguments
-   * @returns {Promise<ResultSet<DtoData,RestMeta>>}
+   * @returns {Promise<RestResult>}
    */
   get(path, query = null, args = {}) {
     args.headers = { "Content-Type": "application/json" };
@@ -64,7 +66,7 @@ class RestClient {
    * @param {string} postData
    * @param {QueryObject}
    * @param {Object} args
-   * @returns {Promise<ResultSet<DtoData,RestMeta>>}
+   * @returns {Promise<RestResult>}
    */
   post(path, postData, query = null, args = {}) {
     args.headers = { "Content-Type": "application/json" };
@@ -79,29 +81,34 @@ class RestClient {
    * Handle raw rest call
    * @param {RestClient~restCallback} restCallback 
    * @param {RestClient~handleCallback} [handleCallback]
-   * @return {Promise<ResultSet<DtoData,RestMeta>>}
+   * @return {Promise<RestResult>}
    * @private
    */
   async handle(restCallback, handleCallback = null) {
-    var { data, response } = await restCallback();
+    var [ err, result ] = await Util.saferize(restCallback());
+    var { data, response } = result || {};
+    // Fail if general error occurred from request
+    if(err) {
+      throw new RestError(err.message);
+    }
+    // Fail if no data is in result
+    if (!data) {
+      throw new RestError("Server returned empty result (no data)");
+    }
     // Fail if additional status is undefined
     if (!data.status) {
-      throw new ClientApiError(`HTTP(${response.statusCode}): ${response.statusMessage}`);
+      throw new RestError(`HTTP(${response.statusCode}): ${response.statusMessage}`, response);
     }
     // Fail on http status not success
     if ([ 200, 201, 202 ].indexOf(response.statusCode) < 0) {
-      var apiError = new ClientApiError(`${data.status.code}(${response.statusCode}): ${data.status.message}`, data.status);
-      apiError.content = data.content || null;
-      throw apiError;
+      throw new CaloriosaApiError(`${data.status.code}(${response.statusCode}): ${data.status.message}`,
+        RestClient.createRestResult(data, response));
     }
     // Handle callback if callback function defined
     if (typeof(handleCallback) == "function") {
       handleCallback(data, response);
     }
-    return [ data.content || null, { 
-      status: data.status,
-      response: response 
-    }];
+    return RestClient.createRestResult(data, response);
   }
 
   /**
@@ -114,16 +121,34 @@ class RestClient {
 
   /**
    * 
-   * @param {Dto|DtoData} data 
-   * @returns {DtoData}
+   * @param {Object} data 
+   * @returns {Object}
    * @private
    */
   static trimData(data) {
-    if (typeof data.raw == "function") {
-      // It's Dto object or simillar -> trim it by raw()
-      return data.raw();
+    if (!(data instanceof Object)) {
+      throw new TypeError("Data to trim must be an object");
+    }
+    if (data.constructor.name.toLowerCase() != "object") {
+      return Util.toRawObject(data);
     }
     return data;
+  }
+
+  /**
+   * @param {Object} data 
+   * @param {Response} response 
+   * @returns {RestResult}
+   * @private
+   */
+  static createRestResult(data, response) {
+    return {
+      content: data.content || null,
+      meta: { 
+        status: data.status || null,
+        response: response 
+      }
+    };
   }
 }
 

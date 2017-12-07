@@ -54,7 +54,7 @@ exports.DefaultClientOptions = {
  */
 
 /**
- * @typedef {Object} DtoData
+ * @typedef {Object|Array} DtoData
  */
 
 /**
@@ -67,6 +67,12 @@ exports.DefaultClientOptions = {
  * @typedef {Object} RestMeta
  * @property {StatusData} status
  * @property {Response} response
+ */
+
+/**
+ * @typedef {Object} RestResult
+ * @property {DtoData} content
+ * @property {RestMeta} meta
  */
 
 /**

@@ -53,6 +53,19 @@ class Util {
         }
         return given;
     }
+
+    /**
+     * Process promise with auto-catch error.
+     * Result includes a resolved content and catched error.
+     * @param {Promise} promise 
+     * @returns {ResultSet<Error,*>}
+     */
+    static saferize(promise) {  
+        return promise.then(data => {
+           return [null, data];
+        })
+        .catch(err => [err]);
+     }
 }
 
 module.exports = Util;
