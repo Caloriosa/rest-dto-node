@@ -1,7 +1,6 @@
-const module = require("../../src/index.js");
+const { User, typedefs } = require("../../../src/index.js");
 const test = require("ava").test;
-const User = module.DTO.User;
-const UserRole = module.typedefs.UserRole;
+const UserRoles = typedefs.UserRoles;
 
 test('User DTO read', t => {
 	var user = new User({
@@ -21,7 +20,7 @@ test('User DTO read', t => {
   t.is(user.name, "Natasha Negovanlis");
   t.deepEqual(user.createdAt, new Date("2017-12-02 21:57 UTC"));
   t.true(user.activated);
-  t.is(user.role, UserRole.ADMIN);
+  t.is(user.role, UserRoles.ADMIN);
   t.true(user.isAdmin());
   t.false(user.isMember());
 });

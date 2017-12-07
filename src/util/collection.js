@@ -4,7 +4,7 @@
  * @extends {Map}
  */
 class Collection extends Map {
-  constructor(iterable) {
+  constructor(iterable, meta = null) {
     super(iterable);
 
     /**
@@ -22,6 +22,12 @@ class Collection extends Map {
      * @private
      */
     Object.defineProperty(this, '_keyArray', { value: null, writable: true, configurable: true });
+
+    /**
+     * @type {?MetaInfo}
+     * @private
+     */
+    this._meta = meta;
   }
 
   set(key, val) {
@@ -420,6 +426,16 @@ class Collection extends Map {
    */
   sort(compareFunction = (x, y) => +(x > y) || +(x === y) - 1) {
     return new Collection(Array.from(this.entries()).sort((a, b) => compareFunction(a[1], b[1], a[0], b[0])));
+  }
+
+  /**
+   * Get metadata.
+   * <warn>Metadata is not mandatory and may not be available!</warn>
+   * @type {MetaInfo}
+   * @private
+   */
+  get meta() {
+    return this._meta;
   }
 }
 

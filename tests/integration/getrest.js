@@ -4,4 +4,4 @@ var client = new Client();
 client.rest.get("/" + process.argv[process.argv.length-1])
 .then(console.dir);
 
-process.on('unhandledRejection', console.error);
+process.on('unhandledRejection', e => { console.error(e); });

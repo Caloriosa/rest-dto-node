@@ -1,15 +1,19 @@
-const AbstractDto = require("./abstractDto.js");
-const UserRole = require("../typedefs.js").UserRole;
+const Entity = require("../DTO/Entity.js");
+const UserRoles = require("../typedefs.js").UserRoles;
 
 /**
  * @class
- * @extends AbstractDto
+ * @extends {Entity}
  */
-class User extends AbstractDto {
+class User extends Entity {
 
-  constructor(data = {}) {
-    super(data);
-    
+  /**
+   * 
+   * @param {DtoData} data 
+   * @constructor
+   */
+  constructor(data = {}, meta = null) {
+    super(data, meta);
     /**
     * @type {String}
     */
@@ -38,7 +42,7 @@ class User extends AbstractDto {
     /**
      * @type {UserRole}
      */
-    this.role = data.role || UserRole.MEMBER;
+    this.role = data.role || UserRoles.MEMBER;
   }
 
   /**
@@ -46,7 +50,7 @@ class User extends AbstractDto {
    * @returns {Boolean}
    */
   isAdmin() {
-    return this.role === UserRole.ADMIN;
+    return this.role === UserRoles.ADMIN;
   }
 
   /**
@@ -54,7 +58,11 @@ class User extends AbstractDto {
    * @returns {Boolean}
    */
   isMember() {
-    return this.role === UserRole.MEMBER;
+    return this.role === UserRoles.MEMBER;
+  }
+
+  static precreate(login, password, email) {
+    return new User({login: login, password: password, email: email});
   }
 
 }
