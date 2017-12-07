@@ -12,8 +12,8 @@ class User extends Entity {
    * @param {DtoData} data 
    * @constructor
    */
-  constructor(data = {}) {
-    super(data);
+  constructor(data = {}, meta = null) {
+    super(data, meta);
     /**
     * @type {String}
     */

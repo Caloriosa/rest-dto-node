@@ -2,80 +2,108 @@ const Collection = require("../util/collection.js");
 const MetaInfo = require("./MetaInfo.js");
 
 /**
+ * This class maps DtoData to Entities.
+ * This class can map RestMeta to MetaInfo as second function. 
+ * Mapped entities includes MetaInfo if metadata was set on map param.
  * @class Mapper<T>
  */
 class Mapper {
     /**
-     * 
+     * Create new mapper with entity template
      * @param {constructor<Entity>} entityType
      */
     constructor (entityType) {
         if (!entityType) {
             throw new Error("Entity type for mapping is undefined!");
         }
-        this.entityType = entityType;
+        /**
+         * Entity template
+         * @type {constructor<Entity>}
+         * @private
+         */
+        this._entityType = entityType;
     }
     /**
      * Map DtoData to Dto Entity. 
-     * If input is DtoData[] (array) then selected first member to map
+     * If input is DtoData[] (array) then selected first member to map.
+     * If input data is null or undenfined, then method returns null.
      * @param {DtoData} dataToMap
-     * @returns {Entity}
+     * @param {RestMeta|MetaInfo} [meta]
+     * @returns {?Entity}
      */
-    mapEntity(dataToMap) {
+    mapEntity(dataToMap, meta = null) {
         if (Array.isArray(dataToMap)) {
             dataToMap = dataToMap.shift() || null;
         }
         if (!dataToMap) {
-            throw new ReferenceError("Input data to map() can't be null!");
+            return null;
         }
         if (dataToMap.data) {
             dataToMap = dataToMap.data; // Remap entity
         }
-        return new this.entityType(dataToMap);
+        return new this._entityType(dataToMap, this.mapMeta(meta));
     }
 
     /**
-     * Map DtoData[] (array) to a collection of etities
+     * Map DtoData[] (array) to a collection of etities.
+     * If input data is null or undenfined, then method returns null.
      * @param {DtoData[]} dataArray 
-     * @returns {Collection<Entity>}
+     * @param {RestMeta|MetaInfo} [meta]
+     * @returns {?Collection<Entity>}
      */
-    mapCollection(dataArray) {
+    mapCollection(dataArray, meta = null) {
         if (!dataArray) {
-            return new Collection();
+            return null
         }
         if (!Array.isArray(dataArray)) {
             throw new TypeError("DTO data is not array!");
         }
+        meta = this.mapMeta(meta);
         return new Collection(dataArray.map(data => {
-            var entity = this.mapEntity(data);
+            var entity = this.mapEntity(data, meta);
             return [entity.uid, entity];
-        }));
+        }), meta);
     }
 
     /**
-     * Map DtoData[] (array) to array of entities
+     * Map DtoData[] (array) to array of entity.
+     * If input data is null or undenfined, then method returns null.
+     * <warn>Metadata is available ONLY in some entity in that array!</warn>
+     * <warn>If array is empty, then no metadata included!</warn>
      * @param {DtoData} dataArray 
-     * @returns {Entity[]}
+     * @param {RestMeta|MetaInfo} [meta]
+     * @returns {?Entity[]}
      */
-    mapArray(dataArray) {
+    mapArray(dataArray, meta = null) {
         if (!dataArray) {
-            return [];
+            return null;
         }
         if (!Array.isArray(dataArray)) {
             throw new TypeError("DTO data is not array!");
         }
+        meta = this.mapMeta(meta);
         return dataArray.map(data => {
-            return this.mapEntity(data);
+            return this.mapEntity(data, meta);
         });
     }
 
     /**
      * 
-     * @param {RestMeta} restMeta 
-     * @returns {MetaInfo}
+     * @param {RestMeta|MetaInfo} restMeta 
+     * @returns {?MetaInfo}
      */
     mapMeta(restMeta) {
-        return new MetaInfo(restMeta.status, restMeta.httpResponse);
+        if (!restMeta) {
+            return null;
+        }
+        if (restMeta.constructor.name == "MetaInfo") {
+            return restMeta;
+        }
+        return new MetaInfo(restMeta.status, restMeta.response);
+    }
+
+    get entityTemplate() {
+        return this._entityType;
     }
 }
 

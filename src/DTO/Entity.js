@@ -10,11 +10,15 @@ class Entity {
    * @param {DtoData} data 
    * @constructor
    */
-  constructor(data = {}) {
+  constructor(data = {}, meta = null) {
     /**
      * @private
      */
     this._data = data;
+    /**
+     * @private
+     */
+    this._meta = meta;
   }
 
   /**
@@ -56,6 +60,16 @@ class Entity {
   }
 
   /**
+   * Get metadata.
+   * <warn>Metadata is not mandatory and may not be available!</warn>
+   * @type {MetaInfo}
+   * @private
+   */
+  get meta() {
+    return this._meta;
+  }
+
+  /**
    * @desc Convert DTO to JSON
    * @param {*} replacer JSON replacer
    * @param {*} space JSON space (pretty output)
@@ -71,11 +85,66 @@ class Entity {
     return Util.toRawObject(this);
   }
 
+  /**
+   * 
+   * @param {Entity} entity 
+   * @param {*} referTo 
+   * @param {*} referBy 
+   * @protected
+   */
   refer(entity, referTo = null, referBy = "uid") {
     if (!referTo) {
       referTo = entity.constructor.nametoLowerCase();
     }
     this[referTo] = entity[uid];
+  }
+
+  /**
+   * Check entity contains some payload
+   * @returns {boolean}
+   */
+  hasPayload() {
+    return (this._data != null && !Object.keys(this._data).length > 0);
+  }
+
+  /**
+   * Check entity contains uid, createdAt and modifiedAt
+   * @returns {boolean}
+   */
+  hasBase() {
+    return (this.uid && this.createdAt && this.modifiedAt);
+  }
+
+  /**
+   * Check entity has metadata
+   */
+  hasMeta() {
+    return (this.meta != null && !Object.keys(this.meta).length > 0);
+  }
+
+  /**
+   * Check entity contains some payload data basement (uid, createdAt and modifiedAt)
+   * @returns {boolean}
+   */
+  isFilled() {
+    return (this.hasPayload() && this.hasBase());
+  }
+
+  /**
+   * Check entity contains some payload data and includes uid, createdAt and modifiedAt
+   * @returns {boolean}
+   */
+  isFullyfilled() {
+    return (this.isFilled() && this.hasBase() && this.hasMeta());
+  }
+
+  /**
+   * Check entity has no payload data and no metadata.
+   * Oposite of hasPayload() method
+   * @returns {boolean}
+   */
+  isNew() {
+    return !this.hasPayload();
   }
 }
 

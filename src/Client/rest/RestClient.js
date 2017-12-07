@@ -98,7 +98,10 @@ class RestClient {
     if (typeof(handleCallback) == "function") {
       handleCallback(data, response);
     }
-    return [ data.content || null, { status: data.status, httpResponse: response } ];
+    return [ data.content || null, { 
+      status: data.status,
+      response: response 
+    }];
   }
 
   /**
