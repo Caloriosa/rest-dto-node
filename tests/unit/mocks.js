@@ -1,4 +1,4 @@
-const { Client, UserManager } = require("../../src/index.js");
+const { Client, UserManager, typedefs } = require("../../src/index.js");
 const httpMock = require("node-mocks-http");
 
 exports.mockClient = function() {
@@ -54,8 +54,19 @@ exports.mockUserDtoDataArray = function() {
 
 exports.mockResponse = function() {
     var res =  httpMock.createResponse();
-    res.getHeaders = function() {
-        return res._headers;
-    }
     return res;
+}
+
+exports.mockStatus = function(code, message) {
+    return {code: code, message: message}
+}
+
+exports.mockRestMeta = function(status = null, response = null) {
+    if (!status) {
+        status = exports.mockStatus(typedefs.ApiStatuses.OK, "OK");
+    }
+    if (!response) {
+        response = exports.mockResponse();
+    }
+    return {status: status, response: response};
 }

@@ -8,6 +8,12 @@ class MetaInfo {
      * @param {Response} response 
      */
     constructor (status, response) {
+        if (!status) {
+            throw new ReferenceError("Status cant't be null or undefined!");
+        }
+        if (!response) {
+            throw new ReferenceError("Response can't be null or undefined!");
+        }
         /**
          * @private
          */

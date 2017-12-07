@@ -64,6 +64,12 @@ exports.DefaultClientOptions = {
  */
 
 /**
+ * @typedef {Object} RestMeta
+ * @property {StatusData} status
+ * @property {Response} response
+ */
+
+/**
  * @typedef {Dto|DtoData|String} UidResolvable
  */
 
