@@ -11,7 +11,7 @@ class UserService {
 
   /**
    * 
-   * @param {RestClient} rest 
+   * @param {Client} client
    * @param {string} [token]
    * @constructor
    */
@@ -26,7 +26,7 @@ class UserService {
      * @type {Manager}
      * @private
      */
-    this._manager = new Manager(new Mapper(User), this._rest, token || this.client.token);
+    this._manager = new Manager(new Mapper(User), this._client, token || this._client.token);
   }
 
   /**
