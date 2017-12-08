@@ -22,12 +22,11 @@ class RestClient {
 
   /**
    * 
-   * @param {string} url 
-   * @param {string} [token]
+   * @param {string} url
    * @param {HttpProxy} [proxy]
    * @constructor
    */
-  constructor(url, token = null, proxy = null) {
+  constructor(url, proxy = null) {
     /**
      * @type {string}
      */
@@ -52,13 +51,17 @@ class RestClient {
   /**
    * Handle rest call via method GET
    * @param {string} path REST path (ex: /auth, /users/32, /devices/6/sensors, ...)
-   * @param {Object} query Query parameters (ex: ?count=20&sort=ASC)
-   * @param {Object} args HTTP request arguments
+   * @param {Object} [query] Query parameters (ex: ?count=20&sort=ASC)
+   * @param {string} [token]
+   * @param {Object} [args] HTTP request arguments
    * @returns {Promise<RestResult>}
    */
-  get(path, query = null, args = {}) {
+  get(path, query = null, token = null, args = {}) {
     args.headers = { "Content-Type": "application/json" };
     args.parameters = query;
+    if (token) {
+      args.headers.authorization = `Bearer ${token}`
+    }
     return this.handle(() => {
       return this.inner.getPromise(this.url + path, args);
     });
@@ -68,14 +71,18 @@ class RestClient {
    * Handle rest call via method GET
    * @param {string} path
    * @param {string} postData
-   * @param {QueryObject}
-   * @param {Object} args
+   * @param {QueryObject} [query]
+   * @param {string} [token]
+   * @param {Object} [args]
    * @returns {Promise<RestResult>}
    */
-  post(path, postData, query = null, args = {}) {
+  post(path, postData, query = null, token = null, args = {}) {
     args.headers = { "Content-Type": "application/json" };
     args.data = RestClient.trimData(postData);
     args.query = query;
+    if (token) {
+      args.headers.authorization = `Bearer ${token}`
+    }
     return this.handle(() => {
       return this.inner.postPromise(this.url + path, args);
     });
@@ -114,14 +121,6 @@ class RestClient {
     }
     this.emiter.emit("handle", data, response);
     return RestClient.createRestResult(data, response);
-  }
-
-  /**
-   * @type {string}
-   * @readonly
-   */
-  get token() {
-    return this._token;
   }
 
   /**

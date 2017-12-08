@@ -12,20 +12,21 @@ class UserService {
   /**
    * 
    * @param {RestClient} rest 
+   * @param {string} [token]
    * @constructor
    */
-  constructor(rest) {
+  constructor(client, token = null) {
     // TODO: Rewrite this constructor stuff to UserService factory. Keep only manager and require it in constructor params
     /**
      * @type {RestClient}
      * @private
      */
-    this._rest = rest;
+    this._client = client;
     /**
      * @type {Manager}
      * @private
      */
-    this._manager = new Manager(new Mapper(User), this._rest);
+    this._manager = new Manager(new Mapper(User), this._rest, token || this.client.token);
   }
 
   /**
