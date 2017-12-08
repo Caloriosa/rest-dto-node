@@ -29,21 +29,24 @@ class UserService {
   }
 
   /**
-   * 
-   * @param {DtoData} dtoData 
-   * @private
-   */
-  _userFactory(dtoData) {
-    return new User(dtoData);
-  }
-
-  /**
    * Get users
    * @param {QueryObject} query 
    * @returns {Promise<ResultSet<Collection<string, User>, MetaInfo>>}
    */
   fetchUsers(query = null) {
     return this._manager.fetchCollection(new Endpoint("/users"), query);
+  }
+
+  fetchUser(uid) {
+    return this._manager.fetchEntity(new Endpoint("/users/${id}", {id: uid}));
+  }
+
+  me() {
+    return this._manager.fetchEntity(new Endpoint("/users/me"));
+  }
+
+  register(user) {
+    return this._manager.pushEntity(new Endpoint("/users/register"), user);
   }
 
   /**
