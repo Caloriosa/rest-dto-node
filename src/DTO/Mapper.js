@@ -97,7 +97,7 @@ class Mapper {
         if (!restMeta) {
             return null;
         }
-        if (!Array.isArray(dataArray)) {
+        if (Array.isArray(restMeta)) {
             throw new DtoMappingError("MetaInfo can't be array!");
         }
         if (restMeta.constructor.name == "MetaInfo") {
