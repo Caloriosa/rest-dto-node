@@ -3,10 +3,8 @@ const Util = require("./util/util.js");
 module.exports = {
 	// Main classes
 	Client: require("./Client/Client.js"),
-	CaloriosaApiError: require("./Client/rest/CaloriosaApiError.js"),
-	RestClient: require("./Client/rest/RestClient.js"),
-	RestError: require("./Client/rest/RestError.js"),
-	AuthError: require("./Client/AuthError.js"),
+	CaloriosaApiError: require("./Client/CaloriosaApiError.js"),
+	RestError: require("./Client/RestError.js"),
 
 	// DTO
 	Entity: require("./DTO/Entity.js"),
