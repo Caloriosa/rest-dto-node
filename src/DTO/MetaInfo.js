@@ -19,7 +19,6 @@ class MetaInfo {
          */
         this._status = status;
         this._httpStatusCode = response.statusCode;
-        this._httpStatusMessage = response.statusMessage;
         this._httpHeaders = response.headers;
     }
 
@@ -67,7 +66,7 @@ class MetaInfo {
      * @readonly
      */
     get itemsPerPage() {
-        return this._httpHeaders["pagination-page"] || null;
+        return  this._httpHeaders["pagination-per-page"] || null;
     }
 
     /**
@@ -87,7 +86,7 @@ class MetaInfo {
      * @readonly
      */
     get totalItemsCount() {
-        return this._httpHeaders["items-count"] || null;
+        return this._httpHeaders["items-total-count"] || null;
     }
 
     /**
@@ -97,6 +96,20 @@ class MetaInfo {
      */
     get serverVersion() {
         return this._httpHeaders["caloriosa-version"] || "unknown";
+    }
+
+    /**
+     * @type {*}
+     */
+    get headers() {
+        return this._httpHeaders;
+    }
+
+    /**
+     * @type {StatusData}
+     */
+    get status() {
+        return this._status;
     }
 }
 
