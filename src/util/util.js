@@ -23,6 +23,9 @@ class Util {
             if (prop.startsWith("_") || obj[prop] === undefined) {
                 return;
             }
+            if (typeof(obj[prop]) === "object" && !Array.isArray(obj)) {
+                data[prop] = Util.toRawObject(obj[prop]);
+            }
             data[prop] = obj[prop];
         });
         return data;
