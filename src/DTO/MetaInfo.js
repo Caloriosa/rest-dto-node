@@ -24,7 +24,7 @@ class MetaInfo {
 
     /**
      * Caloriosa rest service status code
-     * @type {ApiStatus}
+     * @type {?ApiStatus}
      * @readonly
      */
     get statusCode() {
@@ -33,7 +33,7 @@ class MetaInfo {
 
     /**
      * Caloriosa rest service status message
-     * @type {string}
+     * @type {?string}
      */
     get statusMessage() {
         return this._status.message || null;
