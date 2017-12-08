@@ -4,7 +4,7 @@
 class MetaInfo {
     /**
      * 
-     * @param {*} status 
+     * @param {StatusData} status 
      * @param {Response} response 
      */
     constructor (status, response) {
