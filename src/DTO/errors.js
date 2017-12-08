@@ -8,7 +8,7 @@ class DtoError extends Error {}
  */
 class DtoMappingError extends DtoError {}
 
-modules.exports = {
+module.exports = {
     DtoError: DtoError,
     DtoMappingError: DtoMappingError
 }
