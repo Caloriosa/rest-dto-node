@@ -1,5 +1,6 @@
 const Collection = require("../util/collection.js");
 const MetaInfo = require("./MetaInfo.js");
+const { DtoMappingError } = require("./errors.js");
 
 /**
  * This class maps DtoData to Entities.
@@ -14,7 +15,7 @@ class Mapper {
      */
     constructor (entityType) {
         if (!entityType) {
-            throw new Error("Entity type for mapping is undefined!");
+            throw new DtoMappingError("Entity type for mapping is undefined!");
         }
         /**
          * Entity template
@@ -32,11 +33,11 @@ class Mapper {
      * @returns {?Entity}
      */
     mapEntity(dataToMap, meta = null) {
-        if (Array.isArray(dataToMap)) {
-            dataToMap = dataToMap.shift() || null;
-        }
         if (!dataToMap) {
             return null;
+        }
+        if (Array.isArray(dataToMap)) {
+            throw new DtoMappingError("DTO data can't be array!");
         }
         if (dataToMap.data) {
             dataToMap = dataToMap.data; // Remap entity
@@ -56,7 +57,7 @@ class Mapper {
             return null
         }
         if (!Array.isArray(dataArray)) {
-            throw new TypeError("DTO data is not array!");
+            throw new DtoMappingError("DTO data is not array!");
         }
         meta = this.mapMeta(meta);
         return new Collection(dataArray.map(data => {
@@ -79,7 +80,7 @@ class Mapper {
             return null;
         }
         if (!Array.isArray(dataArray)) {
-            throw new TypeError("DTO data is not array!");
+            throw new DtoMappingError("DTO data is not array!");
         }
         meta = this.mapMeta(meta);
         return dataArray.map(data => {
@@ -95,6 +96,9 @@ class Mapper {
     mapMeta(restMeta) {
         if (!restMeta) {
             return null;
+        }
+        if (!Array.isArray(dataArray)) {
+            throw new DtoMappingError("MetaInfo can't be array!");
         }
         if (restMeta.constructor.name == "MetaInfo") {
             return restMeta;
