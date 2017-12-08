@@ -1,13 +1,20 @@
 const BaseClient = require("./BaseClient.js");
 const DefaultClientOptions = require("../typedefs.js").DefaultClientOptions;
 const ApiError = require("../typedefs.js").ApiError;
+const AuthError = require("./AuthError.js");
 const Collection = require("../util/collection.js");
 const UserService = require("../Services/UserService.js");
+const Util = require("../util/util.js");
 
 /**
  * @class
  * @desc Caloriosa service REST client
  * @extends {BaseClient}
+ * @fires Client#ready
+ * @fires Client#auth
+ * @fires Client#serviceAdded
+ * @fires Client#serviceRemoved
+ * @fires Client#handle
  */
 class Client extends BaseClient {
 
@@ -19,6 +26,7 @@ class Client extends BaseClient {
      */
     this._services = new Collection();
     this.createServices();
+    this.emiter.emit("ready", this);
   }
 
   /**
@@ -28,8 +36,12 @@ class Client extends BaseClient {
    * @returns {Promise<AuthInfo>}
    */
   async authenticate(login, password) {
-    let authInfo = await this.rest.post("/auth", {login: login, password: password});
+    let [ err, authInfo ] = await Util.saferize(this.rest.post("/auth", {login: login, password: password}));
+    if (err) {
+      throw new AuthError(err.message);
+    }
     this.rest.token = authInfo.token;
+    this.emiter.emit("auth", authInfo);
     return authInfo;
   }
 
@@ -38,6 +50,7 @@ class Client extends BaseClient {
       throw new Error(`Service with name '${name}' already exists!`);
     }
     this._services.set(name, service);
+    this.emiter.emit("serviceAdded", name, service);
     return service;
   }
 
@@ -55,6 +68,7 @@ class Client extends BaseClient {
       throw new Error(`Service with name '${name}' not exists!`);
     }
     this._services.delete(name);
+    this.emiter.emit("serviceRemoved", name);
   }
 
    /**

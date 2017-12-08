@@ -1,6 +1,7 @@
 const RestClient = require("./rest/RestClient.js");
 const Util = require("../util/util.js");
 const { DefaultClientOptions } = require("../typedefs.js");
+const EventEmmiter = require("events");
 
 /**
  * @class
@@ -21,6 +22,8 @@ class BaseClient {
          * @private
          */
         this._rest = new RestClient(this._options.url, this._options.token, this._options.proxy);
+        this.emiter = new EventEmmiter();
+        this._rest.emiter = this.emiter;
     }
 
     /**
@@ -32,6 +35,15 @@ class BaseClient {
     async fetchIdentity() {
         let ident = await this.rest.get("/auth/identity");
         return ident;
+    }
+
+    /**
+     * Handle an event
+     * @param {string} event 
+     * @param {function} callback 
+     */
+    on(event, callback) {
+        return this.emiter.on(event, callback);
     }
 
     /**

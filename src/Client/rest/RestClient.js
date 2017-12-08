@@ -43,6 +43,10 @@ class RestClient {
      * @type {NodeRestClientPromise.Client}
      */
     this.inner = NodeRestClientPromise.Client(proxy);
+    /**
+     * @type {EventEmmiter}
+     */
+    this.emiter = null;
   }
 
   /**
@@ -108,6 +112,7 @@ class RestClient {
     if (typeof(handleCallback) == "function") {
       handleCallback(data, response);
     }
+    this.emiter.emit("handle", data, response);
     return RestClient.createRestResult(data, response);
   }
 
