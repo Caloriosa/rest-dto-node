@@ -10,9 +10,9 @@ class Manager {
   /**
    * @constructor
    * @param {Mapper} mapper
-   * @param {RestClient} restClient
+   * @param {Client} client
    */
-  constructor(mapper, restClient, token = null) {
+  constructor(mapper, client, token = null) {
     /**
      * @type {Mapper}
      * @private
@@ -22,7 +22,7 @@ class Manager {
      * @type {RestClient}
      * @private
      */
-    this._rest = restClient;
+    this._client = client;
     /**
      * @type {string}
      * @private
@@ -46,8 +46,8 @@ class Manager {
    * @type {RestClient}
    * @readonly
    */
-  get rest() {
-    return this._rest;
+  get client() {
+    return this._client;
   }
  
   /**
@@ -59,7 +59,7 @@ class Manager {
    * @returns {Promise<Entity[]>}
    */
   async fetchArray(endpoint, query = null, rcArgs = null) {
-    let { content, meta } = await this.rest.get(endpoint.escapePath(), query, this.token, rcArgs || this.rcArgs);
+    let { content, meta } = await this.client.get(endpoint.escapePath(), query, this.token, rcArgs || this.rcArgs);
     return this.mapper.mapArray(content, meta);
   }
 
@@ -71,7 +71,7 @@ class Manager {
    * @returns {Promise<Collection<string, Entity>>}
    */
   async fetchCollection(endpoint, query = null, rcArgs = null) {
-    let { content, meta } = await this.rest.get(endpoint.escapePath(), query, this.token, rcArgs || this.rcArgs);
+    let { content, meta } = await this.client.get(endpoint.escapePath(), query, this.token, rcArgs || this.rcArgs);
     return this.mapper.mapCollection(content, meta);
   }
 
@@ -83,7 +83,7 @@ class Manager {
    * @returns {Promise<Entity>}
    */
   async fetchEntity(endpoint, query = null, rcArgs = null) {
-    let { content, meta } = await this.rest.get(endpoint.escapePath(), query, this.token, rcArgs || this.rcArgs);
+    let { content, meta } = await this.client.get(endpoint.escapePath(), query, this.token, rcArgs || this.rcArgs);
     return this.mapper.mapEntity(content, meta);
   }
 
@@ -96,7 +96,7 @@ class Manager {
    * @returns {Promise<Entity>}
    */
   async pushEntity(endpoint, entity, query = null, rcArgs = null) {
-    let { content, meta } = await this.rest.post(endpoint.escapePath(), entity, query, this.token, rcArgs || this.rcArgs);
+    let { content, meta } = await this.client.post(endpoint.escapePath(), entity, query, this.token, rcArgs || this.rcArgs);
     return this.mapper.mapEntity(content, meta);
   }
 
@@ -109,7 +109,7 @@ class Manager {
    * @returns {Promise<Entity,MetaInfo>}
    */
   async patchEntity(endpoint, entity, query = null, rcArgs = null) {
-    let { content, meta } = await this.rest.patch(endpoint.escapePath(), entity, query, this.token, rcArgs || this.rcArgs);
+    let { content, meta } = await this.client.patch(endpoint.escapePath(), entity, query, this.token, rcArgs || this.rcArgs);
     return this.mapper.mapEntity(content, meta);
   }
 
@@ -122,7 +122,7 @@ class Manager {
    * @returns {Promise<ResultSet<Entity,MetaInfo>>}
    */
   async replaceEntity(endpoint, entity, query = null, rcArgs = null) {
-    let { content, meta } = await this.rest.put(endpoint.escapePath(), entity, query, this.token, rcArgs || this.rcArgs);
+    let { content, meta } = await this.client.put(endpoint.escapePath(), entity, query, this.token, rcArgs || this.rcArgs);
     return this.mapper.mapEntity(content, meta);
   }
 }
