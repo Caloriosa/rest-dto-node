@@ -116,8 +116,9 @@ class Client {
     var [ err, result ] = await Util.saferize(restCallback());
     var { data, response } = result || {};
     // Fail if general error occurred from request
-    if(err) {
-      throw new RestError(err.message);
+    if (err) {
+      if (!response) throw err; // No response? Forward that error
+      throw new RestError(err.message, response);
     }
     // Fail if no data is in result
     if (!data) {
@@ -125,11 +126,11 @@ class Client {
     }
     // Fail if additional status is undefined
     if (!data.status) {
-      throw new RestError(`HTTP(${response.statusCode}): ${response.statusMessage}`, response);
+      throw new RestError(`${response.statusMessage}`, response);
     }
     // Fail on http status not success
     if ([ 200, 201, 202 ].indexOf(response.statusCode) < 0) {
-      throw new CaloriosaApiError(`${data.status.code}(${response.statusCode}): ${data.status.message}`,
+      throw new CaloriosaApiError(`${data.status.message}`,
         Client.createRestResult(data, response));
     }
     // Handle callback if callback function defined
