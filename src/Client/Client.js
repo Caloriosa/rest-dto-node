@@ -46,7 +46,10 @@ class Client {
         this._token = this._options.token || null;
         this.emiter = new EventEmmiter();
         this.defaultArgs = {
-          headers: { "Content-Type": "application/json" }
+          headers: { 
+            "Content-Type": "application/json",
+            "Dto-Client": "rest-dto-node"
+           }
         };
     }
 

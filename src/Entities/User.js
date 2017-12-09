@@ -7,42 +7,36 @@ const UserRoles = require("../typedefs.js").UserRoles;
  */
 class User extends Entity {
 
-  /**
-   * 
-   * @param {DtoData} data 
-   * @constructor
-   */
-  constructor(data = {}, meta = null) {
-    super(data, meta);
+  refill() {
     /**
     * @type {String}
     */
-    this.login = data.login || null;
-
+    this.login = this._data.login || null;
+    
     /**
      * @type {String}
      */
-    this.password = data.password || null;
-
+    this.password = this._data.password || null;
+    
     /**
      * @type {String}
      */
-    this.email = data.email || "";
-
+    this.email = this._data.email || "";
+    
     /**
      * @type {String}
      */
-    this.name = data.name || "";
-
+    this.name = this._data.name || "";
+    
     /**
      * @type {Boolean}
      */
-    this.activated = data.activated || false;
-
+    this.activated = this._data.activated || false;
+    
     /**
      * @type {UserRole}
      */
-    this.role = data.role || UserRoles.MEMBER;
+    this.role = this._data.role || UserRoles.MEMBER;
   }
 
   /**
