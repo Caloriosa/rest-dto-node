@@ -22,7 +22,7 @@ class CaloriosaApiError extends Error {
     /**
      * @type {DtoData}
      */
-    this.content = RestResult.content;
+    this.content = restResult.content;
   }
 }
 

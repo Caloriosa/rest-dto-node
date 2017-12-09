@@ -34,7 +34,7 @@ class Mapper {
      */
     mapEntity(dataToMap, meta = null) {
         if (!dataToMap) {
-            return null;
+            dataToMap = {};
         }
         if (Array.isArray(dataToMap)) {
             throw new DtoMappingError("DTO data can't be array!");
@@ -54,7 +54,7 @@ class Mapper {
      */
     mapCollection(dataArray, meta = null) {
         if (!dataArray) {
-            return null
+            dataArray = [];
         }
         if (!Array.isArray(dataArray)) {
             throw new DtoMappingError("DTO data is not array!");
@@ -77,7 +77,7 @@ class Mapper {
      */
     mapArray(dataArray, meta = null) {
         if (!dataArray) {
-            return null;
+            dataArray = [];
         }
         if (!Array.isArray(dataArray)) {
             throw new DtoMappingError("DTO data is not array!");
@@ -104,6 +104,13 @@ class Mapper {
             return restMeta;
         }
         return new MetaInfo(restMeta.status, restMeta.response);
+    }
+
+    static demap(obj) {
+        if (obj.data) {
+            return obj.data;
+        }
+        return obj;
     }
 
     get entityTemplate() {

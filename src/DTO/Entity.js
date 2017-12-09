@@ -19,7 +19,6 @@ class Entity {
      * @private
      */
     this._meta = meta;
-    this.refill();
   }
 
   /**
@@ -69,11 +68,6 @@ class Entity {
   get meta() {
     return this._meta;
   }
-
-  /**
-   * Reset data to defaults or refetch it from _data
-   */
-  refill() {}
 
   /**
    * @desc Convert DTO to JSON

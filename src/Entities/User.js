@@ -7,36 +7,64 @@ const UserRoles = require("../typedefs.js").UserRoles;
  */
 class User extends Entity {
 
-  refill() {
-    /**
-    * @type {String}
-    */
-    this.login = this._data.login || null;
-    
-    /**
-     * @type {String}
-     */
-    this.password = this._data.password || null;
-    
-    /**
-     * @type {String}
-     */
-    this.email = this._data.email || "";
-    
-    /**
-     * @type {String}
-     */
-    this.name = this._data.name || "";
-    
-    /**
-     * @type {Boolean}
-     */
-    this.activated = this._data.activated || false;
-    
-    /**
-     * @type {UserRole}
-     */
-    this.role = this._data.role || UserRoles.MEMBER;
+  get login() {
+    return this._data.login || null;
+  }
+
+  set login(val) {
+    this._data.login = val;
+  }
+
+  get password() {
+    return this._data.password || null;
+  }
+
+  set password(val) {
+    this._data.password = val;
+  }
+
+  get email() {
+    return this._data.email || null;
+  }
+
+  set email(val) {
+    this._data.email = val;
+  }
+
+  get name() {
+    return this._data.name || "";
+  }
+
+  set name(val) {
+    this._data.name = val;
+  }
+
+  /**
+   * @type {boolean}
+   */
+  get activated() {
+    return this._data.activated || false;
+  }
+
+  /**
+   * @type {boolean}
+   */
+  set activated(val) {
+    this._data.activated = val;
+  }
+
+  /**
+   * @type {UserRole}
+   */
+  get role() {
+    return this._data.role || UserRoles.MEMBER;
+  }
+
+  /**
+   * @type {UserRole}
+   */
+  set role(val) {
+    this._data.role = val;
   }
 
   /**

@@ -48,7 +48,7 @@ class Client {
         this.defaultArgs = {
           headers: { 
             "Content-Type": "application/json",
-            "Dto-Client": "rest-dto-node"
+            "X-Dto-Client": "rest-dto-node"
            }
         };
     }
@@ -97,7 +97,7 @@ class Client {
    */
   post(path, postData, query = null, token = null, args = {}) {
     args = Util.mergeDefault(this.defaultArgs, args);
-    args.data = RestClient.trimData(postData);
+    args.data = Client.trimData(postData);
     args.query = query;
     Client.injectToken(token || this.token, args);
     return this.handle(() => {
@@ -156,10 +156,14 @@ class Client {
    * @private
    */
   static trimData(data) {
-    if (!(data instanceof Object)) {
-      throw new TypeError("Data to trim must be an object");
+    if (Array.isArray(data)) {
+      var cleanArr = [];
+      data.forEach(element => {
+        cleanArr.push(Client.trimData(element));
+      });
+      return cleanArr;
     }
-    if (data.constructor.name.toLowerCase() != "object") {
+    if (data instanceof Object) {
       return Util.toRawObject(data);
     }
     return data;

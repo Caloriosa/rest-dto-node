@@ -1,5 +1,6 @@
 const Endpoint = require("../util/Endpoint.js");
 const Entity = require("../DTO/Entity.js");
+const Mapper = require("./Mapper.js");
 
 /**
  * @class
@@ -96,7 +97,7 @@ class Manager {
    * @returns {Promise<Entity>}
    */
   async pushEntity(endpoint, entity, query = null, rcArgs = null) {
-    let { content, meta } = await this.client.post(endpoint.escapePath(), entity, query, this.token, rcArgs || this.rcArgs);
+    let { content, meta } = await this.client.post(endpoint.escapePath(), Mapper.demap(entity), query, this.token, rcArgs || this.rcArgs);
     return this.mapper.mapEntity(content, meta);
   }
 
@@ -109,7 +110,7 @@ class Manager {
    * @returns {Promise<Entity,MetaInfo>}
    */
   async patchEntity(endpoint, entity, query = null, rcArgs = null) {
-    let { content, meta } = await this.client.patch(endpoint.escapePath(), entity, query, this.token, rcArgs || this.rcArgs);
+    let { content, meta } = await this.client.patch(endpoint.escapePath(), Mapper.demap(entity), query, this.token, rcArgs || this.rcArgs);
     return this.mapper.mapEntity(content, meta);
   }
 
@@ -122,7 +123,7 @@ class Manager {
    * @returns {Promise<ResultSet<Entity,MetaInfo>>}
    */
   async replaceEntity(endpoint, entity, query = null, rcArgs = null) {
-    let { content, meta } = await this.client.put(endpoint.escapePath(), entity, query, this.token, rcArgs || this.rcArgs);
+    let { content, meta } = await this.client.put(endpoint.escapePath(), Mapper.demap(entity), query, this.token, rcArgs || this.rcArgs);
     return this.mapper.mapEntity(content, meta);
   }
 }
