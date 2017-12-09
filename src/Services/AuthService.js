@@ -30,6 +30,10 @@ class UserService {
   async authenticate(login, password) {
     return this._authManager.pushEntity(new Endpoint("/auth"), {login: login, password: password});
   }
+
+  async logout() {
+    return this._authManager.deleteEntity(new Endpoint("/auth"));
+  }
 }
 
 module.exports = UserService;

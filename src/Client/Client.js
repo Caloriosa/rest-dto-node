@@ -106,6 +106,22 @@ class Client {
   }
 
   /**
+   * 
+   * @param {string} path 
+   * @param {QueryObject} query 
+   * @param {string} token 
+   * @param {Object} args 
+   */
+  delete(path, query = null, token = null, args = {}) {
+    args = Util.mergeDefault(this.defaultArgs, args);
+    args.parameters = query;
+    Client.injectToken(token || this.token, args);
+    return this.handle(() => {
+      return this.inner.deletePromise(this.url + path, args);
+    });
+  }
+
+  /**
    * Handle raw rest call
    * @param {Client~restCallback} restCallback 
    * @param {Client~handleCallback} [handleCallback]
@@ -188,7 +204,7 @@ class Client {
 
   static injectToken(token, args) {
     if (token) {
-      args.headers.authorization = `Bearer ${token}`
+      args.headers['Authorization'] = `Bearer ${token}`
     }
   }
 }

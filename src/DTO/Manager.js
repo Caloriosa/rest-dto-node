@@ -50,6 +50,10 @@ class Manager {
   get client() {
     return this._client;
   }
+
+  get token() {
+    return this._token;
+  }
  
   /**
    * Fetch an array of entities
@@ -125,6 +129,18 @@ class Manager {
   async replaceEntity(endpoint, entity, query = null, rcArgs = null) {
     let { content, meta } = await this.client.put(endpoint.escapePath(), Mapper.demap(entity), query, this.token, rcArgs || this.rcArgs);
     return this.mapper.mapEntity(content, meta);
+  }
+
+  /**
+   * 
+   * @param {Endopoint} endpoint
+   * @param {QueryObject} query 
+   * @param {*} rcArgs 
+   */
+  async deleteEntity(endpoint, query = null, rcArgs = null) {
+    console.dir(this.token);
+    let { meta } = await this.client.delete(endpoint.escapePath(), query, this.token, rcArgs || this.rcArgs);
+    return this.mapper.mapMeta(meta);
   }
 }
 
