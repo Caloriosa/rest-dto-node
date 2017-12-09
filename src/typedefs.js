@@ -12,6 +12,18 @@ exports.UserRoles = {
 };
 
 /**
+ * @typedef IdentityType
+ * @property {string} [USER="user"]
+ * @property {string} [DEVICE="device"]
+ * @property {string} [UNKNOWN="unknown"]
+ */
+exports.IdentityTypes = {
+  USER: "user",
+  DEVICE: "device",
+  UNKNOWN: "unknown"
+}
+
+/**
  * @typedef HttpProxy
  * 
  * @property {String} [host=localhost]

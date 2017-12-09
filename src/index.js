@@ -14,9 +14,11 @@ module.exports = {
 
 	// Entites
 	User: require("./Entities/User.js"),
+	AuthInfo: require("./Entities/AuthInfo.js"),
 
 	// Services
 	UserService: require("./Services/UserService.js"),
+	AuthService: require("./Services/AuthService.js"),
 	
 	// Utilities
 	Collection: require("./util/collection.js"),
