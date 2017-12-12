@@ -42,21 +42,45 @@ class UserService {
     return this._manager.fetchEntity(new Endpoint("/users/${id}", {id: uid}));
   }
 
-  me() {
+  /**
+   * Fetch curently logged user (by token)
+   * Restriction: MEMBER, ADMIN
+   * @returns {Promise<User>}
+   */
+  fetchMe() {
     return this._manager.fetchEntity(new Endpoint("/users/me"));
   }
 
+  /**
+   * Patch curently logged user (by token)
+   * Restriction: MEMBER, ADMIN
+   * Verification: TOKEN
+   * @param {User} user 
+   * @returns {Promise<User>}
+   */
+  setMe(user) {
+    return this._manager.patchEntity(new Endpoint("/users/me"));
+  }
+
+  /**
+   * Register new user
+   * Restriction: NONE
+   * Verification: APP SIGNATURE
+   * @param {User} user 
+   */
   register(user) {
     return this._manager.pushEntity(new Endpoint("/users/register"), user);
   }
 
   /**
-   * 
+   * Udpate a user or create new
+   * Restriction: ADMIN
+   * Verification: TOKEN
    * @param {User|DtoData} entity 
    * @param {string} [uid]
-   * @returns {Promise<ResultSet<User,MetaInfo>>}
+   * @returns {Promise<User>}
    */
-  save(entity, uid = null) {
+  setUser(entity, uid = null) {
     uid = DataResolver.resolveUid(uid || entity);
     if (uid) {
       return this._manager.patchEntity(new Endpoint("/users/${id}", {id: uid}), entity);
@@ -65,7 +89,9 @@ class UserService {
   }
 
   /**
-   * 
+   * Fetch user's owned devices
+   * Restriction: NONE
+   * Verification: NONE
    * @param {User|string} user 
    */
   async fetchUserDevices(user) {
