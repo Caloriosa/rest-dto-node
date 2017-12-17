@@ -17,6 +17,11 @@ class CaloriosaApiError extends RestError {
      */
     this.status = restResult.meta.status;
     /**
+     * Shortcut to err.status.code
+     * @type {string}
+     */
+    this.code = this.status.code;
+    /**
      * @type {DtoData}
      */
     this.content = restResult.content;
