@@ -101,6 +101,9 @@ class Manager {
    * @returns {Promise<Entity>}
    */
   async pushEntity(endpoint, entity, query = null, rcArgs = null) {
+    if (!entity) {
+      throw new ReferenceError("Pushing entity can't be null or undefined!");
+    }
     let { content, meta } = await this.client.post(endpoint.escapePath(), Mapper.demap(entity), query, this.token, rcArgs || this.rcArgs);
     return this.mapper.mapEntity(content, meta);
   }
@@ -114,6 +117,9 @@ class Manager {
    * @returns {Promise<Entity,MetaInfo>}
    */
   async patchEntity(endpoint, entity, query = null, rcArgs = null) {
+    if (!entity) {
+      throw new ReferenceError("Patching entity can't be null or undefined!");
+    }
     let { content, meta } = await this.client.patch(endpoint.escapePath(), Mapper.demap(entity), query, this.token, rcArgs || this.rcArgs);
     return this.mapper.mapEntity(content, meta);
   }
@@ -127,6 +133,9 @@ class Manager {
    * @returns {Promise<ResultSet<Entity,MetaInfo>>}
    */
   async replaceEntity(endpoint, entity, query = null, rcArgs = null) {
+    if (!entity) {
+      throw new ReferenceError("Replacing entity can't be null or undefined!");
+    }
     let { content, meta } = await this.client.put(endpoint.escapePath(), Mapper.demap(entity), query, this.token, rcArgs || this.rcArgs);
     return this.mapper.mapEntity(content, meta);
   }

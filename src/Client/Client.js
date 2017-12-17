@@ -106,6 +106,25 @@ class Client {
   }
 
   /**
+   * Handle rest call via method GET
+   * @param {string} path
+   * @param {string} postData
+   * @param {QueryObject} [query]
+   * @param {string} [token]
+   * @param {Object} [args]
+   * @returns {Promise<RestResult>}
+   */
+  patch(path, postData, query = null, token = null, args = {}) {
+    args = Util.mergeDefault(this.defaultArgs, args);
+    args.data = Client.trimData(postData);
+    args.query = query;
+    Client.injectToken(token || this.token, args);
+    return this.handle(() => {
+      return this.inner.patchPromise(this.url + path, args);
+    });
+  }
+
+  /**
    * 
    * @param {string} path 
    * @param {QueryObject} query 

@@ -107,6 +107,9 @@ class Mapper {
     }
 
     static demap(obj) {
+        if (!obj) {
+            throw new ReferenceError("Demapping object can't be set null or undefined!");
+        }
         if (obj.data) {
             return obj.data;
         }

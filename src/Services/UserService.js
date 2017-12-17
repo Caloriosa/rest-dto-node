@@ -59,7 +59,7 @@ class UserService {
    * @returns {Promise<User>}
    */
   setMe(user) {
-    return this._manager.patchEntity(new Endpoint("/users/me"));
+    return this._manager.patchEntity(new Endpoint("/users/me"), user);
   }
 
   /**
