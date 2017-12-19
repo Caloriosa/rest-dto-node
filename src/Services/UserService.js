@@ -54,8 +54,9 @@ class UserService {
   /**
    * Patch curently logged user (by token)
    * Restriction: MEMBER, ADMIN
-   * Verification: TOKEN
+   * Verification: TOKEN + USER'S PASSWORD
    * @param {User} user 
+   * @param {string} currentPassword
    * @returns {Promise<User>}
    */
   setMe(user, currentPassword) {
