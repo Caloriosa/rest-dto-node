@@ -58,8 +58,8 @@ class UserService {
    * @param {User} user 
    * @returns {Promise<User>}
    */
-  setMe(user) {
-    return this._manager.patchEntity(new Endpoint("/users/me"), user);
+  setMe(user, currentPassword) {
+    return this._manager.patchEntity(new Endpoint("/users/me"), Mapper.demapMerge(user, { current_password: currentPassword}));
   }
 
   /**

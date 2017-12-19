@@ -116,6 +116,13 @@ class Mapper {
         return obj;
     }
 
+    static demapMerge(obj, addin) {
+        if (!addin) {
+            throw new ReferenceError("Addin object can't be set null or undefined!");
+        }
+        return Object.assign(Mapper.demap(obj), addin);
+    }
+
     get entityTemplate() {
         return this._entityType;
     }
