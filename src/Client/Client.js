@@ -44,6 +44,7 @@ class Client {
          * @private
          */
         this._token = this._options.token || null;
+        this._appSignature = this._options.appSignature;
         this.emiter = new EventEmmiter();
         this.defaultArgs = {
           headers: { 
@@ -69,6 +70,10 @@ class Client {
         return this._token;
     }
 
+    get appSignature() {
+      return this._appSignature;
+    }
+
     /**
    * Handle rest call via method GET
    * @param {string} path REST path (ex: /auth, /users/32, /devices/6/sensors, ...)
@@ -81,6 +86,7 @@ class Client {
     args = Util.mergeDefault(this.defaultArgs, args);
     args.parameters = query;
     Client.injectToken(token || this.token, args);
+    Client.injectSignature(this.appSignature, args);
     return this.handle(() => {
       return this.inner.getPromise(this.url + path, args);
     });
@@ -100,6 +106,7 @@ class Client {
     args.data = Client.trimData(postData);
     args.query = query;
     Client.injectToken(token || this.token, args);
+    Client.injectSignature(this.appSignature, args);
     return this.handle(() => {
       return this.inner.postPromise(this.url + path, args);
     });
@@ -119,6 +126,7 @@ class Client {
     args.data = Client.trimData(postData);
     args.query = query;
     Client.injectToken(token || this.token, args);
+    Client.injectSignature(this.appSignature, args);
     return this.handle(() => {
       return this.inner.patchPromise(this.url + path, args);
     });
@@ -135,6 +143,7 @@ class Client {
     args = Util.mergeDefault(this.defaultArgs, args);
     args.parameters = query;
     Client.injectToken(token || this.token, args);
+    Client.injectSignature(this.appSignature, args);
     return this.handle(() => {
       return this.inner.deletePromise(this.url + path, args);
     });
@@ -224,6 +233,12 @@ class Client {
   static injectToken(token, args) {
     if (token) {
       args.headers['Authorization'] = `Bearer ${token}`
+    }
+  }
+
+  static injectSignature(signature, args) {
+    if (signature) {
+      args.headers['X-Application'] = signature;
     }
   }
 }

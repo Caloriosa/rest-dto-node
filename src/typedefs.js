@@ -44,12 +44,14 @@ exports.DefaultHttpProxy = {
  * @typedef {Object} ClientOptions
  * 
  * @property {String} [url=http://localhost:6060]
+ * @property {String} [appSignature=null]
  * @property {String} [token=null]
  * @property {HttpProxy} [proxy=null]
  */
 exports.DefaultClientOptions = {
     url: "http://10.0.0.143:8080",
     token: null,
+    appSignature: null,
     proxy: null,
 };
 
