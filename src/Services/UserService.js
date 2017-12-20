@@ -67,10 +67,21 @@ class UserService {
    * Register new user
    * Restriction: NONE
    * Verification: APP SIGNATURE
-   * @param {User} user 
+   * @param {Promise<User>} user 
    */
   register(user) {
     return this._manager.pushEntity(new Endpoint("/users/register"), user);
+  }
+
+  /**
+   * Activate a user account
+   * Restriction: NONE
+   * Verification: APP SIGNATURE
+   * @param {string} activationCode 
+   * @returns {Promise<User>}
+   */
+  activate(activationCode) {
+    return this._manager.pushEntity(new Endpoint("/users/activate"), {activation_token: activationCode});
   }
 
   /**

@@ -159,6 +159,7 @@ class Client {
   async handle(restCallback, handleCallback = null) {
     var [ err, result ] = await Util.saferize(restCallback());
     var { data, response } = result || {};
+    this.emiter.emit("handle", data, response, err);
     // Fail if general error occurred from request
     if (err) {
       if (!response) throw err; // No response? Forward that error
@@ -181,7 +182,6 @@ class Client {
     if (typeof(handleCallback) == "function") {
       handleCallback(data, response);
     }
-    this.emiter.emit("handle", data, response);
     return Client.createRestResult(data, response);
   }
 
