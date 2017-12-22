@@ -12,7 +12,7 @@ exports.UserRoles = {
 };
 
 /**
- * @typedef IdentityType
+ * @typedef {Object} IdentityType
  * @property {string} [USER="user"]
  * @property {string} [DEVICE="device"]
  * @property {string} [UNKNOWN="unknown"]
@@ -21,6 +21,18 @@ exports.IdentityTypes = {
   USER: "user",
   DEVICE: "device",
   UNKNOWN: "unknown"
+}
+
+/**
+ * @typedef {Object} SensorType
+ * @property {String} [TEMPERATURE=temperature]
+ * @property {String} [WIND_SPEED=windSpeed]
+ * @property {String} [HUMIDITY=humidity]
+ */
+exports.SensorTypes = {
+  TEMERATURE: "temperature",
+  WIND_SPEED: "windSpeed",
+  HUMIDITY: "humidity"
 }
 
 /**
