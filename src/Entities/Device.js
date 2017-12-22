@@ -5,6 +5,15 @@ const Entity = require("../DTO/Entity.js");
  * @extends {Entity}
  */
 class Device extends Entity {
+
+    get name() {
+        return this._data.name || "";
+    }
+
+    set name(val) {
+        this._data.name = val;
+    }
+
     /**
      * @type {String}
      */
