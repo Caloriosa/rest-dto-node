@@ -10,7 +10,7 @@ class Device extends Entity {
      * @type {String}
      */
     get name() {
-        return this._data.name || "";
+        return this._data.name || null;
     }
 
     /**
