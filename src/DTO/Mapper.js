@@ -1,5 +1,6 @@
 const Collection = require("../util/collection.js");
 const MetaInfo = require("./MetaInfo.js");
+const Util = require("../util/util");
 const { DtoMappingError } = require("./errors.js");
 
 /**
@@ -111,16 +112,16 @@ class Mapper {
             throw new ReferenceError("Demapping object can't be set null or undefined!");
         }
         if (obj.data) {
-            return obj.data;
+            return Util.toRawObject(obj.data);
         }
-        return obj;
+        return Util.toRawObject(obj);
     }
 
     static demapMerge(obj, addin) {
         if (!addin) {
             throw new ReferenceError("Addin object can't be set null or undefined!");
         }
-        return Object.assign(Mapper.demap(obj), addin);
+        return Util.mergeDefault(Mapper.demap(obj), addin);
     }
 
     get entityTemplate() {

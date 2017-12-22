@@ -1,6 +1,7 @@
 const Endpoint = require("../util/Endpoint.js");
 const Entity = require("../DTO/Entity.js");
 const Mapper = require("./Mapper.js");
+const Client = require("../Client/Client");
 
 /**
  * @class
@@ -28,7 +29,7 @@ class Manager {
      * @type {string}
      * @private
      */
-    this._token = token;
+    this._token = token || client.token;
     /**
      * REST Client calling args
      * @type {Object}
