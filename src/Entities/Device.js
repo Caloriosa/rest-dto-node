@@ -6,12 +6,11 @@ const Entity = require("../DTO/Entity.js");
  */
 class Device extends Entity {
 
+    /**
+     * @type {String}
+     */
     get name() {
         return this._data.name || "";
-    }
-
-    set name(val) {
-        this._data.name = val;
     }
 
     /**
