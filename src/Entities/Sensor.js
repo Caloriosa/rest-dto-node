@@ -7,17 +7,24 @@ const typedefs = require("../typedefs.js");
  */
 class Sensor extends Entity {
     /**
-     * @type {?String}
+     * @type {String}
      */
-    get device() {
-        return this._data.device || null;
+    get alias() {
+        return this._data.alias;
     }
 
     /**
      * @type {String}
      */
-    set device(val) {
-        this._data.device = val
+    set alias(val) {
+        this._data.alias = val;
+    }
+
+    /**
+     * @type {?String}
+     */
+    get device() {
+        return this._data.device || null;
     }
 
     /**
