@@ -53,13 +53,5 @@ test('Collection mapping', t => {
     t.is(user3.name, "Donkey Kong");
 });
 
-test('MetaInfo mapping', t =>{
-    var mapper = new Mapper(User);
-    var meta = mocks.mockRestMeta(mocks.mockStatus(typedefs.ApiStatuses.BUSY, "System is busy!"));
-    var metaInfo = mapper.mapMeta(meta);
-    t.is(metaInfo.statusCode, typedefs.ApiStatuses.BUSY);
-    t.is(metaInfo.statusMessage, "System is busy!");
-});
-
 //TODO: write tests for mapping entity collection and array with MetaInfo
 //TODO: write map empty and null DtoData to entities, collection and array (with MetaInfo)
