@@ -1,9 +1,21 @@
 /**
- * @typedef {Object} UserRole
- * 
- * @property {String} [ADMIN=admin]
- * @property {String} [MEMBER=member]
- * @property {String} [UNKNOWN=unknown]
+ * Type definitions, structures, enums and defaults
+ * @namespace Typedefs
+ */
+
+/**
+ * @typedef {String} UserRole
+ * @memberof Typedefs
+ */
+
+/**
+ * @readonly
+ * @enum {UserRole}
+ * @name UserRoles
+ * @memberof Typedefs
+ * @property {UserRole} ADMIN
+ * @property {UserRole} MEMBER
+ * @property {UserRole} UNKNOWN
  */
 exports.UserRoles = {
   ADMIN: "admin",
@@ -12,7 +24,15 @@ exports.UserRoles = {
 };
 
 /**
- * @typedef {Object} IdentityType
+ * @typedef {String} IdentityType
+ * @memberof Typedefs
+ */
+
+/**
+ * @readonly
+ * @enum {IdentityType}
+ * @name IdentityTypes
+ * @memberof Typedefs
  * @property {string} [USER="user"]
  * @property {string} [DEVICE="device"]
  * @property {string} [UNKNOWN="unknown"]
@@ -24,7 +44,15 @@ exports.IdentityTypes = {
 }
 
 /**
- * @typedef {Object} SensorType
+ * @typedef {String} SensorType
+ * @memberof Typedefs
+ */
+
+/** 
+ * @readonly
+ * @enum {SensorType}
+ * @name SensorTypes
+ * @memberof Typedefs
  * @property {String} [TEMPERATURE=temperature]
  * @property {String} [WIND_SPEED=windSpeed]
  * @property {String} [HUMIDITY=humidity]
@@ -36,7 +64,8 @@ exports.SensorTypes = {
 }
 
 /**
- * @typedef HttpProxy
+ * @typedef {Object} HttpProxy
+ * @memberof Typedefs
  * 
  * @property {String} [host=localhost]
  * @property {Number} [port=8080]
@@ -54,6 +83,7 @@ exports.DefaultHttpProxy = {
 
 /**
  * @typedef {Object} ClientOptions
+ * @memberof Typedefs
  * 
  * @property {String} [url=http://localhost:6060]
  * @property {String} [appSignature=null]
@@ -61,7 +91,7 @@ exports.DefaultHttpProxy = {
  * @property {HttpProxy} [proxy=null]
  */
 exports.DefaultClientOptions = {
-    url: "http://10.0.0.143:8080",
+    url: "http://localhost:6060",
     token: null,
     appSignature: null,
     proxy: null,
@@ -69,6 +99,7 @@ exports.DefaultClientOptions = {
 
 /**
  * @typedef {Object} AuthInfo
+ * @memberof Typedefs
  * 
  * @property {string} token
  * @property {string} created
@@ -77,36 +108,30 @@ exports.DefaultClientOptions = {
 
 /**
  * @typedef {Object} QueryObject
+ * @memberof Typedefs
  */
 
 /**
  * @typedef {Object|Array} DtoData
+ * @memberof Typedefs
  */
 
 /**
  * @typedef {Object} StatusData
+ * @memberof Typedefs
+ * 
  * @property {ApiStatus} code
  * @property {string} message
  */
 
 /**
- * @typedef {Object} RestMeta
- * @property {StatusData} status
- * @property {Response} response
- */
-
-/**
- * @typedef {Object} RestResult
- * @property {DtoData} content
- * @property {RestMeta} meta
- */
-
-/**
  * @typedef {Dto|DtoData|String} UidResolvable
+ * @memberof Typedefs
  */
 
 /**
  * @typedef {Array} ResultSet
+ * @memberof Typedefs
  * 
  * Multiple results from a function mapped as array
  * 
@@ -119,37 +144,45 @@ exports.DefaultClientOptions = {
  */
 
 /**
- * @typedef {string} ApiStatus
+ * @typedef {String} ApiStatus
+ * @memberof Typedefs
+ */
+
+/**
+ * @readonly
+ * @enum {ApiStatus}
+ * @name ApiStatuses
+ * @memberof Typedefs
  * 
- * * OK
- * * CREATED
- * * DUPLICATED
- * * NOT_FOUND
- * * DATASOURCE_ERROR
- * * PERMISSION_DENIED
- * * UNAUTHORIZED
- * * UNAVAILABLE
- * * REMOVE_FAILED
- * * AUTH_FAILED
- * * INVALID_DATA
- * * INVALID_CREDENTIALS
- * * INVALID_SENSOR
- * * INVALID_TOKEN
- * * TOKEN_EXPIRED
- * * USER_EXISTS
- * * WEAK_PASSWORD
- * * INVALID_PASSWORD
- * * INVALID_USERNAME
- * * INVALID_EMAIL
- * * PASSWORD_MISMATCH
- * * ACTIVATION_FAILED
- * * DATA_INCOMPLETE
- * * METHOD_NOT_ALLOWED
- * * NOT_IMPLEMENTED
- * * TIMED_OUT
- * * SERVICE_UNAVAILABLE
- * * BUSY
- * * UNKNOWN
+ * @property {ApiStatus} OK
+ * @property {ApiStatus} CREATED
+ * @property {ApiStatus} DUPLICATED
+ * @property {ApiStatus} NOT_FOUND
+ * @property {ApiStatus} DATASOURCE_ERROR
+ * @property {ApiStatus} PERMISSION_DENIED
+ * @property {ApiStatus} UNAUTHORIZED
+ * @property {ApiStatus} UNAVAILABLE
+ * @property {ApiStatus} REMOVE_FAILED
+ * @property {ApiStatus} AUTH_FAILED
+ * @property {ApiStatus} INVALID_DATA
+ * @property {ApiStatus} INVALID_CREDENTIALS
+ * @property {ApiStatus} INVALID_SENSOR
+ * @property {ApiStatus} INVALID_TOKEN
+ * @property {ApiStatus} TOKEN_EXPIRED
+ * @property {ApiStatus} USER_EXISTS
+ * @property {ApiStatus} WEAK_PASSWORD
+ * @property {ApiStatus} INVALID_PASSWORD
+ * @property {ApiStatus} INVALID_USERNAME
+ * @property {ApiStatus} INVALID_EMAIL
+ * @property {ApiStatus} PASSWORD_MISMATCH
+ * @property {ApiStatus} ACTIVATION_FAILED
+ * @property {ApiStatus} DATA_INCOMPLETE
+ * @property {ApiStatus} METHOD_NOT_ALLOWED
+ * @property {ApiStatus} NOT_IMPLEMENTED
+ * @property {ApiStatus} TIMED_OUT
+ * @property {ApiStatus} SERVICE_UNAVAILABLE
+ * @property {ApiStatus} BUSY
+ * @property {ApiStatus} UNKNOWN
  */
 exports.ApiStatuses = {
   OK: "OK",

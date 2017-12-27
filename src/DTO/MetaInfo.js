@@ -7,19 +7,16 @@ class MetaInfo {
      * @param {StatusData} status 
      * @param {Response} response 
      */
-    constructor (status, response) {
+    constructor (status, headers, httpStatusCode) {
         if (!status) {
             throw new ReferenceError("Status cant't be null or undefined!");
-        }
-        if (!response) {
-            throw new ReferenceError("Response can't be null or undefined!");
         }
         /**
          * @private
          */
         this._status = status;
-        this._httpStatusCode = response.statusCode;
-        this._httpHeaders = response.headers;
+        this._httpStatusCode = httpStatusCode;
+        this._httpHeaders = headers;
     }
 
     /**

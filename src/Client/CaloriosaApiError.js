@@ -1,4 +1,5 @@
 const RestError = require("./RestError.js");
+const { ApiStatuses } = require("../typedefs.js");
 
 /**
  * @class
@@ -7,25 +8,23 @@ const RestError = require("./RestError.js");
 class CaloriosaApiError extends RestError {
   /**
    * @constructor
-   * @param {string} message 
-   * @param {StatusData} status
+   * @param {String} code
+   * @param {String} message 
+   * @param {Object} error
    */
-  constructor(message, restResult) {
-    super(message, restResult.meta.response);
-    /**
-     * @type {StatusData}
-     */
-    this.status = restResult.meta.status;
+  constructor(code, message, error) {
+    super(message, error);
+    this.name = CaloriosaApiError.name;
     /**
      * Shortcut to err.status.code
-     * @type {string}
+     * @type {String}
      */
-    this.code = this.status.code;
+    this.code = code || ApiStatuses.UNKNOWN;
     /**
      * @type {DtoData}
      */
-    this.content = restResult.content;
+    this.content = this.response.data ? this.response.data.content : null;
   }
 }
 
-module.exports= CaloriosaApiError;
+module.exports = CaloriosaApiError;

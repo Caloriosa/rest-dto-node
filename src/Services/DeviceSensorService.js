@@ -8,6 +8,7 @@ const Client = require("../Client/Client");
 
 /**
  * @class
+ * @memberof DeviceService
  */
 class DeviceSensorService {
 

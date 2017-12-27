@@ -1,6 +1,7 @@
 const Endpoint = require("../util/Endpoint.js");
 const Entity = require("../DTO/Entity.js");
 const Mapper = require("./Mapper.js");
+const MetaInfo = require("./MetaInfo.js");
 const Client = require("../Client/Client");
 
 /**
@@ -65,7 +66,9 @@ class Manager {
    * @returns {Promise<Entity[]>}
    */
   async fetchArray(endpoint, query = null, rcArgs = null) {
-    let { content, meta } = await this.client.get(endpoint.escapePath(), query, this.token, rcArgs || this.rcArgs);
+    let { content, meta } = Manager.resolve(
+      await this.client.get(endpoint.escapePath(), query, this.token, rcArgs || this.rcArgs)
+    );
     return this.mapper.mapArray(content, meta);
   }
 
@@ -77,7 +80,9 @@ class Manager {
    * @returns {Promise<Collection<string, Entity>>}
    */
   async fetchCollection(endpoint, query = null, rcArgs = null) {
-    let { content, meta } = await this.client.get(endpoint.escapePath(), query, this.token, rcArgs || this.rcArgs);
+    let { content, meta } = Manager.resolve(
+      await this.client.get(endpoint.escapePath(), query, this.token, rcArgs || this.rcArgs)
+    );
     return this.mapper.mapCollection(content, meta);
   }
 
@@ -89,7 +94,9 @@ class Manager {
    * @returns {Promise<Entity>}
    */
   async fetchEntity(endpoint, query = null, rcArgs = null) {
-    let { content, meta } = await this.client.get(endpoint.escapePath(), query, this.token, rcArgs || this.rcArgs);
+    let { content, meta } = Manager.resolve(
+      await this.client.get(endpoint.escapePath(), query, this.token, rcArgs || this.rcArgs)
+    );
     return this.mapper.mapEntity(content, meta);
   }
 
@@ -105,7 +112,9 @@ class Manager {
     if (!entity) {
       throw new ReferenceError("Pushing entity can't be null or undefined!");
     }
-    let { content, meta } = await this.client.post(endpoint.escapePath(), Mapper.demap(entity), query, this.token, rcArgs || this.rcArgs);
+    let { content, meta } = Manager.resolve(
+      await this.client.post(endpoint.escapePath(), Mapper.demap(entity), query, this.token, rcArgs || this.rcArgs)
+    );
     return this.mapper.mapEntity(content, meta);
   }
 
@@ -121,7 +130,9 @@ class Manager {
     if (!entity) {
       throw new ReferenceError("Patching entity can't be null or undefined!");
     }
-    let { content, meta } = await this.client.patch(endpoint.escapePath(), Mapper.demap(entity), query, this.token, rcArgs || this.rcArgs);
+    let { content, meta } = Manager.resolve(
+      await this.client.patch(endpoint.escapePath(), Mapper.demap(entity), query, this.token, rcArgs || this.rcArgs)
+    );
     return this.mapper.mapEntity(content, meta);
   }
 
@@ -137,7 +148,9 @@ class Manager {
     if (!entity) {
       throw new ReferenceError("Replacing entity can't be null or undefined!");
     }
-    let { content, meta } = await this.client.put(endpoint.escapePath(), Mapper.demap(entity), query, this.token, rcArgs || this.rcArgs);
+    let { content, meta } = Manager.resolve(
+      await this.client.put(endpoint.escapePath(), Mapper.demap(entity), query, this.token, rcArgs || this.rcArgs)
+    );
     return this.mapper.mapEntity(content, meta);
   }
 
@@ -149,8 +162,20 @@ class Manager {
    */
   async deleteEntity(endpoint, query = null, rcArgs = null) {
     console.dir(this.token);
-    let { meta } = await this.client.delete(endpoint.escapePath(), query, this.token, rcArgs || this.rcArgs);
+    let { meta } = Manager.resolve(
+      await this.client.delete(endpoint.escapePath(), query, this.token, rcArgs || this.rcArgs)
+    );
     return this.mapper.mapMeta(meta);
+  }
+
+  /**
+   * @private
+   */
+  static resolve(response) {
+    return {
+      content: response.data ? response.data.content : null,
+      meta: new MetaInfo(response.data ? response.data.status : {}, response.headers, response.status)
+    };
   }
 }
 

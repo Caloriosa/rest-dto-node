@@ -35,5 +35,8 @@ module.exports = {
 
 	// Shortcuts
 	saferize: Util.saferize,
-	ApiStatuses: typedefs.ApiStatuses
+	ApiStatuses: typedefs.ApiStatuses,
+	UserRoles: typedefs.UserRoles,
+	SensorTypes: typedefs.SensorTypes,
+	IdentityTypes: typedefs.IdentityTypes
 };
