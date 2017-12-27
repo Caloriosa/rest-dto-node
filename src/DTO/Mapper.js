@@ -1,5 +1,4 @@
 const Collection = require("../util/collection.js");
-const MetaInfo = require("./MetaInfo.js");
 const Util = require("../util/util");
 const { DtoMappingError } = require("./errors.js");
 
@@ -30,7 +29,7 @@ class Mapper {
      * If input is DtoData[] (array) then selected first member to map.
      * If input data is null or undenfined, then method returns null.
      * @param {DtoData} dataToMap
-     * @param {RestMeta|MetaInfo} [meta]
+     * @param {MetaInfo} [meta]
      * @returns {?Entity}
      */
     mapEntity(dataToMap, meta = null) {
@@ -43,14 +42,14 @@ class Mapper {
         if (dataToMap.data) {
             dataToMap = dataToMap.data; // Remap entity
         }
-        return new this._entityType(dataToMap, this.mapMeta(meta));
+        return new this._entityType(dataToMap, meta);
     }
 
     /**
      * Map DtoData[] (array) to a collection of etities.
      * If input data is null or undenfined, then method returns null.
      * @param {DtoData[]} dataArray 
-     * @param {RestMeta|MetaInfo} [meta]
+     * @param {MetaInfo} [meta]
      * @returns {?Collection<Entity>}
      */
     mapCollection(dataArray, meta = null) {
@@ -60,7 +59,6 @@ class Mapper {
         if (!Array.isArray(dataArray)) {
             throw new DtoMappingError("DTO data is not array!");
         }
-        meta = this.mapMeta(meta);
         return new Collection(dataArray.map(data => {
             var entity = this.mapEntity(data, meta);
             return [entity.uid, entity];
@@ -73,7 +71,7 @@ class Mapper {
      * <warn>Metadata is available ONLY in some entity in that array!</warn>
      * <warn>If array is empty, then no metadata included!</warn>
      * @param {DtoData} dataArray 
-     * @param {RestMeta|MetaInfo} [meta]
+     * @param {MetaInfo} [meta]
      * @returns {?Entity[]}
      */
     mapArray(dataArray, meta = null) {
@@ -83,28 +81,9 @@ class Mapper {
         if (!Array.isArray(dataArray)) {
             throw new DtoMappingError("DTO data is not array!");
         }
-        meta = this.mapMeta(meta);
         return dataArray.map(data => {
             return this.mapEntity(data, meta);
         });
-    }
-
-    /**
-     * 
-     * @param {RestMeta|MetaInfo} restMeta 
-     * @returns {?MetaInfo}
-     */
-    mapMeta(restMeta) {
-        if (!restMeta) {
-            return null;
-        }
-        if (Array.isArray(restMeta)) {
-            throw new DtoMappingError("MetaInfo can't be array!");
-        }
-        if (restMeta.constructor.name == "MetaInfo") {
-            return restMeta;
-        }
-        return new MetaInfo(restMeta.status, restMeta.response);
     }
 
     static demap(obj) {

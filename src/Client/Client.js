@@ -1,6 +1,6 @@
 const { DefaultClientOptions } = require("../typedefs.js");
 const EventEmmiter = require("events");
-const NodeRestClientPromise = require('node-rest-client-promise');
+const axios = require("axios");
 const CaloriosaApiError = require("./CaloriosaApiError.js");
 const RestError = require("./RestError.js");
 const Util = require("../util/util.js");
@@ -10,86 +10,85 @@ const Util = require("../util/util.js");
  */
 class Client {
 
-   /**
-   * @callback RestClient~restCallback
-   * @returns {Promise<Object>}
+  /**
+   * @event Client#response
+   * @type {Response}
    */
 
-   /**
-    * @callback RestClient~handleCallback
-    * @param {Object} data
-    * @param {Object} response
-    * @returns {Object}
-    */
+  /**
+   * @event Client#request
+   * @type {Object}
+   */
 
+  /**
+   * @event Client#error
+   * @type {Error}
+   */
+  
+  /**
+   * @constructor
+   * @param {ClientOptions} options 
+   */
+  constructor(options = {}) {    
     /**
-     * @constructor
-     * @param {ClientOptions} options 
+     * @private
      */
-    constructor(options = {}) {    
-        /**
-         * @private
-         */
-        this._options = Util.mergeDefault(DefaultClientOptions, options);
-        /**
-         * @type {NodeRestClientPromise.Client}
-         */
-        this.inner = NodeRestClientPromise.Client(this._options.proxy); 
-        /**
-         * @type {string}
-         */
-        this.url = this._options.url;
-        /**
-         * @type {RestClient}
-         * @private
-         */
-        this._token = this._options.token || null;
-        this._appSignature = this._options.appSignature;
-        this.emiter = new EventEmmiter();
-        this.defaultArgs = {
-          headers: { 
-            "Content-Type": "application/json",
-            "X-Dto-Client": "rest-dto-node"
-           }
-        };
-    }
-
-    /**
-     * @type {ClientOptions}
-     * @readonly
-     */
-    get options() {
-        return this._options;
-    }
-
+    this._options = Util.mergeDefault(DefaultClientOptions, options);
     /**
      * @type {string}
-     * @readonly
      */
-    get token() {
-        return this._token;
-    }
+    this.url = this._options.url;
+    /**
+     * @type {RestClient}
+     * @private
+     */
+    this._token = this._options.token || null;
+    this._appSignature = this._options.appSignature;
+    this.emiter = new EventEmmiter();
+    this.defaultArgs = {
+      baseURL: this.url,
+      headers: { 
+        "Content-Type": "application/json",
+        "X-Dto-Client": "rest-dto-node"
+      },
+      proxy: this._options.proxy || null,
+    };
+  }
 
-    get appSignature() {
-      return this._appSignature;
-    }
+  /**
+   * @type {ClientOptions}
+   * @readonly
+   */
+  get options() {
+    return this._options;
+  }
+
+  /**
+   * @type {String}
+   * @readonly
+   */
+  get token() {
+    return this._token;
+  }
+
+  /**
+   * @type {String}
+   * @readonly
+   */
+  get appSignature() {
+    return this._appSignature;
+  }
 
     /**
    * Handle rest call via method GET
    * @param {string} path REST path (ex: /auth, /users/32, /devices/6/sensors, ...)
    * @param {Object} [query] Query parameters (ex: ?count=20&sort=ASC)
-   * @param {string} [token]
    * @param {Object} [args] HTTP request arguments
-   * @returns {Promise<RestResult>}
+   * @returns {Promise<Response>}
    */
-  get(path, query = null, token = null, args = {}) {
-    args = Util.mergeDefault(this.defaultArgs, args);
+  get(path, query = null, args = {}) {
     args.parameters = query;
-    Client.injectToken(token || this.token, args);
-    Client.injectSignature(this.appSignature, args);
-    return this.handle(() => {
-      return this.inner.getPromise(this.url + path, args);
-    });
+    return this.callApi('get', path, args);
   }
 
   /**
@@ -97,19 +96,13 @@ class Client {
    * @param {string} path
    * @param {string} postData
    * @param {QueryObject} [query]
-   * @param {string} [token]
    * @param {Object} [args]
-   * @returns {Promise<RestResult>}
+   * @returns {Promise<Response>}
    */
-  post(path, postData, query = null, token = null, args = {}) {
-    args = Util.mergeDefault(this.defaultArgs, args);
+  post(path, postData, query = null, args = {}) {
     args.data = Client.trimData(postData);
-    args.query = query;
-    Client.injectToken(token || this.token, args);
-    Client.injectSignature(this.appSignature, args);
-    return this.handle(() => {
-      return this.inner.postPromise(this.url + path, args);
-    });
+    args.parameters = query;
+    return this.callApi('post', path, args);
   }
 
   /**
@@ -117,81 +110,83 @@ class Client {
    * @param {string} path
    * @param {string} postData
    * @param {QueryObject} [query]
-   * @param {string} [token]
    * @param {Object} [args]
-   * @returns {Promise<RestResult>}
+   * @returns {Promise<Response>}
    */
-  patch(path, postData, query = null, token = null, args = {}) {
+  patch(path, postData, query = null, args = {}) {
     args = Util.mergeDefault(this.defaultArgs, args);
     args.data = Client.trimData(postData);
     args.query = query;
-    Client.injectToken(token || this.token, args);
-    Client.injectSignature(this.appSignature, args);
-    return this.handle(() => {
-      return this.inner.patchPromise(this.url + path, args);
-    });
+    return this.callApi('patch', path, args);
   }
 
   /**
    * 
    * @param {string} path 
    * @param {QueryObject} query 
-   * @param {string} token 
    * @param {Object} args 
+   * @returns {Promise<Response>}
    */
-  delete(path, query = null, token = null, args = {}) {
+  delete(path, query = null, args = {}) {
     args = Util.mergeDefault(this.defaultArgs, args);
     args.parameters = query;
-    Client.injectToken(token || this.token, args);
-    Client.injectSignature(this.appSignature, args);
-    return this.handle(() => {
-      return this.inner.deletePromise(this.url + path, args);
-    });
+    return this.callApi('delete', path, args);
   }
 
   /**
    * Handle raw rest call
-   * @param {Client~restCallback} restCallback 
-   * @param {Client~handleCallback} [handleCallback]
-   * @return {Promise<RestResult>}
-   * @private
+   * @param {String} method
+   * @param {String} path
+   * @param {Object} args
+   * @fires Client#request
+   * @fires Client#response
+   * @fires Client#error
+   * @return {Promise<Response>}
    */
-  async handle(restCallback, handleCallback = null) {
-    var [ err, result ] = await Util.saferize(restCallback());
-    var { data, response } = result || {};
-    this.emiter.emit("handle", data, response, err);
-    // Fail if general error occurred from request
+  async callApi(method, path, args) {
+    let request = Util.mergeDefault(this.defaultArgs, args);
+    let err, response;
+
+    request.method = method;
+    request.url = path;
+    Client.injectToken(this.token, request);
+    Client.injectSignature(this.appSignature, request);
+    this.emiter.emit("request", request);
+    [ err, response ] = await Util.saferize(axios(request));
     if (err) {
-      if (!response) throw err; // No response? Forward that error
-      throw new RestError(err.message, response);
+      return this.resolveError(err);
     }
-    // Fail if no data is in result
-    if (!data) {
-      throw new RestError("Server returned empty result (no data)");
-    }
-    // Fail if additional status is undefined
-    if (!data.status) {
-      throw new RestError(`${response.statusMessage}`, response);
-    }
-    // Fail on http status not success
-    if ([ 200, 201, 202 ].indexOf(response.statusCode) < 0) {
-      throw new CaloriosaApiError(`${data.status.message}`,
-        Client.createRestResult(data, response));
-    }
-    // Handle callback if callback function defined
-    if (typeof(handleCallback) == "function") {
-      handleCallback(data, response);
-    }
-    return Client.createRestResult(data, response);
+    this.emiter.emit("response", response);
+    return response;
   }
 
   /**
-     * Handle an event
-     * @param {string} event 
-     * @param {function} callback 
-     */
-    on(event, callback) {
-      return this.emiter.on(event, callback);
+   * 
+   * @private
+   * @fires Client#error
+   */
+  resolveError(err) {
+    let error;
+    if (err.response && err.response.data && err.response.data.status) {
+      error = new CaloriosaApiError(err.response.data.status.code, err.response.data.status.message, err);
+    }
+    else if (err.response) {
+      error = new RestError(`${err.response.status} - ${err.response.statusText}`, err);
+    }
+    else {
+      error = new RestError(err.message, err);
+    }
+    this.emiter.emit("error", error);
+    return Promise.reject(error);
+  }
+
+  /**
+    * Handle an event
+    * @param {string} event 
+    * @param {function} callback 
+    */
+  on(event, callback) {
+    return this.emiter.on(event, callback);
   }
 
   /**
@@ -220,7 +215,8 @@ class Client {
    * @returns {RestResult}
    * @private
    */
-  static createRestResult(data, response) {
+  static createRestResult(response) {
+    let data = response.data || {};
     return {
       content: data.content || null,
       meta: { 
