@@ -7,7 +7,7 @@ class MetaInfo {
      * @param {StatusData} status 
      * @param {Response} response 
      */
-    constructor (status, headers, httpStatusCode) {
+    constructor (status, headers = {}, httpStatusCode = 200) {
         if (!status) {
             throw new ReferenceError("Status cant't be null or undefined!");
         }
@@ -16,7 +16,7 @@ class MetaInfo {
          */
         this._status = status;
         this._httpStatusCode = httpStatusCode;
-        this._httpHeaders = headers;
+        this._httpHeaders = headers || {};
     }
 
     /**
