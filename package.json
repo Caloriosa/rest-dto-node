@@ -26,7 +26,8 @@
   },
   "homepage": "https://github.com/Caloriosa/rest-dto-node#readme",
   "dependencies": {
-    "axios": "^0.17.1"
+    "axios": "^0.17.1",
+    "url-join": "^2.0.2"
   },
   "devDependencies": {
     "ava": "^0.24.0",

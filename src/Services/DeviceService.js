@@ -49,13 +49,29 @@ class DeviceService {
   }
 
   /**
+   * 
+   * @param {String} deviceName
+   * @returns {Promise<Device>} 
+   */
+  fetchDeviceByName(deviceName) {
+    if (!deviceName) {
+      throw new ReferenceError("Device name can't be null or undefined!");
+    }
+    return this._manager.fetchEntity(new Endpoint("/devices"), {
+      filter: {
+        name: deviceName
+      }
+    });
+  }
+
+  /**
    * Fetch devices owned by currently logged user
    * Restriction: MEMBER, ADMIN
    * Verification: TOKEN
    * @returns {Promise<Device>}
    */
-  fetchMyDevices() {
-    return this._manager.fetchEntity(new Endpoint("/devices/my"));
+  fetchMyDevices(query = null) {
+    return this._manager.fetchCollection(new Endpoint("/devices/my"), query);
   }
 
   /**

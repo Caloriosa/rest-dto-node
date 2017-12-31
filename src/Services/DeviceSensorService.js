@@ -38,6 +38,7 @@ class DeviceSensorService {
      * @private
      */
     this._manager = new Manager(new Mapper(Sensor), this._client);
+    this._endpoint = new Endpoint("/devices/${device}/sensors", {device: this.deviceUid});
   }
 
   /**
@@ -46,7 +47,7 @@ class DeviceSensorService {
    * @returns {Promise<Collection<Sensor>>}
    */
   fetchSensors(query = null) {
-    return this._manager.fetchCollection(new Endpoint("/devices/${device}/sensors", {device: this.deviceUid}), query);
+    return this._manager.fetchCollection(this.endpoint, query);
   }
 
   /**
@@ -55,7 +56,7 @@ class DeviceSensorService {
    * @returns {Promise<Sensor>}
    */
   fetchSensor(uid) {
-    return this._manager.fetchEntity(new Endpoint("/devices/${device}/sensors/${id}", {device: this.deviceUid, id: uid}));
+    return this._manager.fetchEntity(this.endpoint.ext("/${uid}", { uid }));
   }
 
   /**
@@ -69,13 +70,17 @@ class DeviceSensorService {
   setSensor(entity, uid = null) {
     uid = DataResolver.resolveUid(uid || entity);
     if (uid) {
-      return this._manager.patchEntity(new Endpoint("/devices/${device}/sensors/${id}", {device: this.deviceUid, id: uid}), entity);
+      return this._manager.patchEntity(this.endpoint.ext("/${uid}", { uid }), entity);
     }
-    return this._manager.pushEntity(new Endpoint("/devices/${device}/sensors", {device: this.deviceUid}), entity);
+    return this._manager.pushEntity(this.endpoint, entity);
   }
 
   get deviceUid() {
     return this._deviceUid;
+  }
+
+  get endpoint() {
+    return this._endpoint;
   }
 }
 

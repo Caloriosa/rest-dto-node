@@ -23,3 +23,22 @@ test('Test datetime place to escaped path', t => {
     var endpoint = new Endpoint("/time/${time}", {time: date});
     t.is(endpoint.escapePath(), "/time/" + date);
 });
+
+test('Extend endpoint', t => {
+    var endpoint = new Endpoint("/devices/${device}/sensors", {device: "245a2c0df5bb0cd11d"});
+    var extended = endpoint.ext("/${uid}", {uid: "abc0123def654a0"});
+    t.is(extended.escapePath(), "/devices/245a2c0df5bb0cd11d/sensors/abc0123def654a0");
+});
+
+test('Join endpoints', t => {
+    var endpoint = new Endpoint("/devices/${device}/sensors", {device: "245a2c0df5bb0cd11d"});
+    var extended = endpoint.join(new Endpoint("/${uid}", {uid: "abc0123def654a0"}));
+    t.is(extended.escapePath(), "/devices/245a2c0df5bb0cd11d/sensors/abc0123def654a0");
+});
+
+test('Merge endpoint', t => {
+    var endpoint = new Endpoint("/foo/${foo}", {foo: "abc"});
+    var endpoint2 = new Endpoint("/bar/${bar}/baz/${foo}", {bar: "xyz"});
+    var merged = endpoint.merge(endpoint2);
+    t.is(merged.escapePath(), "/foo/abc/bar/xyz/baz/abc");
+});
