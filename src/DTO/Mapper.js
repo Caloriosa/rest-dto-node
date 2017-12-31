@@ -33,16 +33,13 @@ class Mapper {
      * @returns {?Entity}
      */
     mapEntity(dataToMap, meta = null) {
-        if (!dataToMap) {
-            dataToMap = {};
-        }
         if (Array.isArray(dataToMap)) {
-            throw new DtoMappingError("DTO data can't be array!");
+            dataToMap = dataToMap.length ? dataToMap[0] : null;
         }
-        if (dataToMap.data) {
+        if (dataToMap && dataToMap.data) {
             dataToMap = dataToMap.data; // Remap entity
         }
-        return new this._entityType(dataToMap, meta);
+        return !!dataToMap ? new this._entityType(dataToMap, meta) : null;
     }
 
     /**

@@ -49,7 +49,7 @@ class Manager {
   }
  
   /**
-   * Fetch an array of entities
+   * Fetch an array of entities (GET)
    * @param {Endpoint} endpoint REST Endpoint (path, path args)
    * @param {Entity|DtoData} entity Entity or DTO data
    * @param {QueryObject} query Parameters for querying REST call
