@@ -1,6 +1,6 @@
-const Collection = require('../util/collection.js')
-const Util = require('../util/util')
-const { DtoMappingError } = require('./errors.js')
+const Collection = require("../util/collection.js")
+const Util = require("../util/util")
+const { DtoMappingError } = require("./errors.js")
 
 /**
  * This class maps DtoData to Entities.
@@ -15,7 +15,7 @@ class Mapper {
      */
   constructor (entityType) {
     if (!entityType) {
-      throw new DtoMappingError('Entity type for mapping is undefined!')
+      throw new DtoMappingError("Entity type for mapping is undefined!")
     }
     /**
          * Entity template
@@ -54,7 +54,7 @@ class Mapper {
       dataArray = []
     }
     if (!Array.isArray(dataArray)) {
-      throw new DtoMappingError('DTO data is not array!')
+      throw new DtoMappingError("DTO data is not array!")
     }
     return new Collection(dataArray.map(data => {
       const entity = this.mapEntity(data, meta)
@@ -76,7 +76,7 @@ class Mapper {
       dataArray = []
     }
     if (!Array.isArray(dataArray)) {
-      throw new DtoMappingError('DTO data is not array!')
+      throw new DtoMappingError("DTO data is not array!")
     }
     return dataArray.map(data => this.mapEntity(data, meta))
   }

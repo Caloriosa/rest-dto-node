@@ -1,10 +1,10 @@
-const Device = require('../Entities/Device.js')
-const Manager = require('../DTO/Manager.js')
-const Mapper = require('../DTO/Mapper.js')
-const Endpoint = require('../util/Endpoint.js')
-const DataResolver = require('../util/DataResolver.js')
-const DeviceSensorService = require('./DeviceSensorService')
-const typedefs = require('../typedefs.js')
+const Device = require("../Entities/Device.js")
+const Manager = require("../DTO/Manager.js")
+const Mapper = require("../DTO/Mapper.js")
+const Endpoint = require("../util/Endpoint.js")
+const DataResolver = require("../util/DataResolver.js")
+const DeviceSensorService = require("./DeviceSensorService")
+const typedefs = require("../typedefs.js")
 
 /**
  * @class
@@ -35,7 +35,7 @@ class DeviceService {
    * @returns {Promise<Collection<Device>>}
    */
   fetchDevices (query = null) {
-    return this._manager.fetchCollection(new Endpoint('/devices'), query)
+    return this._manager.fetchCollection(new Endpoint("/devices"), query)
   }
 
   /**
@@ -44,7 +44,7 @@ class DeviceService {
    * @returns {Promise<Device>}
    */
   fetchDevice (uid) {
-    return this._manager.fetchEntity(new Endpoint('/devices/${id}', { id: uid }))
+    return this._manager.fetchEntity(new Endpoint("/devices/${id}", { id: uid }))
   }
 
   /**
@@ -56,7 +56,7 @@ class DeviceService {
     if (!deviceName) {
       throw new ReferenceError("Device name can't be null or undefined!")
     }
-    return this._manager.fetchEntity(new Endpoint('/devices'), {
+    return this._manager.fetchEntity(new Endpoint("/devices"), {
       filter: {
         name: deviceName
       }
@@ -70,7 +70,7 @@ class DeviceService {
    * @returns {Promise<Device>}
    */
   fetchMyDevices (query = null) {
-    return this._manager.fetchCollection(new Endpoint('/devices/my'), query)
+    return this._manager.fetchCollection(new Endpoint("/devices/my"), query)
   }
 
   /**
@@ -79,7 +79,7 @@ class DeviceService {
    * Verification: TOKEN
    */
   fetchMe () {
-    return this._manager.fetchEntity(new Endpoint('/devices/me'))
+    return this._manager.fetchEntity(new Endpoint("/devices/me"))
   }
 
   /**
@@ -89,7 +89,7 @@ class DeviceService {
    * @param {Device|DtoData} device
    */
   setMe (device) {
-    return this._manager.patchEntity(new Endpoint('/devices/me'), device)
+    return this._manager.patchEntity(new Endpoint("/devices/me"), device)
   }
 
   /**
@@ -103,9 +103,9 @@ class DeviceService {
   setDevice (entity, uid = null) {
     uid = DataResolver.resolveUid(uid || entity)
     if (uid) {
-      return this._manager.patchEntity(new Endpoint('/devices/${id}', { id: uid }), entity)
+      return this._manager.patchEntity(new Endpoint("/devices/${id}", { id: uid }), entity)
     }
-    return this._manager.pushEntity(new Endpoint('/devices'), entity)
+    return this._manager.pushEntity(new Endpoint("/devices"), entity)
   }
 
   /**

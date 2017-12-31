@@ -13,13 +13,13 @@ class DataResolver {
      * @static
      */
   static resolveUid (uidResolvable) {
-    if (typeof uidResolvable === 'string') {
+    if (typeof uidResolvable === "string") {
       return uidResolvable
     }
-    if (uidResolvable.uid && typeof uidResolvable.uid === 'string') {
+    if (uidResolvable.uid && typeof uidResolvable.uid === "string") {
       return uidResolvable.uid
     }
-    if (uidResolvable._id && typeof uidResolvable._id === 'string') {
+    if (uidResolvable._id && typeof uidResolvable._id === "string") {
       return uidResolvable._id
     }
     return null

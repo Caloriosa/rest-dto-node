@@ -1,4 +1,4 @@
-const Entity = require('../DTO/Entity.js')
+const Entity = require("../DTO/Entity.js")
 
 /**
  * @class
@@ -16,7 +16,7 @@ class Device extends Entity {
      * @type {String}
      */
   get title () {
-    return this._data.title || ''
+    return this._data.title || ""
   }
 
   /**
@@ -30,7 +30,7 @@ class Device extends Entity {
      * @type {String}
      */
   get description () {
-    return this._data.description || ''
+    return this._data.description || ""
   }
 
   /**
@@ -44,7 +44,7 @@ class Device extends Entity {
      * @type {String}
      */
   get location () {
-    return this._data.location || ''
+    return this._data.location || ""
   }
 
   /**
@@ -80,7 +80,7 @@ class Device extends Entity {
      */
   set tags (val) {
     if (!Array.isArray(val)) {
-      throw new TypeError('Tags must be an array!')
+      throw new TypeError("Tags must be an array!")
     }
     this._data.tags = val
   }

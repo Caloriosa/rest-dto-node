@@ -1,7 +1,7 @@
-const AuthInfo = require('../Entities/AuthInfo.js')
-const Manager = require('../DTO/Manager.js')
-const Mapper = require('../DTO/Mapper.js')
-const Endpoint = require('../util/Endpoint.js')
+const AuthInfo = require("../Entities/AuthInfo.js")
+const Manager = require("../DTO/Manager.js")
+const Mapper = require("../DTO/Mapper.js")
+const Endpoint = require("../util/Endpoint.js")
 
 /**
  * @class
@@ -34,7 +34,7 @@ class UserService {
    * @param {string} password
    */
   async authenticate (login, password) {
-    return this._authManager.pushEntity(new Endpoint('/auth'), { login, password })
+    return this._authManager.pushEntity(new Endpoint("/auth"), { login, password })
   }
 
   /**
@@ -44,7 +44,7 @@ class UserService {
    * @return {Promise}
    */
   async logout () {
-    return this._authManager.deleteEntity(new Endpoint('/auth'))
+    return this._authManager.deleteEntity(new Endpoint("/auth"))
   }
 }
 

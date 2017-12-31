@@ -19,10 +19,10 @@ class Util {
   static toRawObject (obj) {
     const data = {}
     Object.keys(obj).forEach(prop => {
-      if (prop.startsWith('_') || obj[prop] === undefined) {
+      if (prop.startsWith("_") || obj[prop] === undefined) {
         return
       }
-      if (typeof (obj[prop]) === 'object' && !Array.isArray(obj)) {
+      if (typeof (obj[prop]) === "object" && !Array.isArray(obj)) {
         data[prop] = Util.toRawObject(obj[prop])
       }
       data[prop] = obj[prop]

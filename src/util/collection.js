@@ -13,7 +13,7 @@ class Collection extends Map {
      * @type {?Array}
      * @private
      */
-    Object.defineProperty(this, '_array', { value: null, writable: true, configurable: true })
+    Object.defineProperty(this, "_array", { value: null, writable: true, configurable: true })
 
     /**
      * Cached array for the `keyArray()` method - will be reset to `null` whenever `set()` or `delete()` are called
@@ -21,7 +21,7 @@ class Collection extends Map {
      * @type {?Array}
      * @private
      */
-    Object.defineProperty(this, '_keyArray', { value: null, writable: true, configurable: true })
+    Object.defineProperty(this, "_keyArray", { value: null, writable: true, configurable: true })
 
     /**
      * @type {?MetaInfo}
@@ -71,8 +71,8 @@ class Collection extends Map {
    */
   first (count) {
     if (count === undefined) { return this.values().next().value }
-    if (typeof count !== 'number') { throw new TypeError('The count must be a number.') }
-    if (!Number.isInteger(count) || count < 1) { throw new RangeError('The count must be an integer greater than 0.') }
+    if (typeof count !== "number") { throw new TypeError("The count must be a number.") }
+    if (!Number.isInteger(count) || count < 1) { throw new RangeError("The count must be an integer greater than 0.") }
     count = Math.min(this.size, count)
     const arr = new Array(count)
     const iter = this.values()
@@ -87,8 +87,8 @@ class Collection extends Map {
    */
   firstKey (count) {
     if (count === undefined) { return this.keys().next().value }
-    if (typeof count !== 'number') { throw new TypeError('The count must be a number.') }
-    if (!Number.isInteger(count) || count < 1) { throw new RangeError('The count must be an integer greater than 0.') }
+    if (typeof count !== "number") { throw new TypeError("The count must be a number.") }
+    if (!Number.isInteger(count) || count < 1) { throw new RangeError("The count must be an integer greater than 0.") }
     count = Math.min(this.size, count)
     const arr = new Array(count)
     const iter = this.iter()
@@ -105,8 +105,8 @@ class Collection extends Map {
   last (count) {
     const arr = this.array()
     if (count === undefined) { return arr[arr.length - 1] }
-    if (typeof count !== 'number') { throw new TypeError('The count must be a number.') }
-    if (!Number.isInteger(count) || count < 1) { throw new RangeError('The count must be an integer greater than 0.') }
+    if (typeof count !== "number") { throw new TypeError("The count must be a number.") }
+    if (!Number.isInteger(count) || count < 1) { throw new RangeError("The count must be an integer greater than 0.") }
     return arr.slice(-count)
   }
 
@@ -119,8 +119,8 @@ class Collection extends Map {
   lastKey (count) {
     const arr = this.keyArray()
     if (count === undefined) { return arr[arr.length - 1] }
-    if (typeof count !== 'number') { throw new TypeError('The count must be a number.') }
-    if (!Number.isInteger(count) || count < 1) { throw new RangeError('The count must be an integer greater than 0.') }
+    if (typeof count !== "number") { throw new TypeError("The count must be a number.") }
+    if (!Number.isInteger(count) || count < 1) { throw new RangeError("The count must be an integer greater than 0.") }
     return arr.slice(-count)
   }
 
@@ -133,8 +133,8 @@ class Collection extends Map {
   random (count) {
     let arr = this.array()
     if (count === undefined) { return arr[Math.floor(Math.random() * arr.length)] }
-    if (typeof count !== 'number') { throw new TypeError('The count must be a number.') }
-    if (!Number.isInteger(count) || count < 1) { throw new RangeError('The count must be an integer greater than 0.') }
+    if (typeof count !== "number") { throw new TypeError("The count must be a number.") }
+    if (!Number.isInteger(count) || count < 1) { throw new RangeError("The count must be an integer greater than 0.") }
     if (arr.length === 0) { return [] }
     const rand = new Array(count)
     arr = arr.slice()
@@ -151,8 +151,8 @@ class Collection extends Map {
   randomKey (count) {
     let arr = this.keyArray()
     if (count === undefined) { return arr[Math.floor(Math.random() * arr.length)] }
-    if (typeof count !== 'number') { throw new TypeError('The count must be a number.') }
-    if (!Number.isInteger(count) || count < 1) { throw new RangeError('The count must be an integer greater than 0.') }
+    if (typeof count !== "number") { throw new TypeError("The count must be a number.") }
+    if (!Number.isInteger(count) || count < 1) { throw new RangeError("The count must be an integer greater than 0.") }
     if (arr.length === 0) { return [] }
     const rand = new Array(count)
     arr = arr.slice()
@@ -170,8 +170,8 @@ class Collection extends Map {
    * collection.findAll('username', 'Bob');
    */
   findAll (prop, value) {
-    if (typeof prop !== 'string') { throw new TypeError('Key must be a string.') }
-    if (typeof value === 'undefined') { throw new Error('Value must be specified.') }
+    if (typeof prop !== "string") { throw new TypeError("Key must be a string.") }
+    if (typeof value === "undefined") { throw new Error("Value must be specified.") }
     const results = []
     for (const item of this.values()) {
       if (item[prop] === value) { results.push(item) }
@@ -195,19 +195,19 @@ class Collection extends Map {
    * collection.find(val => val.username === 'Bob');
    */
   find (propOrFn, value) {
-    if (typeof propOrFn === 'string') {
-      if (typeof value === 'undefined') { throw new Error('Value must be specified.') }
+    if (typeof propOrFn === "string") {
+      if (typeof value === "undefined") { throw new Error("Value must be specified.") }
       for (const item of this.values()) {
         if (item[propOrFn] === value) { return item }
       }
       return null
-    } else if (typeof propOrFn === 'function') {
+    } else if (typeof propOrFn === "function") {
       for (const [key, val] of this) {
         if (propOrFn(val, key, this)) { return val }
       }
       return null
     }
-    throw new Error('First argument must be a property string or a function.')
+    throw new Error("First argument must be a property string or a function.")
   }
 
   /* eslint-disable max-len */
@@ -225,19 +225,19 @@ class Collection extends Map {
    */
   /* eslint-enable max-len */
   findKey (propOrFn, value) {
-    if (typeof propOrFn === 'string') {
-      if (typeof value === 'undefined') { throw new Error('Value must be specified.') }
+    if (typeof propOrFn === "string") {
+      if (typeof value === "undefined") { throw new Error("Value must be specified.") }
       for (const [key, val] of this) {
         if (val[propOrFn] === value) { return key }
       }
       return null
-    } else if (typeof propOrFn === 'function') {
+    } else if (typeof propOrFn === "function") {
       for (const [key, val] of this) {
         if (propOrFn(val, key, this)) { return key }
       }
       return null
     }
-    throw new Error('First argument must be a property string or a function.')
+    throw new Error("First argument must be a property string or a function.")
   }
 
   /**
@@ -345,7 +345,7 @@ class Collection extends Map {
    */
   reduce (fn, initialValue) {
     let accumulator
-    if (typeof initialValue !== 'undefined') {
+    if (typeof initialValue !== "undefined") {
       accumulator = initialValue
       for (const [key, val] of this) { accumulator = fn(accumulator, val, key, this) }
     } else {

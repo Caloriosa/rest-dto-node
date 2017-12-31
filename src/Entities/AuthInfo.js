@@ -1,5 +1,5 @@
-const Entity = require('../DTO/Entity.js')
-const { IdentityTypes } = require('../typedefs.js')
+const Entity = require("../DTO/Entity.js")
+const { IdentityTypes } = require("../typedefs.js")
 
 /**
  * @class AuthInfo

@@ -1,9 +1,9 @@
-const { DefaultClientOptions } = require('../typedefs.js')
-const EventEmmiter = require('events')
-const axios = require('axios')
-const CaloriosaApiError = require('./CaloriosaApiError.js')
-const RestError = require('./RestError.js')
-const Util = require('../util/util.js')
+const { DefaultClientOptions } = require("../typedefs.js")
+const EventEmmiter = require("events")
+const axios = require("axios")
+const CaloriosaApiError = require("./CaloriosaApiError.js")
+const RestError = require("./RestError.js")
+const Util = require("../util/util.js")
 
 /**
  * @class
@@ -47,8 +47,8 @@ class Client {
     this.defaultArgs = {
       baseURL: this.url,
       headers: {
-        'Content-Type': 'application/json',
-        'X-Dto-Client': 'rest-dto-node'
+        "Content-Type": "application/json",
+        "X-Dto-Client": "rest-dto-node"
       },
       proxy: this._options.proxy || null
     }
@@ -93,7 +93,7 @@ class Client {
    */
   get (path, query = null, args = {}) {
     args.parameters = query
-    return this.callApi('get', path, args)
+    return this.callApi("get", path, args)
   }
 
   /**
@@ -107,7 +107,7 @@ class Client {
   post (path, postData, query = null, args = {}) {
     args.data = Client.trimData(postData)
     args.parameters = query
-    return this.callApi('post', path, args)
+    return this.callApi("post", path, args)
   }
 
   /**
@@ -122,7 +122,7 @@ class Client {
     args = Util.mergeDefault(this.defaultArgs, args)
     args.data = Client.trimData(postData)
     args.query = query
-    return this.callApi('patch', path, args)
+    return this.callApi("patch", path, args)
   }
 
   /**
@@ -135,7 +135,7 @@ class Client {
   delete (path, query = null, args = {}) {
     args = Util.mergeDefault(this.defaultArgs, args)
     args.parameters = query
-    return this.callApi('delete', path, args)
+    return this.callApi("delete", path, args)
   }
 
   /**
@@ -157,12 +157,12 @@ class Client {
     request.url = path
     Client.injectToken(this.token, request)
     Client.injectSignature(this.appSignature, request)
-    this.emiter.emit('request', request);
+    this.emiter.emit("request", request);
     [err, response] = await Util.saferize(axios(request))
     if (err) {
       return this.resolveError(err)
     }
-    this.emiter.emit('response', response)
+    this.emiter.emit("response", response)
     return response
   }
 
@@ -180,7 +180,7 @@ class Client {
     } else {
       error = new RestError(err.message, err)
     }
-    this.emiter.emit('error', error)
+    this.emiter.emit("error", error)
     return Promise.reject(error)
   }
 
@@ -238,7 +238,7 @@ class Client {
 
   static injectSignature (signature, args) {
     if (signature) {
-      args.headers['X-Application'] = signature
+      args.headers["X-Application"] = signature
     }
   }
 }

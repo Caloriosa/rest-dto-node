@@ -1,5 +1,5 @@
-const Entity = require('../DTO/Entity.js')
-const typedefs = require('../typedefs.js')
+const Entity = require("../DTO/Entity.js")
+const typedefs = require("../typedefs.js")
 
 /**
  * @class
@@ -31,7 +31,7 @@ class Sensor extends Entity {
      * @type {String}
      */
   get title () {
-    return this._data.title || ''
+    return this._data.title || ""
   }
 
   /**
@@ -45,7 +45,7 @@ class Sensor extends Entity {
      * @type {SensorType}
      */
   get type () {
-    return this._data.type || ''
+    return this._data.type || ""
   }
 
   /**
@@ -59,7 +59,7 @@ class Sensor extends Entity {
      * @type {String}
      */
   get description () {
-    return this._data.description || ''
+    return this._data.description || ""
   }
 
   /**
