@@ -1,41 +1,40 @@
-const AuthInfo = require("../Entities/AuthInfo.js");
-const Manager = require("../DTO/Manager.js");
-const Mapper = require("../DTO/Mapper.js");
-const Endpoint = require("../util/Endpoint.js");
+const AuthInfo = require('../Entities/AuthInfo.js')
+const Manager = require('../DTO/Manager.js')
+const Mapper = require('../DTO/Mapper.js')
+const Endpoint = require('../util/Endpoint.js')
 
 /**
  * @class
  */
 class UserService {
-
   /**
-   * 
+   *
    * @param {Client} client
    * @param {string} [token]
    * @constructor
    */
-  constructor(client) {
+  constructor (client) {
     /**
      * @type {RestClient}
      * @private
      */
-    this._client = client;
+    this._client = client
     /**
      * @type {Manager}
      * @private
      */
-    this._authManager = new Manager(new Mapper(AuthInfo), this._client);
+    this._authManager = new Manager(new Mapper(AuthInfo), this._client)
   }
 
   /**
    * Authorize user and login
    * Restriction: NONE
    * Verification: APP SIGNATURE
-   * @param {string} login 
-   * @param {string} password 
+   * @param {string} login
+   * @param {string} password
    */
-  async authenticate(login, password) {
-    return this._authManager.pushEntity(new Endpoint("/auth"), {login: login, password: password});
+  async authenticate (login, password) {
+    return this._authManager.pushEntity(new Endpoint('/auth'), { login, password })
   }
 
   /**
@@ -44,9 +43,9 @@ class UserService {
    * Verification: APP SIGNATURE + TOKEN
    * @return {Promise}
    */
-  async logout() {
-    return this._authManager.deleteEntity(new Endpoint("/auth"));
+  async logout () {
+    return this._authManager.deleteEntity(new Endpoint('/auth'))
   }
 }
 
-module.exports = UserService;
+module.exports = UserService

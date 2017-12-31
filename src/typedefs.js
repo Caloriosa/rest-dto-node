@@ -18,10 +18,10 @@
  * @property {UserRole} UNKNOWN
  */
 exports.UserRoles = {
-  ADMIN: "admin",
-  MEMBER: "member",
-  UNKNOWN: "unknown"
-};
+  ADMIN: 'admin',
+  MEMBER: 'member',
+  UNKNOWN: 'unknown'
+}
 
 /**
  * @typedef {String} IdentityType
@@ -38,9 +38,9 @@ exports.UserRoles = {
  * @property {string} [UNKNOWN="unknown"]
  */
 exports.IdentityTypes = {
-  USER: "user",
-  DEVICE: "device",
-  UNKNOWN: "unknown"
+  USER: 'user',
+  DEVICE: 'device',
+  UNKNOWN: 'unknown'
 }
 
 /**
@@ -48,7 +48,7 @@ exports.IdentityTypes = {
  * @memberof Typedefs
  */
 
-/** 
+/**
  * @readonly
  * @enum {SensorType}
  * @name SensorTypes
@@ -58,15 +58,15 @@ exports.IdentityTypes = {
  * @property {String} [HUMIDITY=humidity]
  */
 exports.SensorTypes = {
-  TEMERATURE: "temperature",
-  WIND_SPEED: "windSpeed",
-  HUMIDITY: "humidity"
+  TEMERATURE: 'temperature',
+  WIND_SPEED: 'windSpeed',
+  HUMIDITY: 'humidity'
 }
 
 /**
  * @typedef {Object} HttpProxy
  * @memberof Typedefs
- * 
+ *
  * @property {String} [host=localhost]
  * @property {Number} [port=8080]
  * @property {String} [user=proxyuser]
@@ -74,33 +74,33 @@ exports.SensorTypes = {
  * @property {Boolean} [tunnel=true]
  */
 exports.DefaultHttpProxy = {
-  host: "localhost",
+  host: 'localhost',
   port: 8080,
-  user: "proxyuser",
-  password: "",
+  user: 'proxyuser',
+  password: '',
   tunnel: true
-};
+}
 
 /**
  * @typedef {Object} ClientOptions
  * @memberof Typedefs
- * 
+ *
  * @property {String} [url=http://localhost:6060]
  * @property {String} [appSignature=null]
  * @property {String} [token=null]
  * @property {HttpProxy} [proxy=null]
  */
 exports.DefaultClientOptions = {
-    url: "http://localhost:6060",
-    token: null,
-    appSignature: null,
-    proxy: null,
-};
+  url: 'http://localhost:6060',
+  token: null,
+  appSignature: null,
+  proxy: null
+}
 
 /**
  * @typedef {Object} AuthInfo
  * @memberof Typedefs
- * 
+ *
  * @property {string} token
  * @property {string} created
  * @property {string} expires
@@ -119,7 +119,7 @@ exports.DefaultClientOptions = {
 /**
  * @typedef {Object} StatusData
  * @memberof Typedefs
- * 
+ *
  * @property {ApiStatus} code
  * @property {string} message
  */
@@ -132,10 +132,10 @@ exports.DefaultClientOptions = {
 /**
  * @typedef {Array} ResultSet
  * @memberof Typedefs
- * 
+ *
  * Multiple results from a function mapped as array
- * 
- * @example  
+ *
+ * @example
  * // Returns ResultSet<Entity, HttpStatus>
  * function foo() {
  *   // ... do something
@@ -153,7 +153,7 @@ exports.DefaultClientOptions = {
  * @enum {ApiStatus}
  * @name ApiStatuses
  * @memberof Typedefs
- * 
+ *
  * @property {ApiStatus} OK
  * @property {ApiStatus} CREATED
  * @property {ApiStatus} DUPLICATED
@@ -185,34 +185,34 @@ exports.DefaultClientOptions = {
  * @property {ApiStatus} UNKNOWN
  */
 exports.ApiStatuses = {
-  OK: "OK",
-  CREATED: "CREATED",
-  ACCEPTED: "ACCEPTED",
-  DUPLICATED: "DUPLICATED",
-  NOT_FOUND: "NOT_FOUND",
-  DATASOURCE_ERROR: "DATASOURCE_ERROR",
-  PERMISSION_DENIED: "PERMISSION_DENIED",
-  UNAUTHORIZED: "UNAUTHORIZED",
-  UNAVAILABLE: "UNAVAILABLE",
-  REMOVE_FAILED: "REMOVE_FAILED",
-  AUTH_FAILED: "AUTH_FAILED",
-  INVALID_DATA: "INVALID_DATA",
-  INVALID_CREDENTIALS: "INVALID_CREDENTIALS",
-  INVALID_SENSOR: "INVALID_SENSOR",
-  INVALID_TOKEN: "INVALID_TOKEN",
-  TOKEN_EXPIRED: "TOKEN_EXPIRED",
-  USER_EXISTS: "USER_EXISTS",
-  WEAK_PASSWORD: "WEAK_PASSWORD",
-  INVALID_PASSWORD: "INVALID_PASSWORD",
-  INVALID_USERNAME: "INVALID_USERNAME",
-  INVALID_EMAIL: "INVALID_EMAIL",
-  PASSWORD_MISMATCH: "PASSWORD_MISMATCH",
-  ACTIVATION_FAILED: "ACTIVATION_FAILED",
-  DATA_INCOMPLETE: "DATA_INCOMPLETE",
-  METHOD_NOT_ALLOWED: "METHOD_NOT_ALLOWED",
-  NOT_IMPLEMENTED: "NOT_IMPLEMENTED",
-  TIMED_OUT: "TIMED_OUT",
-  SERVICE_UNAVAILABLE: "SERVICE_UNAVAILABLE",
-  BUSY: "BUSY",
-  UNKNOWN: "UNKNOWN"
-};
+  OK: 'OK',
+  CREATED: 'CREATED',
+  ACCEPTED: 'ACCEPTED',
+  DUPLICATED: 'DUPLICATED',
+  NOT_FOUND: 'NOT_FOUND',
+  DATASOURCE_ERROR: 'DATASOURCE_ERROR',
+  PERMISSION_DENIED: 'PERMISSION_DENIED',
+  UNAUTHORIZED: 'UNAUTHORIZED',
+  UNAVAILABLE: 'UNAVAILABLE',
+  REMOVE_FAILED: 'REMOVE_FAILED',
+  AUTH_FAILED: 'AUTH_FAILED',
+  INVALID_DATA: 'INVALID_DATA',
+  INVALID_CREDENTIALS: 'INVALID_CREDENTIALS',
+  INVALID_SENSOR: 'INVALID_SENSOR',
+  INVALID_TOKEN: 'INVALID_TOKEN',
+  TOKEN_EXPIRED: 'TOKEN_EXPIRED',
+  USER_EXISTS: 'USER_EXISTS',
+  WEAK_PASSWORD: 'WEAK_PASSWORD',
+  INVALID_PASSWORD: 'INVALID_PASSWORD',
+  INVALID_USERNAME: 'INVALID_USERNAME',
+  INVALID_EMAIL: 'INVALID_EMAIL',
+  PASSWORD_MISMATCH: 'PASSWORD_MISMATCH',
+  ACTIVATION_FAILED: 'ACTIVATION_FAILED',
+  DATA_INCOMPLETE: 'DATA_INCOMPLETE',
+  METHOD_NOT_ALLOWED: 'METHOD_NOT_ALLOWED',
+  NOT_IMPLEMENTED: 'NOT_IMPLEMENTED',
+  TIMED_OUT: 'TIMED_OUT',
+  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
+  BUSY: 'BUSY',
+  UNKNOWN: 'UNKNOWN'
+}
