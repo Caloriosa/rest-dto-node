@@ -47,10 +47,6 @@ class Manager {
   get client() {
     return this._client;
   }
-
-  get token() {
-    return this._token;
-  }
  
   /**
    * Fetch an array of entities

@@ -17,8 +17,7 @@ class DeviceService {
    * @param {string} [token]
    * @constructor
    */
-  constructor(client, token = null) {
-    // TODO: Rewrite this constructor stuff to UserService factory. Keep only manager and require it in constructor params
+  constructor(client) {
     /**
      * @type {RestClient}
      * @private
@@ -28,7 +27,7 @@ class DeviceService {
      * @type {Manager}
      * @private
      */
-    this._manager = new Manager(new Mapper(Device), this._client, token || this._client.token);
+    this._manager = new Manager(new Mapper(Device), this._client);
   }
 
   /**

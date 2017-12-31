@@ -3,6 +3,7 @@ const Manager = require("../DTO/Manager.js");
 const Mapper = require("../DTO/Mapper.js");
 const Endpoint = require("../util/Endpoint.js");
 const DataResolver = require("../util/DataResolver.js");
+const Client = require("../Client/Client.js");
 
 /**
  * @class
@@ -15,7 +16,7 @@ class UserService {
    * @param {string} [token]
    * @constructor
    */
-  constructor(client, token = null) {
+  constructor(client) {
     // TODO: Rewrite this constructor stuff to UserService factory. Keep only manager and require it in constructor params
     /**
      * @type {RestClient}
@@ -26,7 +27,7 @@ class UserService {
      * @type {Manager}
      * @private
      */
-    this._manager = new Manager(new Mapper(User), this._client, token || this._client.token);
+    this._manager = new Manager(new Mapper(User), this._client);
   }
 
   /**

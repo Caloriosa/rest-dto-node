@@ -65,10 +65,16 @@ class Client {
 
   /**
    * @type {String}
-   * @readonly
    */
   get token() {
     return this._token;
+  }
+
+  /**
+   * @type {String}
+   */
+  set token(val) {
+    this._token = val;
   }
 
   /**
