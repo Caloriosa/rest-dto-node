@@ -1,4 +1,5 @@
 const Util = require("./util/util.js");
+const API = require("./Client/API.js");
 const typedefs = require("./typedefs.js");
 
 module.exports = {
@@ -6,6 +7,7 @@ module.exports = {
 	Client: require("./Client/Client.js"),
 	CaloriosaApiError: require("./Client/CaloriosaApiError.js"),
 	RestError: require("./Client/RestError.js"),
+	API: API,
 
 	// DTO
 	Entity: require("./DTO/Entity.js"),
@@ -38,5 +40,6 @@ module.exports = {
 	ApiStatuses: typedefs.ApiStatuses,
 	UserRoles: typedefs.UserRoles,
 	SensorTypes: typedefs.SensorTypes,
-	IdentityTypes: typedefs.IdentityTypes
+	IdentityTypes: typedefs.IdentityTypes,
+	createApiClient: API.createApiClient
 };

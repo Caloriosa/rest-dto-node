@@ -19,7 +19,7 @@ class DeviceSensorService {
    * @param {String} [token]
    * @constructor
    */
-  constructor(client, device, token = null) {
+  constructor(client, device) {
     if (!device) {
         throw new ReferenceError("Operation device for sensors can't be set null or undefined!");
     }
@@ -37,7 +37,7 @@ class DeviceSensorService {
      * @type {Manager}
      * @private
      */
-    this._manager = new Manager(new Mapper(Sensor), this._client, token || this._client.token);
+    this._manager = new Manager(new Mapper(Sensor), this._client);
   }
 
   /**
