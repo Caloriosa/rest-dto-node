@@ -9,6 +9,6 @@ class DtoError extends Error {}
 class DtoMappingError extends DtoError {}
 
 module.exports = {
-    DtoError: DtoError,
-    DtoMappingError: DtoMappingError
+  DtoError,
+  DtoMappingError
 }
