@@ -1,9 +1,9 @@
-const User = require('../Entities/User.js')
-const Manager = require('../DTO/Manager.js')
-const Mapper = require('../DTO/Mapper.js')
-const Endpoint = require('../util/Endpoint.js')
-const DataResolver = require('../util/DataResolver.js')
-const Client = require('../Client/Client.js')
+const User = require("../Entities/User.js")
+const Manager = require("../DTO/Manager.js")
+const Mapper = require("../DTO/Mapper.js")
+const Endpoint = require("../util/Endpoint.js")
+const DataResolver = require("../util/DataResolver.js")
+const Client = require("../Client/Client.js")
 
 /**
  * @class
@@ -35,18 +35,18 @@ class UserService {
    * @returns {Promise<ResultSet<Collection<string, User>, MetaInfo>>}
    */
   fetchUsers (query = null) {
-    return this._manager.fetchCollection(new Endpoint('/users'), query)
+    return this._manager.fetchCollection(new Endpoint("/users"), query)
   }
 
   fetchUser (uid) {
-    return this._manager.fetchEntity(new Endpoint('/users/${id}', { id: uid }))
+    return this._manager.fetchEntity(new Endpoint("/users/${id}", { id: uid }))
   }
 
   fetchUserByLogin (login) {
     if (!login) {
       throw new ReferenceError("Login name can't be null or undefined!")
     }
-    return this._manager.fetchEntity(new Endpoint('/users'), {
+    return this._manager.fetchEntity(new Endpoint("/users"), {
       filter: {
         login
       }
@@ -58,7 +58,7 @@ class UserService {
    * @returns {Promise<User>}
    */
   fetchMe () {
-    return this._manager.fetchEntity(new Endpoint('/users/me'))
+    return this._manager.fetchEntity(new Endpoint("/users/me"))
   }
 
   /**
@@ -70,7 +70,7 @@ class UserService {
    * @returns {Promise<User>}
    */
   setMe (user, currentPassword) {
-    return this._manager.patchEntity(new Endpoint('/users/me'), Mapper.demapMerge(user, { current_password: currentPassword }))
+    return this._manager.patchEntity(new Endpoint("/users/me"), Mapper.demapMerge(user, { current_password: currentPassword }))
   }
 
   /**
@@ -80,7 +80,7 @@ class UserService {
    * @param {Promise<User>} user
    */
   register (user) {
-    return this._manager.pushEntity(new Endpoint('/users/register'), user)
+    return this._manager.pushEntity(new Endpoint("/users/register"), user)
   }
 
   /**
@@ -91,7 +91,7 @@ class UserService {
    * @returns {Promise<User>}
    */
   activate (activationCode) {
-    return this._manager.pushEntity(new Endpoint('/users/activate'), { activation_token: activationCode })
+    return this._manager.pushEntity(new Endpoint("/users/activate"), { activation_token: activationCode })
   }
 
   /**
@@ -105,9 +105,9 @@ class UserService {
   setUser (entity, uid = null) {
     uid = DataResolver.resolveUid(uid || entity)
     if (uid) {
-      return this._manager.patchEntity(new Endpoint('/users/${id}', { id: uid }), entity)
+      return this._manager.patchEntity(new Endpoint("/users/${id}", { id: uid }), entity)
     }
-    return this._manager.pushEntity(new Endpoint('/users'), entity)
+    return this._manager.pushEntity(new Endpoint("/users"), entity)
   }
 
   /**

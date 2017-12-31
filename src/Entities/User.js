@@ -1,5 +1,5 @@
-const Entity = require('../DTO/Entity.js')
-const UserRoles = require('../typedefs.js').UserRoles
+const Entity = require("../DTO/Entity.js")
+const UserRoles = require("../typedefs.js").UserRoles
 
 /**
  * @class
@@ -31,7 +31,7 @@ class User extends Entity {
   }
 
   get name () {
-    return this._data.name || ''
+    return this._data.name || ""
   }
 
   set name (val) {

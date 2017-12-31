@@ -1,5 +1,5 @@
-const RestError = require('./RestError.js')
-const { ApiStatuses } = require('../typedefs.js')
+const RestError = require("./RestError.js")
+const { ApiStatuses } = require("../typedefs.js")
 
 /**
  * @class

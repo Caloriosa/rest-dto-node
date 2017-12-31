@@ -1,9 +1,9 @@
-const Client = require('./Client')
-const Util = require('../util/util')
-const EventEmiter = require('events')
+const Client = require("./Client")
+const Util = require("../util/util")
+const EventEmiter = require("events")
 
-const AuthService = require('../Services/AuthService')
-const UserService = require('../Services/UserService')
+const AuthService = require("../Services/AuthService")
+const UserService = require("../Services/UserService")
 
 /**
  * @class
@@ -41,11 +41,11 @@ class API extends EventEmiter {
   async login (login, password) {
     const [err, authInfo] = await Util.saferize(this.auth.authenticate(login, password))
     if (err) {
-      this.emit('error', err)
+      this.emit("error", err)
       return Promise.reject(err)
     }
     this.token = authInfo.token
-    this.emit('loggedin', authInfo)
+    this.emit("loggedin", authInfo)
     return authInfo
   }
 
@@ -55,7 +55,7 @@ class API extends EventEmiter {
   async logout () {
     const [err] = await Util.saferize(this.auth.logout())
     if (err) {
-      this.emit('error', err)
+      this.emit("error", err)
       return Promise.reject(err)
     }
     this.token = null

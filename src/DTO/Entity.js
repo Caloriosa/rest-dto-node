@@ -1,4 +1,4 @@
-const Util = require('../util/util.js')
+const Util = require("../util/util.js")
 
 /**
  * @class
@@ -92,7 +92,7 @@ class Entity {
    * @param {*} referBy
    * @protected
    */
-  refer (entity, referTo = null, referBy = 'uid') {
+  refer (entity, referTo = null, referBy = "uid") {
     if (!referTo) {
       referTo = entity.constructor.nametoLowerCase()
     }

@@ -53,7 +53,7 @@ class MetaInfo {
      * @readonly
      */
   get totalPages () {
-    return this._httpHeaders['pagination-count'] || null
+    return this._httpHeaders["pagination-count"] || null
   }
 
   /**
@@ -63,7 +63,7 @@ class MetaInfo {
      * @readonly
      */
   get itemsPerPage () {
-    return this._httpHeaders['pagination-per-page'] || null
+    return this._httpHeaders["pagination-per-page"] || null
   }
 
   /**
@@ -73,7 +73,7 @@ class MetaInfo {
      * @readonly
      */
   get currentPage () {
-    return this._httpHeaders['pagination-page'] || null
+    return this._httpHeaders["pagination-page"] || null
   }
 
   /**
@@ -83,7 +83,7 @@ class MetaInfo {
      * @readonly
      */
   get totalItemsCount () {
-    return this._httpHeaders['items-total-count'] || null
+    return this._httpHeaders["items-total-count"] || null
   }
 
   /**
@@ -92,7 +92,7 @@ class MetaInfo {
      * @readonly
      */
   get serverVersion () {
-    return this._httpHeaders['caloriosa-version'] || 'unknown'
+    return this._httpHeaders["caloriosa-version"] || "unknown"
   }
 
   /**

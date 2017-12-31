@@ -1,5 +1,5 @@
-const Util = require('../util/util')
-const urljoin = require('url-join')
+const Util = require("../util/util")
+const urljoin = require("url-join")
 
 /**
  * @class
@@ -74,7 +74,7 @@ class Endpoint {
       return this.path
     }
     for (const placeholder in this.pathArgs) {
-      const regex = new RegExp(`\\$\\{${placeholder}\\}`, 'gi')
+      const regex = new RegExp(`\\$\\{${placeholder}\\}`, "gi")
       result = result.replace(regex, this.pathArgs[placeholder])
     }
     return result

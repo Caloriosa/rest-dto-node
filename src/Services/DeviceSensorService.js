@@ -1,10 +1,10 @@
-const Sensor = require('../Entities/Sensor.js')
-const Device = require('../Entities/Device.js')
-const Manager = require('../DTO/Manager.js')
-const Mapper = require('../DTO/Mapper.js')
-const Endpoint = require('../util/Endpoint.js')
-const DataResolver = require('../util/DataResolver.js')
-const Client = require('../Client/Client')
+const Sensor = require("../Entities/Sensor.js")
+const Device = require("../Entities/Device.js")
+const Manager = require("../DTO/Manager.js")
+const Mapper = require("../DTO/Mapper.js")
+const Endpoint = require("../util/Endpoint.js")
+const DataResolver = require("../util/DataResolver.js")
+const Client = require("../Client/Client")
 
 /**
  * @class
@@ -37,7 +37,7 @@ class DeviceSensorService {
      * @private
      */
     this._manager = new Manager(new Mapper(Sensor), this._client)
-    this._endpoint = new Endpoint('/devices/${device}/sensors', { device: this.deviceUid })
+    this._endpoint = new Endpoint("/devices/${device}/sensors", { device: this.deviceUid })
   }
 
   /**
@@ -55,7 +55,7 @@ class DeviceSensorService {
    * @returns {Promise<Sensor>}
    */
   fetchSensor (uid) {
-    return this._manager.fetchEntity(this.endpoint.ext('/${uid}', { uid }))
+    return this._manager.fetchEntity(this.endpoint.ext("/${uid}", { uid }))
   }
 
   /**
@@ -69,7 +69,7 @@ class DeviceSensorService {
   setSensor (entity, uid = null) {
     uid = DataResolver.resolveUid(uid || entity)
     if (uid) {
-      return this._manager.patchEntity(this.endpoint.ext('/${uid}', { uid }), entity)
+      return this._manager.patchEntity(this.endpoint.ext("/${uid}", { uid }), entity)
     }
     return this._manager.pushEntity(this.endpoint, entity)
   }

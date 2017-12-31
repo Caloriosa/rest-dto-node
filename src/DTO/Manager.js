@@ -1,8 +1,8 @@
-const Endpoint = require('../util/Endpoint.js')
-const Entity = require('../DTO/Entity.js')
-const Mapper = require('./Mapper.js')
-const MetaInfo = require('./MetaInfo.js')
-const Client = require('../Client/Client')
+const Endpoint = require("../util/Endpoint.js")
+const Entity = require("../DTO/Entity.js")
+const Mapper = require("./Mapper.js")
+const MetaInfo = require("./MetaInfo.js")
+const Client = require("../Client/Client")
 
 /**
  * @class
@@ -150,10 +150,10 @@ class Manager {
    */
   static resolve (response) {
     if (!response.data) {
-      throw new ReferenceError('No data given from response!')
+      throw new ReferenceError("No data given from response!")
     }
     if (!response.data.status) {
-      throw new ReferenceError('No status metadata given from response!')
+      throw new ReferenceError("No status metadata given from response!")
     }
     return {
       content: response.data.content || null,
