@@ -20,11 +20,6 @@ class Client {
    */
 
   /**
-   * @event Client#error
-   * @type {Error}
-   */
-
-  /**
    * @constructor
    * @param {ClientOptions} options
    */
@@ -37,6 +32,11 @@ class Client {
      * @type {string}
      */
     this.url = this._options.url
+    /**
+     * @callback Client~errorHandler
+     * @type {function}
+     */
+    this.errorHandler = null
     /**
      * @type {RestClient}
      * @private
@@ -135,7 +135,7 @@ class Client {
   delete (path, query = null, args = {}) {
     args = Util.mergeDefault(this.defaultArgs, args)
     args.parameters = query
-    return this.callApi("delete", path, args)
+    return this.callApi("delete", path, args);
   }
 
   /**
@@ -160,28 +160,31 @@ class Client {
     this.emiter.emit("request", request);
     [err, response] = await Util.saferize(axios(request))
     if (err) {
-      return this.resolveError(err)
+      return Promise.reject(err).catch(this.handleError.bind(this));
     }
     this.emiter.emit("response", response)
     return response
   }
 
   /**
-   *
+   * Provide error handler
+   * @param {Error} err 
    * @private
-   * @fires Client#error
    */
-  resolveError (err) {
-    let error
+  handleError (err) {
+    // Resolve type of error
     if (err.response && err.response.data && err.response.data.status) {
-      error = new CaloriosaApiError(err.response.data.status.code, err.response.data.status.message, err)
+      err = new CaloriosaApiError(err.response.data.status.code, err.response.data.status.message, err)
     } else if (err.response) {
-      error = new RestError(`${err.response.status} - ${err.response.statusText}`, err)
-    } else {
-      error = new RestError(err.message, err)
+      err = new RestError(`${err.response.status} - ${err.response.statusText}`, err)
     }
-    this.emiter.emit("error", error)
-    return Promise.reject(error)
+
+    // Error handler
+    if (typeof this.errorHandler === 'function') {
+      return this.errorHandler.apply()
+    }
+
+    throw err;
   }
 
   /**
