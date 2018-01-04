@@ -20,6 +20,11 @@ class Client {
    */
 
   /**
+   * @event Client#error
+   * @type {Error}
+   */
+
+  /**
    * @constructor
    * @param {ClientOptions} options
    */
@@ -32,11 +37,6 @@ class Client {
      * @type {string}
      */
     this.url = this._options.url
-    /**
-     * @callback Client~errorHandler
-     * @type {function}
-     */
-    this.errorHandler = null
     /**
      * @type {RestClient}
      * @private
@@ -160,31 +160,28 @@ class Client {
     this.emiter.emit("request", request);
     [err, response] = await Util.saferize(axios(request))
     if (err) {
-      return Promise.reject(err).catch(this.handleError.bind(this))
+      return this.resolveError(err)
     }
     this.emiter.emit("response", response)
     return response
   }
 
   /**
-   * Provide error handler
-   * @param {Error} err
+   *
    * @private
+   * @fires Client#error
    */
-  handleError (err) {
-    // Resolve type of error
+  resolveError (err) {
+    let error
     if (err.response && err.response.data && err.response.data.status) {
-      err = new CaloriosaApiError(err.response.data.status.code, err.response.data.status.message, err)
+      error = new CaloriosaApiError(err.response.data.status.code, err.response.data.status.message, err)
     } else if (err.response) {
-      err = new RestError(`${err.response.status} - ${err.response.statusText}`, err)
+      error = new RestError(`${err.response.status} - ${err.response.statusText}`, err)
+    } else {
+      error = new RestError(err.message, err)
     }
-
-    // Error handler
-    if (typeof this.errorHandler === "function") {
-      return this.errorHandler.apply(this, err)
-    }
-
-    throw err;
+    this.emiter.emit("error", error)
+    return Promise.reject(error)
   }
 
   /**
