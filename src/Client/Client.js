@@ -181,7 +181,7 @@ class Client {
 
     // Error handler
     if (typeof this.errorHandler === "function") {
-      return this.errorHandler.apply()
+      return this.errorHandler.apply(this, err)
     }
 
     throw err;
