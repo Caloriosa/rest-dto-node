@@ -135,7 +135,7 @@ class Client {
   delete (path, query = null, args = {}) {
     args = Util.mergeDefault(this.defaultArgs, args)
     args.parameters = query
-    return this.callApi("delete", path, args);
+    return this.callApi("delete", path, args)
   }
 
   /**
@@ -160,7 +160,7 @@ class Client {
     this.emiter.emit("request", request);
     [err, response] = await Util.saferize(axios(request))
     if (err) {
-      return Promise.reject(err).catch(this.handleError.bind(this));
+      return Promise.reject(err).catch(this.handleError.bind(this))
     }
     this.emiter.emit("response", response)
     return response
@@ -168,7 +168,7 @@ class Client {
 
   /**
    * Provide error handler
-   * @param {Error} err 
+   * @param {Error} err
    * @private
    */
   handleError (err) {
@@ -180,7 +180,7 @@ class Client {
     }
 
     // Error handler
-    if (typeof this.errorHandler === 'function') {
+    if (typeof this.errorHandler === "function") {
       return this.errorHandler.apply()
     }
 
