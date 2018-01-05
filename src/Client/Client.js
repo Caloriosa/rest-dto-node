@@ -172,16 +172,13 @@ class Client {
    * @fires Client#error
    */
   resolveError (err) {
-    let error
     if (err.response && err.response.data && err.response.data.status) {
-      error = new CaloriosaApiError(err.response.data.status.code, err.response.data.status.message, err)
+      err = new CaloriosaApiError(err.response.data.status.code, err.response.data.status.message, err)
     } else if (err.response) {
-      error = new RestError(`${err.response.status} - ${err.response.statusText}`, err)
-    } else {
-      error = new RestError(err.message, err)
+      err = new RestError(`${err.response.status} - ${err.response.statusText}`, err)
     }
-    this.emiter.emit("error", error)
-    return Promise.reject(error)
+    this.emiter.emit("error", err)
+    return Promise.reject(err)
   }
 
   /**

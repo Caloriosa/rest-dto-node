@@ -11,7 +11,7 @@ class RestError extends Error {
   constructor (message, error) {
     super(message)
     this.name = RestError.name
-    this.status = error.response ? error.response.status : error.errno
+    this.statusCode = error.response ? error.response.status : null
     this.code = error.code || `ERR_HTTP_${this.status}`
     this.url = error.config.url
     this.method = error.config.method
