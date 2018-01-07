@@ -92,7 +92,7 @@ class Client {
    * @returns {Promise<Response>}
    */
   get (path, query = null, args = {}) {
-    args.parameters = query
+    args.params = query
     return this.callApi("get", path, args)
   }
 
@@ -106,7 +106,7 @@ class Client {
    */
   post (path, postData, query = null, args = {}) {
     args.data = Client.trimData(postData)
-    args.parameters = query
+    args.params = query
     return this.callApi("post", path, args)
   }
 
@@ -121,7 +121,7 @@ class Client {
   patch (path, postData, query = null, args = {}) {
     args = Util.mergeDefault(this.defaultArgs, args)
     args.data = Client.trimData(postData)
-    args.query = query
+    args.params = query
     return this.callApi("patch", path, args)
   }
 
