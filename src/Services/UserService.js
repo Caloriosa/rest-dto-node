@@ -42,16 +42,6 @@ class UserService {
     return this._manager.fetchEntity(new Endpoint("/users/${id}", { id: uid }))
   }
 
-  fetchUserByLogin (login) {
-    if (!login) {
-      throw new ReferenceError("Login name can't be null or undefined!")
-    }
-    return this._manager.fetchEntity(new Endpoint("/users"), {
-      filter: {
-        login
-      }
-    })
-  }
   /**
    * Fetch curently logged user (by token)
    * Restriction: MEMBER, ADMIN
