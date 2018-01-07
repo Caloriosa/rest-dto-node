@@ -15,7 +15,7 @@ class MetaInfo {
          * @private
          */
     this._status = status
-    this._httpStatusCode = httpStatusCode
+    this._httpStatusCode = httpStatusCode || 200
     this._httpHeaders = headers || {}
   }
 

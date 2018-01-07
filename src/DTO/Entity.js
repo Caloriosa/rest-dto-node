@@ -1,4 +1,5 @@
-const Util = require("../util/util.js")
+const MetaInfo = require("../DTO/MetaInfo")
+const Util = require("../util/util")
 
 /**
  * @class
@@ -145,6 +146,12 @@ class Entity {
    */
   isNew () {
     return !this.hasPayload()
+  }
+
+  static recast (E, blob) {
+    let meta = blob._meta || {}
+    let data = blob._data || {}
+    return new E(data, new MetaInfo(meta._status, meta._httpHeaders, meta._httpStatusCode))
   }
 }
 
