@@ -141,20 +141,21 @@ class Client {
   /**
    * Handle raw rest call
    * @param {String} method
-   * @param {String} path
+   * @param {String} endpoint
    * @param {Object} args
    * @fires Client#request
    * @fires Client#response
    * @fires Client#error
-   * @return {Promise<Response>}
+   * @return {Promise<Object>}
    */
-  async callApi (method, path, args) {
-    const request = Util.mergeDefault(this.defaultArgs, args)
+  async callApi (method, endpoint, args) {
+    let request = Util.mergeDefault(this.defaultArgs, args)
     let err,
-      response
+      response,
+      data
 
     request.method = method
-    request.url = path
+    request.url = typeof endpoint === "string" ? endpoint : endpoint.toString()
     Client.injectToken(this.token, request)
     Client.injectSignature(this.appSignature, request)
     this.emiter.emit("request", request);
@@ -162,8 +163,10 @@ class Client {
     if (err) {
       return this.resolveError(err)
     }
-    this.emiter.emit("response", response)
-    return response
+    data = response.data
+    this.validateResult(data)
+    this.emiter.emit("response", data, response)
+    return { data, response }
   }
 
   /**
@@ -179,6 +182,18 @@ class Client {
     }
     this.emiter.emit("error", err)
     return Promise.reject(err)
+  }
+
+  validateResult (res) {
+    if (!res) {
+      throw new ReferenceError("No response data given!")
+    }
+    if (!res.content) {
+      throw new ReferenceError("No content given from response data!")
+    }
+    if (!res.status) {
+      throw new ReferenceError("No status metadata given from response data!")
+    }
   }
 
   /**

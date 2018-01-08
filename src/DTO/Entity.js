@@ -148,10 +148,10 @@ class Entity {
     return !this.hasPayload()
   }
 
-  static recast (E, blob) {
+  static recast (blob) {
     let meta = blob._meta || {}
     let data = blob._data || {}
-    return new E(data, new MetaInfo(meta._status, meta._httpHeaders, meta._httpStatusCode))
+    return new this.constructor(data, new MetaInfo(meta._status, meta._httpHeaders, meta._httpStatusCode))
   }
 }
 

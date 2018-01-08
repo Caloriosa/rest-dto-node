@@ -79,6 +79,10 @@ class Endpoint {
     }
     return result
   }
+
+  toString () {
+    return this.escapePath()
+  }
 }
 
 module.exports = Endpoint

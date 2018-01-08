@@ -42,3 +42,8 @@ test("Merge endpoint", t => {
   var merged = endpoint.merge(endpoint2)
   t.is(merged.escapePath(), "/foo/abc/bar/xyz/baz/abc")
 })
+
+test("Convert endpoint to string", t => {
+  var endpoint = new Endpoint("/foo/${foo}", {foo: "abc"})
+  t.is(endpoint.toString(), "/foo/abc")
+})

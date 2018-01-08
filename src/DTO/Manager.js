@@ -148,16 +148,11 @@ class Manager {
   /**
    * @private
    */
-  static resolve (response) {
-    if (!response.data) {
-      throw new ReferenceError("No data given from response!")
-    }
-    if (!response.data.status) {
-      throw new ReferenceError("No status metadata given from response!")
-    }
+  static resolve (res) {
+    let { data, response } = res
     return {
-      content: response.data.content || null,
-      meta: new MetaInfo(response.data.status, response.headers, response.status)
+      content: data.content || null,
+      meta: new MetaInfo(data.status, response.headers, response.status)
     }
   }
 }
