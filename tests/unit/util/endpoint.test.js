@@ -43,6 +43,11 @@ test("Merge endpoint", t => {
   t.is(merged.escapePath(), "/foo/abc/bar/xyz/baz/abc")
 })
 
+test("Remove unsafe chars", t => {
+  var endpoint = new Endpoint("/foo/bar/${foo}", {foo: "../admin"})
+  t.is(endpoint.escapePath(), "/foo/bar/admin")
+})
+
 test("Convert endpoint to string", t => {
   var endpoint = new Endpoint("/foo/${foo}", {foo: "abc"})
   t.is(endpoint.toString(), "/foo/abc")

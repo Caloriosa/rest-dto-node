@@ -75,7 +75,13 @@ class Endpoint {
     }
     for (const placeholder in this.pathArgs) {
       const regex = new RegExp(`\\$\\{${placeholder}\\}`, "gi")
-      result = result.replace(regex, this.pathArgs[placeholder])
+      const beSafe = new RegExp(/\/\.\.|\.\.\//, "gi")
+      let bePlaced = this.pathArgs[placeholder]
+      if (bePlaced) {
+        bePlaced = bePlaced.toString()
+        bePlaced = bePlaced.replace(beSafe, "")
+      }
+      result = result.replace(regex, bePlaced)
     }
     return result
   }
