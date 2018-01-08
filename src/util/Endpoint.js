@@ -66,8 +66,8 @@ class Endpoint {
   }
 
   /**
-     * @returns {string}
-     */
+    * @returns {string}
+    */
   escapePath () {
     let result = this.path
     if (!this.pathArgs) {
