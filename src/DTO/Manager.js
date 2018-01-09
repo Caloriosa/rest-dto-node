@@ -149,10 +149,10 @@ class Manager {
    * @private
    */
   static resolve (res) {
-    let { content, status, response } = res
+    let { data, response } = res
     return {
-      content,
-      meta: new MetaInfo(status, response.headers, response.status)
+      content: data.content || null,
+      meta: new MetaInfo(data.status, response.headers, response.status)
     }
   }
 }
