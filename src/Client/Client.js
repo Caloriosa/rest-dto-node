@@ -186,13 +186,13 @@ class Client {
 
   validateResult (res) {
     if (!res) {
-      throw new ReferenceError("No response data given!")
+      throw new ReferenceError("No result data given!")
     }
     if (!res.content) {
-      throw new ReferenceError("No content given from response data!")
+      throw new ReferenceError("No content given from result data!")
     }
     if (!res.status) {
-      throw new ReferenceError("No status metadata given from response data!")
+      throw new ReferenceError("No status metadata given from result data!")
     }
   }
 
