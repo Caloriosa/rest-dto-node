@@ -48,7 +48,8 @@ class Client {
       baseURL: this.url,
       headers: {
         "Content-Type": "application/json",
-        "X-Dto-Client": "rest-dto-node"
+        "X-Dto-Client": "rest-dto-node",
+        "X-Application": this._options.appSignature || null
       },
       proxy: this._options.proxy || null
     }
@@ -81,7 +82,7 @@ class Client {
    * @readonly
    */
   get appSignature () {
-    return this._appSignature
+    return this.defaultArgs.headers["X-Application"] || null
   }
 
   /**
@@ -91,9 +92,9 @@ class Client {
    * @param {Object} [args] HTTP request arguments
    * @returns {Promise<Response>}
    */
-  get (path, query = null, args = {}) {
+  get (endpoint, query = null, args = {}) {
     args.params = query
-    return this.callApi("get", path, args)
+    return this.callApi("get", endpoint, args)
   }
 
   /**
@@ -104,10 +105,10 @@ class Client {
    * @param {Object} [args]
    * @returns {Promise<Response>}
    */
-  post (path, postData, query = null, args = {}) {
+  post (endpoint, postData, query = null, args = {}) {
     args.data = Client.trimData(postData)
     args.params = query
-    return this.callApi("post", path, args)
+    return this.callApi("post", endpoint, args)
   }
 
   /**
@@ -118,11 +119,11 @@ class Client {
    * @param {Object} [args]
    * @returns {Promise<Response>}
    */
-  patch (path, postData, query = null, args = {}) {
+  patch (endpoint, postData, query = null, args = {}) {
     args = Util.mergeDefault(this.defaultArgs, args)
     args.data = Client.trimData(postData)
     args.params = query
-    return this.callApi("patch", path, args)
+    return this.callApi("patch", endpoint, args)
   }
 
   /**
@@ -132,10 +133,10 @@ class Client {
    * @param {Object} args
    * @returns {Promise<Response>}
    */
-  delete (path, query = null, args = {}) {
+  delete (endpoint, query = null, args = {}) {
     args = Util.mergeDefault(this.defaultArgs, args)
     args.parameters = query
-    return this.callApi("delete", path, args)
+    return this.callApi("delete", endpoint, args)
   }
 
   /**
@@ -157,7 +158,6 @@ class Client {
     request.method = method
     request.url = typeof endpoint === "string" ? endpoint : endpoint.toString()
     Client.injectToken(this.token, request)
-    Client.injectSignature(this.appSignature, request)
     this.emiter.emit("request", request);
     [err, response] = await Util.saferize(axios(request))
     if (err) {
@@ -230,31 +230,13 @@ class Client {
   }
 
   /**
-   * @param {Object} data
-   * @param {Response} response
-   * @returns {RestResult}
+   * @param {String} token
+   * @param {Object} args
    * @private
    */
-  static createRestResult (response) {
-    const data = response.data || {}
-    return {
-      content: data.content || null,
-      meta: {
-        status: data.status || null,
-        response
-      }
-    }
-  }
-
   static injectToken (token, args) {
     if (token) {
       args.headers.Authorization = `Bearer ${token}`
-    }
-  }
-
-  static injectSignature (signature, args) {
-    if (signature) {
-      args.headers["X-Application"] = signature
     }
   }
 }
