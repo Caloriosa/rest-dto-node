@@ -1,6 +1,7 @@
 const Client = require("./Client")
 const Util = require("../util/util")
 const EventEmiter = require("events")
+const buildRoute = require("../util/buildRoute")
 
 const AuthService = require("../Services/AuthService")
 const UserService = require("../Services/UserService")
@@ -30,6 +31,10 @@ class API extends EventEmiter {
 
   set token (val) {
     this.client.token = val
+  }
+
+  get api () {
+    return buildRoute(this.client)
   }
 
   /**

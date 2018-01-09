@@ -16,7 +16,7 @@ class Endpoint {
          * @type {string}
          * @private
          */
-    this._path = path
+    this._path = Array.isArray(path) ? path.join("/") : path
     /**
          * @type {Object}
          * @private
@@ -73,17 +73,12 @@ class Endpoint {
     if (!this.pathArgs) {
       return this.path
     }
-    for (const placeholder in this.pathArgs) {
+    const beSafe = new RegExp(/\/\.\.|\.\.\//, "gi")
+    for (let placeholder in this.pathArgs) {
       const regex = new RegExp(`\\$\\{${placeholder}\\}`, "gi")
-      const beSafe = new RegExp(/\/\.\.|\.\.\//, "gi")
-      let bePlaced = this.pathArgs[placeholder]
-      if (bePlaced) {
-        bePlaced = bePlaced.toString()
-        bePlaced = bePlaced.replace(beSafe, "")
-      }
-      result = result.replace(regex, bePlaced)
+      result = result.replace(regex, encodeURIComponent(this.pathArgs[placeholder]))
     }
-    return result
+    return result.replace(beSafe, "")
   }
 
   toString () {

@@ -31,6 +31,7 @@ module.exports = {
   Collection: require("./util/collection.js"),
   DataResolver: require("./util/DataResolver.js"),
   Endpoint: require("./util/Endpoint.js"),
+  buildRoute: require("./util/buildRoute"),
   typedefs,
   Util,
   util: Util,

@@ -94,7 +94,7 @@ class Client {
    */
   get (endpoint, query = null, args = {}) {
     args.params = query
-    return this.callApi("get", endpoint, args)
+    return this.request("get", endpoint, args)
   }
 
   /**
@@ -108,7 +108,7 @@ class Client {
   post (endpoint, postData, query = null, args = {}) {
     args.data = Client.trimData(postData)
     args.params = query
-    return this.callApi("post", endpoint, args)
+    return this.request("post", endpoint, args)
   }
 
   /**
@@ -123,7 +123,7 @@ class Client {
     args = Util.mergeDefault(this.defaultArgs, args)
     args.data = Client.trimData(postData)
     args.params = query
-    return this.callApi("patch", endpoint, args)
+    return this.request("patch", endpoint, args)
   }
 
   /**
@@ -136,7 +136,7 @@ class Client {
   delete (endpoint, query = null, args = {}) {
     args = Util.mergeDefault(this.defaultArgs, args)
     args.parameters = query
-    return this.callApi("delete", endpoint, args)
+    return this.request("delete", endpoint, args)
   }
 
   /**
@@ -149,7 +149,7 @@ class Client {
    * @fires Client#error
    * @return {Promise<Object>}
    */
-  async callApi (method, endpoint, args) {
+  async request (method, endpoint, args) {
     let request = Util.mergeDefault(this.defaultArgs, args)
     let err,
       response,
