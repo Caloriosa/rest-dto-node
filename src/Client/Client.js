@@ -166,7 +166,7 @@ class Client {
     data = response.data
     this.validateResult(data)
     this.emiter.emit("response", data, response)
-    return { 
+    return {
       content: data.content,
       status: data.status,
       response
